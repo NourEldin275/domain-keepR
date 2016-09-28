@@ -1,0 +1,72 @@
+<?php
+
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ * Class Domain
+ * @package AppBundle\Entity
+ * @ORM\Entity
+ * @ORM\Table(name="domains")
+ */
+class Domain
+{
+
+    /**
+     * @var
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $domain;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $registrar;
+
+    /**
+     * @var
+     * @ORM\Column(type="date")
+     */
+    private $renwal_date;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $cp_url;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $cp_username;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $cp_password;
+
+    /**
+     * @var
+     * @ORM\Column(type="json_array", nullable=TRUE)
+     */
+    private $notification;
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="id")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     */
+    private $client_id;
+}

@@ -1,0 +1,55 @@
+<?php
+
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * Class Client
+ * @package AppBundle\Entity
+ * @ORM\Entity
+ * @ORM\Table(name="clients")
+ */
+class Client
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Domain", mappedBy="client_id")
+     */
+    private $domains;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $email;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     */
+    private $phone;
+
+    /**
+     * @var
+     * @ORM\Column(type="json_array", nullable=TRUE)
+     */
+    private $notification;
+
+    public function __construct()
+    {
+        $this->domains = new ArrayCollection();
+    }
+}
