@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Appbundle\Entity\Domain;
+use AppBundle\Entity\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,8 +18,16 @@ class AddDomainController extends Controller
     public function newAction(Request $request)
     {
         $domain = new Domain();
-        $domain->setDomain("oba7.com");
+
+        $form = $this->createFormBuilder($domain)
+            ->add('domain', TextType::class)
+            ->add('registrar', TextType::class)
+            ->add('renewal_date', DateType::class)
+            ->add('cp_url', TextType::class)
+            ->add('cp_username', TextType::class)
+            ->add('cp_password', TextType::class);
+        // work to be completed
         
-        return $this->render('new-domain.html.twig');
+        return $this->render('/addNew/new-domain.html.twig');
     }
 }

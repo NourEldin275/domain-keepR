@@ -21,24 +21,28 @@ class User
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $role;
 
     /**
      * @var
      * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @var
      * @ORM\Column(type="string", unique=true)
+     * @Assert\NotBlank()
      */
     private $email;
 
     /**
      * @var
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
      */
     private $password;
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -24,36 +25,42 @@ class Domain
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $domain;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $registrar;
 
     /**
      * @var
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $renewal_date;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $cp_url;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $cp_username;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $cp_password;
 
