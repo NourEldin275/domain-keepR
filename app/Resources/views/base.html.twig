@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}
-            <h1>Welcome to {{ appname }}</h1>
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+<title>{% block title %}Welcome to Domain Keeper{% endblock %}</title>
+</head>
+<body>
+<div id="content">
+    {% block body %}
+        <h1>Dashboard Login</h1>
+        <form action="">
+            <input type="text" name="username" placeholder="Enter your username">
+            <input type="password" name="password" placeholder="Enter your password">
+            <input type="submit" name="submit-user-login">
+        </form>
+    {% endblock %}
+</div>
+</body>
 </html>

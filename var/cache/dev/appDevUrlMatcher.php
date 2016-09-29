@@ -100,6 +100,35 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        if (0 === strpos($pathinfo, '/add-new-')) {
+            if (0 === strpos($pathinfo, '/add-new-client')) {
+                // add_new_client
+                if (rtrim($pathinfo, '/') === '/add-new-client') {
+                    if (substr($pathinfo, -1) !== '/') {
+                        return $this->redirect($pathinfo.'/', 'add_new_client');
+                    }
+
+                    return array (  '_controller' => 'AppBundle\\Controller\\AddClientController::newAction',  '_route' => 'add_new_client',);
+                }
+
+                // client_saved
+                if (rtrim($pathinfo, '/') === '/add-new-client/success') {
+                    if (substr($pathinfo, -1) !== '/') {
+                        return $this->redirect($pathinfo.'/', 'client_saved');
+                    }
+
+                    return array (  '_controller' => 'AppBundle\\Controller\\AddClientController::clientSavedAction',  '_route' => 'client_saved',);
+                }
+
+            }
+
+            // add_new_domain
+            if ($pathinfo === '/add-new-domain') {
+                return array (  '_controller' => 'AppBundle\\Controller\\AddDomainController::newAction',  '_route' => 'add_new_domain',);
+            }
+
+        }
+
         // homepage
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {
@@ -107,6 +136,15 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
 
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
+        }
+
+        // list_clients
+        if (rtrim($pathinfo, '/') === '/clients') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'list_clients');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\ListClientsController::listClientsAction',  '_route' => 'list_clients',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

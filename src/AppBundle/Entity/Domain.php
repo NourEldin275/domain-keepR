@@ -71,6 +71,12 @@ class Domain
     private $client_id;
 
     /**
+     * @var
+     * @ORM\Column(type="date")
+     */
+    private $date_added;
+
+    /**
      * Get id
      *
      * @return integer
@@ -270,5 +276,29 @@ class Domain
     public function getClientId()
     {
         return $this->client_id;
+    }
+
+    /**
+     * Set dateAdded
+     *
+     * @param \DateTime $dateAdded
+     *
+     * @return Domain
+     */
+    public function setDateAdded($dateAdded)
+    {
+        $this->date_added = $dateAdded;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAdded
+     *
+     * @return \DateTime
+     */
+    public function getDateAdded()
+    {
+        return $this->date_added;
     }
 }

@@ -15,6 +15,6 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('base.html.twig', array('appname' => "Domain Keeper"));
+        return $this->render('base.html.twig');
     }
 }

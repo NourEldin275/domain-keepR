@@ -1,0 +1,18 @@
+{# Add new client template*#}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Add new client{% endblock %}</title>
+</head>
+<body>
+<div id="content">
+    {% block body %}
+        <h1>Add new Client</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% endblock %}
+</div>
+</body>
+</html>
