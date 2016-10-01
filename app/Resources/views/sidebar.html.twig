@@ -1,0 +1,17 @@
+<div id="sidebar" class="col-xs-1">
+    {% block sidebar %}
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
+            <li role="presentation"><a href="{{ path('list_clients') }}">Clients</a>
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a href="{{ path('add_new_client') }}">Add client</a></li>
+                </ul>
+            </li>
+            <li role="presentation"><a href="{{ path('list_domains') }}">Domains</a>
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a href="{{ path('add_new_domain') }}">Add domain</a></li>
+                </ul>
+            </li>
+        </ul>
+    {% endblock %}
+</div>

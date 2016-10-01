@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ListClientsController extends Controller
 {
     /**
-     * @param $name
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/clients/", name="list_clients")
      */

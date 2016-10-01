@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -24,36 +25,42 @@ class Domain
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $domain;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $registrar;
 
     /**
      * @var
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $renewal_date;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $cp_url;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $cp_username;
 
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $cp_password;
 
@@ -65,10 +72,10 @@ class Domain
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="Client", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="domains")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
-    private $client_id;
+    private $client;
 
     /**
      * @var
@@ -254,27 +261,29 @@ class Domain
         return $this->notification;
     }
 
+    
+
     /**
-     * Set clientId
+     * Set dateAdded
      *
-     * @param \AppBundle\Entity\Client $clientId
+     * @param \DateTime $dateAdded
      *
      * @return Domain
      */
-    public function setClientId(\AppBundle\Entity\Client $clientId = null)
+    public function setDateAdded($dateAdded)
     {
-        $this->client_id = $clientId;
+        $this->date_added = $dateAdded;
 
         return $this;
     }
 
     /**
-     * Get clientId
+     * Get dateAdded
      *
-     * @return \AppBundle\Entity\Client
+     * @return \DateTime
      */
-    public function getClientId()
+    public function getDateAdded()
     {
-        return $this->client_id;
+        return $this->date_added;
     }
 }

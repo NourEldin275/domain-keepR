@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Domains{% endblock %}</title>
+</head>
+<body>
+<div id="messages">
+    {% for flash_message in app.session.flashBag.get('notice') %}
+        <h4>{{ flash_message }}</h4>
+    {% endfor %}
+</div>
+<div id="content">
+    <h1>Domains:</h1>
+    <a href="{{ path('add_new_domain') }}">Add new domain</a>
+    <br>
+    {% block body %}
+        {% if domains is not empty %}
+            <table>
+                <tr>
+                    <th>Domain</th>
+                    <th>Registrar</th>
+                    <th>Renewal Date</th>
+                    <th>Client</th>
+                    <th>CP URL</th>
+                    <th>CP Username</th>
+                    <th>CP Password</th>
+                </tr>
+                {% for domain in domains %}
+                    <tr>
+                        <td>{{ domain.domain }}</td>
+                        <td>{{ domain.registrar }}</td>
+                        <td>{{ domain.renewalDate }}</td>
+                        <td>{{ domain.client }}</td>
+                        <td>{{ domain.cpUrl }}</td>
+                        <td>{{ domain.cpUsername }}</td>
+                        <td>{{ domain.cpPassword }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        {% else %}
+            <h4>No records found.</h4>
+        {% endif %}
+    {% endblock %}
+</div>
+</body>
+</html>

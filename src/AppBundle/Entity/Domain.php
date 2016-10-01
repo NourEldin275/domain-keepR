@@ -72,10 +72,10 @@ class Domain
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="Client", inversedBy="id")
-     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="domains")
+     * @ORM\JoinColumn(name="client", referencedColumnName="id")
      */
-    private $client_id;
+    private $client;
 
     /**
      * @var
@@ -261,29 +261,7 @@ class Domain
         return $this->notification;
     }
 
-    /**
-     * Set clientId
-     *
-     * @param \AppBundle\Entity\Client $clientId
-     *
-     * @return Domain
-     */
-    public function setClientId(\AppBundle\Entity\Client $clientId = null)
-    {
-        $this->client_id = $clientId;
-
-        return $this;
-    }
-
-    /**
-     * Get clientId
-     *
-     * @return \AppBundle\Entity\Client
-     */
-    public function getClientId()
-    {
-        return $this->client_id;
-    }
+    
 
     /**
      * Set dateAdded
@@ -307,5 +285,29 @@ class Domain
     public function getDateAdded()
     {
         return $this->date_added;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \AppBundle\Entity\Client $client
+     *
+     * @return Domain
+     */
+    public function setClient(\AppBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+    
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \AppBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }

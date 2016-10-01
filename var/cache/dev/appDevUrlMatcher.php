@@ -138,6 +138,15 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
         }
 
+        // dashboard
+        if (rtrim($pathinfo, '/') === '/dashboard') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'dashboard');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::dashboardAction',  '_route' => 'dashboard',);
+        }
+
         // list_clients
         if (rtrim($pathinfo, '/') === '/clients') {
             if (substr($pathinfo, -1) !== '/') {
@@ -145,6 +154,15 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
 
             return array (  '_controller' => 'AppBundle\\Controller\\ListClientsController::listClientsAction',  '_route' => 'list_clients',);
+        }
+
+        // list_domains
+        if (rtrim($pathinfo, '/') === '/domains') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'list_domains');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\ListDomainsController::listDomainsAction',  '_route' => 'list_domains',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

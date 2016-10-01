@@ -34,7 +34,10 @@ class AddClientController extends Controller
             $em->persist($client);
             // actually executes the queries (i.e. the INSERT query)
             $em->flush();
-            return $this->redirectToRoute('client_saved');
+            //return $this->redirectToRoute('client_saved');
+            $this->addFlash('notice', 'client saved successfully');
+            return $this->redirectToRoute('list_clients');
+
         }
 
         return $this->render('addNew/client.html.twig', array('form' => $form->createView()));
