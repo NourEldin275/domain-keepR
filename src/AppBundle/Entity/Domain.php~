@@ -47,6 +47,7 @@ class Domain
      * @var
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
+     * @Assert\Url()
      */
     private $cp_url;
 
@@ -73,7 +74,9 @@ class Domain
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="domains")
-     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="client", referencedColumnName="id")
+     * @Assert\Type(type="AppBundle\Entity\Client")
+     * @Assert\Valid()
      */
     private $client;
 
@@ -82,6 +85,13 @@ class Domain
      * @ORM\Column(type="date")
      */
     private $date_added;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $hosting_package;
 
     /**
      * Get id
@@ -285,5 +295,29 @@ class Domain
     public function getDateAdded()
     {
         return $this->date_added;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \AppBundle\Entity\Client $client
+     *
+     * @return Domain
+     */
+    public function setClient(\AppBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+    
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \AppBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }

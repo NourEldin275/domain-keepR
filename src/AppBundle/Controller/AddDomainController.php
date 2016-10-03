@@ -25,9 +25,10 @@ class AddDomainController extends Controller
     {
         $domain = new Domain();
         $clients = $this->getDoctrine()->getRepository('AppBundle:Client')->findAll();
-        $choices = array();
+        $client_choices = array();
+        $hosting_choices = array('Ultimate' => 'ultimate', 'Basic' => 'Basic', 'Custom' => 'Custom');
         foreach ($clients as $client){
-            $choices[$client->getName()] = $client->getId();
+            $client_choices[$client->getName()] = $client->getId();
         }
 
         $form = $this->createFormBuilder($domain)
@@ -37,21 +38,31 @@ class AddDomainController extends Controller
             ->add('cp_url', TextType::class)
             ->add('cp_username', TextType::class)
             ->add('cp_password', TextType::class)
-            //->add('client', ChoiceType::class, array('choices' => $choices, 'label' => 'Choose a client'))
-            ->add('client', ChoiceType::class, array('choices' => $clients, 'label' => 'Choose a client'))
+            ->add('hosting_package', ChoiceType::class, array('choices' => $hosting_choices, 'label' => 'Hosting Package'))
+            ->add('client', ChoiceType::class, array('choices' => $client_choices, 'label' => 'Choose a client', 'mapped' => false))
             ->add('save', SubmitType::class, array('label' => 'Add domain'))
             ->getForm();
 
         $form->handleRequest($request);
         if ( $form->isSubmitted() && $form->isValid() ){
-            //$client_id = $form->get('client');
-            $client = $form->get('client'); //$this->getDoctrine()->getRepository('AppBundle:Client')->find($client_id);
 
-            //$domain->setClient($client);
+            // get chosen client
+            $client_id = $form->get('client')->getData();
 
+            // get client from the database using submitted id
+            $domain_client = $this->getDoctrine()->getRepository('AppBundle:Client')->find($client_id);
+
+
+            $domain->setClient($domain_client);
+
+            // getting current date
+            $date = new \DateTime('now');
+            $date->format('Y-m-d');
+
+            $domain->setDateAdded($date );
             $em = $this->getDoctrine()->getManager();
             // tells Doctrine you want to (eventually) save the Product (no queries yet)
-            $em->persist($client);
+            $em->persist($domain_client);
             $em->persist($domain);
 
             // actually executes the queries (i.e. the INSERT query)

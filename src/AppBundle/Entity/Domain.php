@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package AppBundle\Entity
  * @ORM\Entity
  * @ORM\Table(name="domains")
+ * @UniqueEntity (fields={"domain"}, message="The domain you entered is already kept!")
  */
 class Domain
 {
@@ -24,7 +26,7 @@ class Domain
 
     /**
      * @var
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
      */
     private $domain;
@@ -47,6 +49,7 @@ class Domain
      * @var
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
+     * @Assert\Url()
      */
     private $cp_url;
 
@@ -74,6 +77,8 @@ class Domain
      * @var
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="domains")
      * @ORM\JoinColumn(name="client", referencedColumnName="id")
+     * @Assert\Type(type="AppBundle\Entity\Client")
+     * @Assert\Valid()
      */
     private $client;
 
@@ -82,6 +87,13 @@ class Domain
      * @ORM\Column(type="date")
      */
     private $date_added;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $hosting_package;
 
     /**
      * Get id
@@ -309,5 +321,29 @@ class Domain
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * Set hostingPackage
+     *
+     * @param string $hostingPackage
+     *
+     * @return Domain
+     */
+    public function setHostingPackage($hostingPackage)
+    {
+        $this->hosting_package = $hostingPackage;
+
+        return $this;
+    }
+
+    /**
+     * Get hostingPackage
+     *
+     * @return string
+     */
+    public function getHostingPackage()
+    {
+        return $this->hosting_package;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\ClientType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Client;
@@ -20,12 +21,13 @@ class AddClientController extends Controller
     {
         $client = new Client();
 
-        $form = $this->createFormBuilder($client)
+        /*$form = $this->createFormBuilder($client)
             ->add('name', TextType::class)
             ->add('email', TextType::class)
             ->add('phone', TextType::class)
             ->add('save', SubmitType::class, array('label' => "Add Client"))
-            ->getForm();
+            ->getForm();*/
+        $form = $this->createForm(ClientType::class, $client);
 
         $form->handleRequest($request);
         if ( $form->isSubmitted() && $form->isValid() ){

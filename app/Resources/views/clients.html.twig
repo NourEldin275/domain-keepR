@@ -1,44 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Clients{% endblock %}</title>
-</head>
-<body>
-<div id="messages">
-    {% for flash_message in app.session.flashBag.get('notice') %}
-        <h4>{{ flash_message }}</h4>
-    {% endfor %}
-</div>
-<div id="content">
-    <h1>Clients:</h1>
-    <a href="{{ path('add_new_client') }}">Add new client</a>
-    <br>
+{% extends 'base.html.twig' %}
+{% block title %}Clients{% endblock %}
+
     {% block body %}
+
+        <div class="row">
+            <div class="col-xs-3"><h1>All Clients</h1></div>
+            <div class="col-xs-2"><a class="btn btn-default" href="{{ path('add_new_client') }}" role="button">Add new</a></div>
+            <div class="col-xs-7"></div>
+        </div>
+        {% for flash_message in app.session.flashBag.get('notice') %}
+            <div class="alert alert-success" role="alert">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> {{ flash_message }}
+            </div>
+        {% endfor %}
+
         {% if clients is not empty %}
-        <table>
+            <table class="table table-hover">
+                <thead>
             <tr>
                 <th>Client Name</th>
                 <th>Email</th>
                 <th>Phone </th>
                 <th>Domains</th>
                 <th>Notification</th>
+                <th>Actions</th>
             </tr>
+        </thead>
             {% for client in clients %}
                 <tr>
                     <td>{{ client.name }}</td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
-                    {#<td>{{ client.domains }}</td>#}
-                    {#<td>{{ client.notification }}</td>#}
+                    <td><a href="#">{{ client.domains.count }}</a></td>
+                    <td></td>
+                    <td><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a></td>
                 </tr>
             {% endfor %}
-        </table>
+            </table>
 
         {% else %}
             <h4>No records found.</h4>
         {% endif %}
-    {% endblock %}
-</div>
-</body>
-</html>
+{% endblock %}

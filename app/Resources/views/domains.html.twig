@@ -1,48 +1,53 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Domains{% endblock %}</title>
-</head>
-<body>
-<div id="messages">
-    {% for flash_message in app.session.flashBag.get('notice') %}
-        <h4>{{ flash_message }}</h4>
-    {% endfor %}
-</div>
-<div id="content">
-    <h1>Domains:</h1>
-    <a href="{{ path('add_new_domain') }}">Add new domain</a>
-    <br>
+{% extends 'base.html.twig' %}
+
+{% block title %}Domains{% endblock %}
     {% block body %}
+
+        <div class="row">
+            <div class="col-xs-3"><h1>All Domains</h1></div>
+            <div class="col-xs-2"><a class="btn btn-default" href="{{ path('add_new_domain') }}" role="button">Add new</a></div>
+            <div class="col-xs-7"></div>
+        </div>
+        {% for flash_message in app.session.flashBag.get('notice') %}
+            <div class="alert alert-success" role="alert">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> {{ flash_message }}
+            </div>
+        {% endfor %}
+
         {% if domains is not empty %}
-            <table>
-                <tr>
-                    <th>Domain</th>
-                    <th>Registrar</th>
-                    <th>Renewal Date</th>
-                    <th>Client</th>
-                    <th>CP URL</th>
-                    <th>CP Username</th>
-                    <th>CP Password</th>
-                </tr>
-                {% for domain in domains %}
+            <table class="table table-hover table-bordered">
+                <thead>
                     <tr>
-                        <td>{{ domain.domain }}</td>
-                        <td>{{ domain.registrar }}</td>
-                        <td>{{ domain.renewalDate }}</td>
-                        <td>{{ domain.client }}</td>
-                        <td>{{ domain.cpUrl }}</td>
-                        <td>{{ domain.cpUsername }}</td>
-                        <td>{{ domain.cpPassword }}</td>
+                        <th>Domain</th>
+                        <th>Registrar</th>
+                        <th>Renewal Date</th>
+                        <th>Client</th>
+                        <th>CP URL</th>
+                        <th>CP Username</th>
+                        <th>CP Password</th>
+                        <th>Hosting Package</th>
+                        <th>Actions</th>
                     </tr>
-                {% endfor %}
+                </thead>
+                <tbody>
+                    {% for domain in domains %}
+                        <tr>
+                            <td>{{ domain.domain }}</td>
+                            <td>{{ domain.registrar }}</td>
+                            <td>{{ domain.renewalDate|date("Y/M/d") }}</td>
+                            <td>{{ domain.client.name }}</td>
+                            <td><a href="{{ domain.cpUrl }}">CP</a></td>
+                            <td>{{ domain.cpUsername }}</td>
+                            <td>{{ domain.cpPassword }}</td>
+                            <td>{{ domain.hostingpackage }}</td>
+                            <td><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
             </table>
 
         {% else %}
             <h4>No records found.</h4>
         {% endif %}
     {% endblock %}
-</div>
-</body>
-</html>
