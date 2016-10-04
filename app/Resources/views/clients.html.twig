@@ -31,7 +31,7 @@
                     <td>{{ client.name }}</td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
-                    <td><a href="#">{{ client.domains.count }}</a></td>
+                    <td><a href="{{ path('view_client', {'id': client.id}) }}" role="button" class="btn btn-info"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  View <span class="badge">{{ client.domains.count }}</span></a></td>
                     <td></td>
                     <td><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a></td>
                 </tr>

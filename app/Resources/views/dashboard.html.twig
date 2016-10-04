@@ -4,6 +4,60 @@
 
 
 {% block body %}
-<h1>Welcome to your dashboard</h1>
+<h1>Dashboard</h1>
+    <div class="row">
+        <div class="col-xs-5">
+            {#Clients & Domains Panel#}
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Newest Domains</h3>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Domains</h3>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Clients</h3>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-5">
+            {#Warning & Message Panel#}
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Domains about to expire <span class="badge">0</span></h3>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Expired domains <span class="badge">0</span></h3>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            {#quick actions panel#}
+        </div>
+    </div>
 {% endblock %}
 
