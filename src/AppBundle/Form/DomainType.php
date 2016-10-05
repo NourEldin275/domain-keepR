@@ -15,8 +15,10 @@ class DomainType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /*$clients = $this->get('doctrine')->getRepository('AppBundle:Client')->findAll();
+        $client_choices = $options['client_choices'];
+        $hosting_choices = $options['hosting_choices'];
 
+        
         $builder
             ->add('domain', TextType::class)
             ->add('registrar', TextType::class)
@@ -24,14 +26,19 @@ class DomainType extends AbstractType
             ->add('cp_url', TextType::class)
             ->add('cp_username', TextType::class)
             ->add('cp_password', TextType::class)
-            ->add('client', ChoiceType::class, array('choices' => $clients, 'label' => 'Choose a client'))
+            ->add('hosting_package', ChoiceType::class, array('choices' => $hosting_choices, 'label' => 'Hosting Package'))
+            ->add('client', ChoiceType::class, array('choices' => $client_choices, 'label' => 'Choose a client', 'mapped' => false))
             ->add('save', SubmitType::class, array('label' => 'Add domain'))
-            ->getForm();*/
+            ->getForm();
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults( array( 'data_class' => 'AppBundle\Entity\Domain') );
+        $resolver->setDefaults( array(
+            'data_class' => 'AppBundle\Entity\Domain',
+            'hosting_choices' => null,
+            'client_choices' => null,
+        ) );
     }
 
     public function getName()

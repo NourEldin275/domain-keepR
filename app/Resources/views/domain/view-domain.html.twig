@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View Domain{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-7">
+            <h1>Domain: {{ domain.domain }}</h1>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Domain Details</h3>
+                        </div>
+                        <div class="panel-body">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Registrar: {{ domain.registrar }}
+                            <br>
+                            <br>
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Renewal Date: {{ domain.renewalDate|date("Y/M/d") }}
+                            <br>
+                            <br>
+                            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Hosting Package: {{ domain.hostingPackage }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Control Panel </h3>
+                        </div>
+                        <div class="panel-body">
+                            <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ domain.cpUrl }}">Control Panel URL</a>
+                            <br>
+                            <br>
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Username: {{ domain.cpUsername }}
+                            <br>
+                            <br>
+                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Password: {{ domain.cpPassword }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="center-block">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Notifications </h3>
+                    </div>
+                    <div class="panel-body">
+                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ domain.cpUrl }}">Control Panel URL</a>
+                        <br>
+                        <br>
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Username: {{ domain.cpUsername }}
+                        <br>
+                        <br>
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Password: {{ domain.cpPassword }}
+                    </div>
+                </div>
+                <a href="{{ url('edit_domain', {'id': domain.id}) }}" role="button" class="btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Domain</a>
+                <a href="{{ url('delete_domain', {'domain': domain.id}) }}" role="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Domain</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h1>Client Details</h1>
+            <ul class="list-group">
+                <li class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ client.name }}</li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{ client.email }}</li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{ client.phone }}</li>
+            </ul>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+
+
+{% endblock %}
