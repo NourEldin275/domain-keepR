@@ -73,6 +73,6 @@ class AddDomainController extends Controller
             return $this->redirectToRoute('list_domains');
         }
         
-        return $this->render('addNew/domain.html.twig', array('form' => $form->createView()));
+        return $this->render('domain/add-domain.html.twig', array('form' => $form->createView()));
     }
 }

@@ -76,6 +76,13 @@
         {% include('sidebar.html.twig') %}
 
         <div id="content" class="col-xs-10">
+            {% block flash_message %}
+                {% for flash_message in app.session.flashBag.get('notice') %}
+                    <div class="alert alert-success" role="alert">
+                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> {{ flash_message }}
+                    </div>
+                {% endfor %}
+            {% endblock %}
             {% block body %}{% endblock %}
         </div>
     </div>
