@@ -69,6 +69,13 @@ class Domain
 
     /**
      * @var
+     * @ORM\Column(type="boolean")
+     * @Assert\NotBlank()
+     */
+    private $notification_status;
+
+    /**
+     * @var
      * @ORM\Column(type="json_array", nullable=TRUE)
      */
     private $notification;
@@ -345,5 +352,29 @@ class Domain
     public function getHostingPackage()
     {
         return $this->hosting_package;
+    }
+
+    /**
+     * Set notificationStatus
+     *
+     * @param boolean $notificationStatus
+     *
+     * @return Domain
+     */
+    public function setNotificationStatus($notificationStatus)
+    {
+        $this->notification_status = $notificationStatus;
+    
+        return $this;
+    }
+
+    /**
+     * Get notificationStatus
+     *
+     * @return boolean
+     */
+    public function getNotificationStatus()
+    {
+        return $this->notification_status;
     }
 }

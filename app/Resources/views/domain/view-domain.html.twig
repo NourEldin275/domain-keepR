@@ -47,6 +47,13 @@
                         <h3 class="panel-title">Notifications </h3>
                     </div>
                     <div class="panel-body">
+                        {% if domain.notificationStatus  %}
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Enabled
+                        {% else %}
+                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Disabled
+                        {% endif %}
+                        <br>
+                        <br>
                         <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ domain.cpUrl }}">Control Panel URL</a>
                         <br>
                         <br>

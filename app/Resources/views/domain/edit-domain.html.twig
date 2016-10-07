@@ -54,6 +54,13 @@
                     {{ form_errors(form.client) }}
                     {{ form_widget(form.client, {'attr': {'class': 'form-control'}}) }}
                 </div>
+
+                <div class="checkbox">
+                    {{ form_widget(form.notification_status) }}
+                    {{ form_label(form.notification_status) }}
+                    {{ form_errors(form.notification_status) }}
+                </div>
+
                 <div>
                     {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}, 'label': 'Save domain'}) }}
                 </div>

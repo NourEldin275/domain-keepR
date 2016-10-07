@@ -1,0 +1,17 @@
+/* Customizing Bootstrap checkbox */
+.checkbox input[type=checkbox]{
+    margin-left: 0px;
+}
+
+/* Customizing Bootstrap glyphicons */
+.glyphicon-remove-sign{
+    color: orangered;
+}
+
+.glyphicon-ok-sign{
+    color: lawngreen;
+}
+
+.glyphicon{
+    font-size: 20px;
+}
