@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Domain;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DomainController extends Controller
 {
@@ -17,6 +18,7 @@ class DomainController extends Controller
 
     /**
      * @Route ("/add-new-domain", name="add_new_domain")
+     * @Security("has_role('ROLE_ADMIN')")
      * @param $request
      * @return Response
      */
@@ -82,6 +84,7 @@ class DomainController extends Controller
 
     /**
      * @Route ("/domains/", name="list_domains")
+     * @Security("has_role('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listDomainsAction()
@@ -98,6 +101,7 @@ class DomainController extends Controller
      * @param $id
      * @param $request
      * @Route ("/edit-domain/{id}/", name="edit_domain", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      */
     public function editAction($id, Request $request){
@@ -138,6 +142,7 @@ class DomainController extends Controller
     /**
      * @param $id
      * @Route("/view-domain/{id}/", name="view_domain", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      */
     public function viewAction($id){
@@ -152,6 +157,7 @@ class DomainController extends Controller
     /**
      * @param $domain
      * @Route("/delete-domain/{domain}/", name="delete_domain")
+     * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      */
     public function deleteAction(Domain $domain){

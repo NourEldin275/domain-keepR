@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class ClientController extends Controller
@@ -19,6 +20,7 @@ class ClientController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("/add-new-client/", name="add_new_client")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction(Request $request)
     {
@@ -45,6 +47,7 @@ class ClientController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/clients/", name="list_clients")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function listClientsAction()
     {
@@ -61,6 +64,7 @@ class ClientController extends Controller
     /**
      * @param $id
      * @Route ("/view-client/{id}/", name="view_client", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewAction($id)
@@ -75,6 +79,7 @@ class ClientController extends Controller
      * @param $id
      * @param $request
      * @Route ("/edit-client/{id}/", name="edit_client", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      */
     public function editAction($id, Request $request){

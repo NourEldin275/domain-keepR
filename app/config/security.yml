@@ -3,9 +3,18 @@
 security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    encoders:
+            AppBundle\Entity\User:
+                algorithm: bcrypt
+
     providers:
         in_memory:
             memory: ~
+
+        dk_provider:
+            entity:
+                class: AppBundle:User
+                property: username
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -16,6 +25,14 @@ security:
         main:
             anonymous: ~
             # activate different ways to authenticate
+
+            form_login:
+                login_path: login
+                check_path: login
+
+            pattern: ^/
+            http_basic: ~
+            provider: dk_provider
 
             # http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate

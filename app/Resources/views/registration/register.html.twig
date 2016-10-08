@@ -1,0 +1,45 @@
+{% extends 'logged-out.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h1>Create a new account</h1>
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_row(form.username) }}
+                {{ form_errors(form.username) }}
+                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+
+            <div class="form-group">
+                {{ form_row(form.email) }}
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+
+            <div class="form-group">
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.plainPassword.second) }}
+                {{ form_row(form.plainPassword.second) }}
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div>
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+
+{% endblock %}

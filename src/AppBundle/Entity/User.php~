@@ -3,28 +3,26 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
+ * @UniqueEntity(fields="email", message="Email already taken")
+ * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
-    /**
-     * @var
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
-    private $role;
 
     /**
      * @var
@@ -37,13 +35,20 @@ class User
      * @var
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
+    /**
      * @var
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank()
+     *
      */
     private $password;
 
@@ -52,6 +57,58 @@ class User
      * @ORM\Column(type="json_array", nullable=TRUE)
      */
     private $notification;
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
+    public function __construct()
+    {
+        $this->isActive = true;
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid(null, true));
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
 
     /**
      * Set id
@@ -174,26 +231,37 @@ class User
     }
 
     /**
-     * Set role
+     * Set isActive
      *
-     * @param string $role
+     * @param boolean $isActive
      *
      * @return User
      */
-    public function setRole($role)
+    public function setIsActive($isActive)
     {
-        $this->role = $role;
-
+        $this->isActive = $isActive;
+    
         return $this;
     }
 
     /**
-     * Get role
+     * Get isActive
      *
-     * @return string
+     * @return boolean
      */
-    public function getRole()
+    public function getIsActive()
     {
-        return $this->role;
+        return $this->isActive;
     }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
 }
