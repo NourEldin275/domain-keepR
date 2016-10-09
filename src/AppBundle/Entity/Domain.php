@@ -70,7 +70,7 @@ class Domain
     /**
      * @var
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank()
+     * 
      */
     private $notification_status;
 
