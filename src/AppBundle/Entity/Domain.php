@@ -83,7 +83,7 @@ class Domain
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="domains")
-     * @ORM\JoinColumn(name="client", referencedColumnName="id")
+     * @ORM\JoinColumn(name="client", referencedColumnName="id", onDelete="CASCADE")
      * @Assert\Type(type="AppBundle\Entity\Client")
      * @Assert\Valid()
      */

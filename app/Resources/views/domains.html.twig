@@ -17,9 +17,6 @@
                         <th>Registrar</th>
                         <th>Renewal Date</th>
                         <th>Client</th>
-                        <th>CP URL</th>
-                        <th>CP Username</th>
-                        <th>CP Password</th>
                         <th>Hosting Package</th>
                         <th>Actions</th>
                     </tr>
@@ -31,11 +28,8 @@
                             <td>{{ domain.registrar }}</td>
                             <td>{{ domain.renewalDate|date("Y/M/d") }}</td>
                             <td>{{ domain.client.name }}</td>
-                            <td><a href="{{ domain.cpUrl }}">CP</a></td>
-                            <td>{{ domain.cpUsername }}</td>
-                            <td>{{ domain.cpPassword }}</td>
                             <td>{{ domain.hostingpackage }}</td>
-                            <td><a href="{{ path("view_domain", {'id': domain.id}) }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View</a></td>
+                            <td><a href="{{ path("view_domain", {'id': domain.id}) }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> More</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

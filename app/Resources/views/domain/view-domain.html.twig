@@ -27,7 +27,7 @@
                 <div class="col-sm-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Control Panel </h3>
+                            <h3 class="panel-title">Domain Control Panel </h3>
                         </div>
                         <div class="panel-body">
                             <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ domain.cpUrl }}">Control Panel URL</a>
@@ -63,6 +63,7 @@
                         <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Password: {{ domain.cpPassword }}
                     </div>
                 </div>
+                <a href="" class="btn btn-success" role="button"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Renew Domain</a>
                 <a href="{{ url('edit_domain', {'id': domain.id}) }}" role="button" class="btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Domain</a>
                 <a href="{{ url('delete_domain', {'domain': domain.id}) }}" role="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Domain</a>
             </div>

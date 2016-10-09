@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="checkbox">
-                    {{ form_widget(form.notification_status) }}
+                    {{ form_widget(form.notification_status, {'attr': {'checked': 'true'}}) }}
                     {{ form_label(form.notification_status) }}
                     {{ form_errors(form.notification_status) }}
                 </div>

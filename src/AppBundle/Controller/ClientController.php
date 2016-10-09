@@ -99,4 +99,23 @@ class ClientController extends Controller
         }
         return $this->render('client/edit-client.html.twig', array('form' => $form->createView(), 'client' => $client));
     }
+
+    /**
+     * @param $client
+     * @Route ("/delete-client/{client}/", name="delete_client")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @return Response
+     */
+    public function deleteAction(Client $client){
+
+        if (!$client){
+            throw $this->createNotFoundException("Client not found");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($client);
+        $em->flush();
+        $this->addFlash('notice','Selected client was deleted!');
+        return $this->redirectToRoute('list_clients');
+    }
 }
