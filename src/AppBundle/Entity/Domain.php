@@ -176,7 +176,7 @@ class Domain
      */
     public function setRenewalDate($renewalDate)
     {
-        $this->renewal_date = $renewalDate;
+        $this->renewal_date = clone $renewalDate;
 
         return $this;
     }
@@ -188,7 +188,7 @@ class Domain
      */
     public function getRenewalDate()
     {
-        return $this->renewal_date;
+        return clone $this->renewal_date;
     }
 
     /**
