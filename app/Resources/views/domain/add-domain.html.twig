@@ -62,6 +62,12 @@
                     {{ form_errors(form.notification_status) }}
                 </div>
 
+                <div class="checkbox">
+                    {{ form_widget(form.auto_renew, {'attr': {'checked': 'true'}}) }}
+                    {{ form_label(form.auto_renew) }}
+                    {{ form_errors(form.auto_renew) }}
+                </div>
+
                 <div>
                     {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
                 </div>

@@ -4,11 +4,11 @@
 }
 
 /* Customizing Bootstrap glyphicons */
-.glyphicon-remove-sign{
+.glyphicon-remove-sign, .auto-renew-off{
     color: orangered;
 }
 
-.glyphicon-ok-sign{
+.glyphicon-ok-sign, .auto-renew-on{
     color: lawngreen;
 }
 
@@ -17,5 +17,5 @@
 }
 
 .big-glyphicon{
-    font-size: 30px;
+    font-size: 60px;
 }

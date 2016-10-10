@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Domain;
 use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -31,18 +33,6 @@ class DomainController extends Controller
         foreach ($clients as $client){
             $client_choices[$client->getName()] = $client->getId();
         }
-
-        /*$form = $this->createFormBuilder($domain)
-            ->add('domain', TextType::class)
-            ->add('registrar', TextType::class)
-            ->add('renewal_date', DateType::class)
-            ->add('cp_url', TextType::class)
-            ->add('cp_username', TextType::class)
-            ->add('cp_password', TextType::class)
-            ->add('hosting_package', ChoiceType::class, array('choices' => $hosting_choices, 'label' => 'Hosting Package'))
-            ->add('client', ChoiceType::class, array('choices' => $client_choices, 'label' => 'Choose a client', 'mapped' => false))
-            ->add('save', SubmitType::class, array('label' => 'Add domain'))
-            ->getForm();*/
 
         $form = $this->createForm(DomainType::class, $domain, array(
             'client_choices' => $client_choices,
@@ -141,16 +131,52 @@ class DomainController extends Controller
 
     /**
      * @param $id
+     * @param $request
      * @Route("/view-domain/{id}/", name="view_domain", requirements={"id": "\d+"})
      * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      */
-    public function viewAction($id){
+    public function viewAction($id, Request $request){
 
         $domain = $this->getDoctrine()->getRepository('AppBundle:Domain')->find($id);
+
+        if ( !$domain ){
+            throw $this->createNotFoundException('Domain with ID: ' . $id . ' was not found');
+        }
+
         $client = $this->getDoctrine()->getRepository('AppBundle:Client')->find($domain->getClient()->getId());
 
-        return $this->render('domain/view-domain.html.twig', array('domain' => $domain, 'client' => $client));
+        // Creating a form to renew domain
+        $renewal_choices = array('1 Year' => '1', '2 Years' => '2', '3 Years' => '3');
+        $renewal_period = array('period' =>  '1');
+
+        $form = $this->createFormBuilder($renewal_period)
+            ->add('period', ChoiceType::class, array('choices' => $renewal_choices, 'label' => 'Renewal Period'))
+            ->add('save', SubmitType::class, array('label' => 'Apply Renewal Period'))
+            ->getForm();
+
+        // processing form submission
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+
+            // data is an array with "period" key
+            $data = $form->getData();
+
+            $current_domain_renewal_date = $domain->getRenewalDate();
+
+            $renewed_period = $current_domain_renewal_date->add(new \DateInterval('P'. $data['period'] .'Y'));
+            $domain->setRenewalDate($renewed_period);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($domain);
+            $em->flush();
+
+            $this->addFlash('notice', 'Domain renewed for '. $data['period'] . ' years');
+        }
+
+        
+        return $this->render('domain/view-domain.html.twig', array('domain' => $domain, 'client' => $client, 'form' => $form->createView()));
     }
 
 

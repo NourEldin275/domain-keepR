@@ -36,14 +36,34 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="well well-sm">
-                                <span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span>
-                                <h3>{{ domains|length }} Domains</h3>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <h3><strong>{{ domains|length }} Domains</strong></h3>
+                                        {#Get how many domains have auto renew#}
+                                        {% set autoRenew_count = 0 %}
+                                        {% for domain in domains %}
+                                            {% if domain.autoRenew %}
+                                                {% set autoRenew_count = autoRenew_count + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <strong><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> {{ autoRenew_count }} on Auto renew</strong>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="well well-sm">
-                                <span class="glyphicon glyphicon-user big-glyphicon"></span>
-                                <h3>{{ clients|length }} Clients</h3>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <span class="glyphicon glyphicon-user big-glyphicon"></span>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <h3><strong>{{ clients|length }} Clients</strong></h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,7 +81,15 @@
                         {% for element in expiring_domains_arr|slice(0, 4) %}
                             <div class="col-md-6">
                                 <div class="well well-sm">
-                                    <h4><strong>{{ element.domain.domain }}</strong></h4>
+
+                                    <h4>
+                                        <strong>{{ element.domain.domain }}</strong>
+                                        {% if element.domain.autoRenew %}
+                                            <span class="glyphicon glyphicon-refresh auto-renew-on" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Active"></span>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-refresh auto-renew-off" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Inactive"></span>
+                                        {% endif %}
+                                    </h4>
                                     Renewal date: {{ element.domain.renewalDate|date("Y/M/d") }}
                                     <br>
                                     Days left: <strong class="bg-danger">{{ element.days_left }} days</strong>

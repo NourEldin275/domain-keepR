@@ -70,7 +70,7 @@ class Domain
     /**
      * @var
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank()
+     * 
      */
     private $notification_status;
 
@@ -83,7 +83,7 @@ class Domain
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="domains")
-     * @ORM\JoinColumn(name="client", referencedColumnName="id")
+     * @ORM\JoinColumn(name="client", referencedColumnName="id", onDelete="CASCADE")
      * @Assert\Type(type="AppBundle\Entity\Client")
      * @Assert\Valid()
      */
@@ -101,6 +101,13 @@ class Domain
      * @Assert\NotBlank()
      */
     private $hosting_package;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="boolean")
+     */
+    private $auto_renew;
 
     /**
      * Get id
@@ -352,5 +359,29 @@ class Domain
     public function getHostingPackage()
     {
         return $this->hosting_package;
+    }
+
+    /**
+     * Set notificationStatus
+     *
+     * @param boolean $notificationStatus
+     *
+     * @return Domain
+     */
+    public function setNotificationStatus($notificationStatus)
+    {
+        $this->notification_status = $notificationStatus;
+    
+        return $this;
+    }
+
+    /**
+     * Get notificationStatus
+     *
+     * @return boolean
+     */
+    public function getNotificationStatus()
+    {
+        return $this->notification_status;
     }
 }

@@ -102,6 +102,13 @@ class Domain
      */
     private $hosting_package;
 
+
+    /**
+     * @var
+     * @ORM\Column(type="boolean")
+     */
+    private $auto_renew;
+
     /**
      * Get id
      *
@@ -376,5 +383,29 @@ class Domain
     public function getNotificationStatus()
     {
         return $this->notification_status;
+    }
+
+    /**
+     * Set autoRenew
+     *
+     * @param boolean $autoRenew
+     *
+     * @return Domain
+     */
+    public function setAutoRenew($autoRenew)
+    {
+        $this->auto_renew = $autoRenew;
+
+        return $this;
+    }
+
+    /**
+     * Get autoRenew
+     *
+     * @return boolean
+     */
+    public function getAutoRenew()
+    {
+        return $this->auto_renew;
     }
 }

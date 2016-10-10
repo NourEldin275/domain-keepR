@@ -41,29 +41,66 @@
                     </div>
                 </div>
             </div>
-            <div class="center-block">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Notifications </h3>
-                    </div>
-                    <div class="panel-body">
-                        {% if domain.notificationStatus  %}
-                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Enabled
-                        {% else %}
-                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Disabled
-                        {% endif %}
-                        <br>
-                        <br>
-                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ domain.cpUrl }}">Control Panel URL</a>
-                        <br>
-                        <br>
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Username: {{ domain.cpUsername }}
-                        <br>
-                        <br>
-                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Password: {{ domain.cpPassword }}
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Notifications & Renewal </h3>
+                        </div>
+                        <div class="panel-body">
+                            {% if domain.notificationStatus  %}
+                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Notification Enabled
+                            {% else %}
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Notification Disabled
+                            {% endif %}
+                            <br>
+                            <br>
+                            {% if domain.autoRenew %}
+                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Auto Renew Enabled
+                            {% else %}
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Auto Renew Disabled
+                            {% endif %}
+                            <br>
+                            <br>
+                        </div>
                     </div>
                 </div>
-                <a href="" class="btn btn-success" role="button"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Renew Domain</a>
+
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Client Hosting Account </h3>
+                        </div>
+                        <div class="panel-body">
+                            {% if domain.notificationStatus  %}
+                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Notification Enabled
+                            {% else %}
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Notification Disabled
+                            {% endif %}
+                            <br>
+                            <br>
+                            {% if domain.autoRenew %}
+                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Auto Renew Enabled
+                            {% else %}
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Auto Renew Disabled
+                            {% endif %}
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="center-block">
+                {#<a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Renew Domain</a>#}
+                {% if not domain.autoRenew %}
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Renew Domain
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-success" data-toggle="" data-target="" disabled="disabled">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Renew Domain
+                    </button>
+                {% endif %}
                 <a href="{{ url('edit_domain', {'id': domain.id}) }}" role="button" class="btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Domain</a>
                 <a href="{{ url('delete_domain', {'domain': domain.id}) }}" role="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Domain</a>
             </div>
@@ -75,8 +112,55 @@
                 <li class="list-group-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{ client.email }}</li>
                 <li class="list-group-item"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{ client.phone }}</li>
             </ul>
+            <hr>
+            <h1>Website Credentials</h1>
+            <ul class="list-group">
+                <li class="list-group-item"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                    <a href="#">Login URL</a>
+                </li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    Username
+                </li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                    Password
+                </li>
+            </ul>
         </div>
         <div class="col-md-1">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Renew {{ domain.domain }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            {# Display Form to renew domain#}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form_start(form) }}
+
+                                    <div class="form-group">
+                                        {{ form_label(form.period) }}
+                                        {{ form_errors(form.period) }}
+                                        {{ form_widget(form.period, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+
+                                    <div>
+                                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}}) }}
+                                    </div>
+                                    {{ form_end(form) }}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
