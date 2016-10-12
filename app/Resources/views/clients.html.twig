@@ -13,6 +13,7 @@
             <table class="table table-hover">
                 <thead>
             <tr>
+                <th>#</th>
                 <th>Client Name</th>
                 <th>Email</th>
                 <th>Phone </th>
@@ -23,6 +24,7 @@
         </thead>
             {% for client in clients %}
                 <tr>
+                    <td>{{ loop.index }}</td>
                     <td>{{ client.name }}</td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>

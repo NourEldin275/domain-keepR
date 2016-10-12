@@ -24,12 +24,12 @@ class DefaultController extends Controller
 
         $securityContext = $this->get('security.authorization_checker');
 
-        if ( $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
-            // redirect to controller to display dashboard
-            $this->redirect($this->dashboardAction());
+        if ( !$securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+            // redirect to to login
+            $this->redirectToRoute('login');
         }
 
-        return $this->render('security/login.html.twig');
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
