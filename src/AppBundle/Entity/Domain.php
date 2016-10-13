@@ -188,7 +188,7 @@ class Domain
      */
     public function getRenewalDate()
     {
-        return clone $this->renewal_date;
+        return $this->renewal_date;
     }
 
     /**

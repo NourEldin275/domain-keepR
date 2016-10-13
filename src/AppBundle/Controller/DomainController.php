@@ -19,7 +19,7 @@ class DomainController extends Controller
 
 
     /**
-     * @Route ("/add-new-domain", name="add_new_domain")
+     * @Route ("/add-new-domain/", name="add_new_domain")
      * @Security("has_role('ROLE_ADMIN')")
      * @param $request
      * @return Response
@@ -28,14 +28,14 @@ class DomainController extends Controller
     {
         $domain = new Domain();
 
-        $clients = $this->getDoctrine()->getRepository('AppBundle:Client')->findAll();
-        $client_choices = array();
-        foreach ($clients as $client){
-            $client_choices[$client->getName()] = $client->getId();
-        }
+//        $clients = $this->getDoctrine()->getRepository('AppBundle:Client')->findAll();
+//        $client_choices = array();
+//        foreach ($clients as $client){
+//            $client_choices[$client->getName()] = $client->getId();
+//        }
 
         $form = $this->createForm(DomainType::class, $domain, array(
-            'client_choices' => $client_choices,
+            //'client_choices' => $client_choices,
             'hosting_choices' => $this->hosting_choices,
         ));
 
@@ -43,13 +43,13 @@ class DomainController extends Controller
         if ( $form->isSubmitted() && $form->isValid() ){
 
             // get chosen client
-            $client_id = $form->get('client')->getData();
+            //$client_id = $form->get('client')->getData();
 
             // get client from the database using submitted id
-            $domain_client = $this->getDoctrine()->getRepository('AppBundle:Client')->find($client_id);
+            //$domain_client = $this->getDoctrine()->getRepository('AppBundle:Client')->find($client_id);
 
 
-            $domain->setClient($domain_client);
+            //$domain->setClient($domain_client);
 
             // getting current date
             $date = new \DateTime('now');
@@ -58,7 +58,7 @@ class DomainController extends Controller
             $domain->setDateAdded($date );
             $em = $this->getDoctrine()->getManager();
             // tells Doctrine you want to (eventually) save the Product (no queries yet)
-            $em->persist($domain_client);
+            //$em->persist($domain_client);
             $em->persist($domain);
 
             // actually executes the queries (i.e. the INSERT query)
