@@ -102,15 +102,15 @@ class DomainController extends Controller
         $domain = $this->getDoctrine()->getRepository('AppBundle:Domain')->find($id);
         $domain_client = $this->getDoctrine()->getRepository('AppBundle:Client')->find($domain->getClient()->getId());
 
-        $clients = $this->getDoctrine()->getRepository('AppBundle:Client')->findAll();
-        $client_choices = array();
-        foreach ($clients as $client){
-            $client_choices[$client->getName()] = $client->getId();
-        }
+//        $clients = $this->getDoctrine()->getRepository('AppBundle:Client')->findAll();
+//        $client_choices = array();
+//        foreach ($clients as $client){
+//            $client_choices[$client->getName()] = $client->getId();
+//        }
 
         $form = $this->createForm(DomainType::class, $domain, array(
             'hosting_choices' => $this->hosting_choices,
-            'client_choices'  => $client_choices,
+            //'client_choices'  => $client_choices,
         ));
 
         $form->handleRequest($request);
@@ -127,7 +127,7 @@ class DomainController extends Controller
         return $this->render('domain/edit-domain.html.twig', array(
             'form' => $form->createView(),
             'domain' => $domain,
-            'client' => $domain_client,
+            //'client' => $domain_client,
         ));
     }
 

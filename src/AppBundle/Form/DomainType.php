@@ -24,7 +24,7 @@ class DomainType extends AbstractType
         $builder
             ->add('domain', TextType::class)
             ->add('registrar', TextType::class)
-            ->add('renewal_date', DateType::class)
+            ->add('renewal_date', DateType::class, array('widget' => 'single_text'))
             ->add('cp_url', TextType::class)
             ->add('cp_username', TextType::class)
             ->add('cp_password', TextType::class)
