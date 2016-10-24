@@ -1,15 +1,36 @@
 <div id="sidebar" class="col-xs-2">
     {% block sidebar %}
+
+        {# Check the current page to highlight it in the sidebar#}
+        {% set current_path = path( app.request.attributes.get('_route'), app.request.attributes.get('_route_params') ) %}
+        {% set clients_page = '' %}
+        {% set add_client_page = '' %}
+        {% set domains_page = '' %}
+        {% set add_domain_page = '' %}
+
+        {% if current_path == path('list_clients') %}
+            {% set clients_page = 'active' %}
+        {% elseif current_path  == path('add_new_client') %}
+            {% set add_client_page = 'active' %}
+        {% elseif current_path == path('list_domains') %}
+            {% set domains_page = 'active' %}
+        {%elseif current_path == path('add_new_domain') %}
+            {% set add_domain_page = 'active' %}
+        {% endif %}
+
         <ul class="nav nav-pills nav-stacked">
-            <li role="presentation"><a href="{{ path('list_clients') }}">Clients</a>
-                <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><a href="{{ path('add_new_client') }}">Add client</a></li>
-                </ul>
+            <li role="presentation" class="{{ clients_page }}">
+                <a href="{{ path('list_clients') }}">Clients</a>
             </li>
-            <li role="presentation"><a href="{{ path('list_domains') }}">Domains</a>
-                <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><a href="{{ path('add_new_domain') }}">Add domain</a></li>
-                </ul>
+            <li role="presentation" class="{{ add_client_page }}">
+                <a href="{{ path('add_new_client') }}">Add client</a>
+            </li>
+
+            <li role="presentation" class="{{ domains_page }}">
+                <a href="{{ path('list_domains') }}">Domains</a>
+            </li>
+            <li role="presentation" class="{{ add_domain_page }}">
+                <a href="{{ path('add_new_domain') }}">Add domain</a>
             </li>
         </ul>
     {% endblock %}
