@@ -4,33 +4,62 @@
         {# Check the current page to highlight it in the sidebar#}
         {% set current_path = path( app.request.attributes.get('_route'), app.request.attributes.get('_route_params') ) %}
         {% set clients_page = '' %}
-        {% set add_client_page = '' %}
         {% set domains_page = '' %}
-        {% set add_domain_page = '' %}
+        {% set users_page = '' %}
+        {% set websites_page = '' %}
+        {% set hosting_page = '' %}
 
-        {% if current_path == path('list_clients') %}
+        {% if current_path == path('list_clients') or current_path == path('add_new_client') %}
             {% set clients_page = 'active' %}
-        {% elseif current_path  == path('add_new_client') %}
-            {% set add_client_page = 'active' %}
-        {% elseif current_path == path('list_domains') %}
+
+        {%elseif current_path == path('add_new_domain') or current_path == path('list_domains') %}
             {% set domains_page = 'active' %}
-        {%elseif current_path == path('add_new_domain') %}
-            {% set add_domain_page = 'active' %}
+
+        {% elseif current_path == path('list_users') or current_path == path('user_registration')%}
+            {% set users_page = 'active' %}
+
         {% endif %}
 
         <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" class="{{ clients_page }}">
-                <a href="{{ path('list_clients') }}">Clients</a>
-            </li>
-            <li role="presentation" class="{{ add_client_page }}">
-                <a href="{{ path('add_new_client') }}">Add client</a>
+
+            <li class="dropdown {{ clients_page }}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clients <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url('list_clients') }}">View All Clients</a></li>
+                    <li><a href="{{ url('add_new_client') }}">Add Client</a></li>
+                </ul>
             </li>
 
-            <li role="presentation" class="{{ domains_page }}">
-                <a href="{{ path('list_domains') }}">Domains</a>
+            <li class="dropdown {{ domains_page }}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Domains <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url('list_domains') }}">View All Domains</a></li>
+                    <li><a href="{{ url('add_new_domain') }}">Add Domain</a></li>
+                </ul>
             </li>
-            <li role="presentation" class="{{ add_domain_page }}">
-                <a href="{{ path('add_new_domain') }}">Add domain</a>
+
+            <li class="dropdown {{ websites_page }}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Websites <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="">View All Websites</a></li>
+                    <li><a href="">Add Website</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown {{ hosting_page }}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hosting <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="">View All Hosting</a></li>
+                    <li><a href="">Add Hosting</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown {{ users_page }}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url('list_users') }}">View All Users</a></li>
+                    <li><a href="{{ url('user_registration') }}">Add User</a></li>
+                </ul>
             </li>
         </ul>
     {% endblock %}

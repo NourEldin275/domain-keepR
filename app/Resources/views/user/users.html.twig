@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %}Users{% endblock %}
+
+    {% block body %}
+
+        <div class="row">
+            <div class="col-xs-3"><h1> <span class="glyphicon glyphicon-user big-glyphicon"></span> Users</h1></div>
+            <div class="col-xs-2"><a class="btn btn-default" href="{{ path('user_registration') }}" role="button">Add new</a></div>
+            <div class="col-xs-7"></div>
+
+            <div class="col-md-11">
+                {% if users is not empty %}
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Username </th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ user.firstName }} {{ user.lastName }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.username }}</td>
+                                {% set role = "" %}
+                                {% if user.roles[0] == 'ROLE_ADMIN' %}
+                                    {% set role = "Admin" %}
+                                {% elseif user.roles[0] == 'ROLE_SUPER' %}
+                                    {% set role = "Super Admin" %}
+                                {% elseif user.roles[0] == 'ROLE_DEV' %}
+                                    {% set role = "Developer" %}
+                                {% endif %}
+
+                                <td>{{ role }}</td>
+                                <td>
+                                    <a href="{{ url('edit_user', {'id': user.id}) }}" role="button" class="btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a href="{{ url('delete_user', {'id': user.id}) }}" role="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                {% else %}
+                    <h4>No records found.</h4>
+                {% endif %}
+            </div>
+
+        </div>
+    {% endblock %}

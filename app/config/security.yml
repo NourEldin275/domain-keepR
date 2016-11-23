@@ -7,6 +7,10 @@ security:
             AppBundle\Entity\User:
                 algorithm: bcrypt
 
+    role_hierarchy:
+            ROLE_DEV: ROLE_USER
+            ROLE_ADMIN: ROLE_DEV
+            ROLE_SUPER: ROLE_ADMIN
     providers:
         in_memory:
             memory: ~
@@ -33,7 +37,9 @@ security:
             pattern: ^/
             http_basic: ~
             provider: dk_provider
-
+            logout:
+                path:   user_logout
+                target: /
             # http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 

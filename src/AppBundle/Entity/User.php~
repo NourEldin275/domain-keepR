@@ -63,23 +63,40 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @var
+     * @ORM\Column(type="array")
+     * @Assert\NotBlank()
+     */
+    private $roles;
+
+    /**
+     * @var
+     * @ORM\Column(name="first_name", type="string")
+     */
+    private $first_name;
+
+    /**
+     * @var
+     * @ORM\Column(name="last_name", type="string")
+     */
+    private $last_name;
+
     public function __construct()
     {
         $this->isActive = true;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid(null, true));
     }
 
     public function getSalt()
     {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
         return null;
     }
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        $roles = array($this->roles);
+        $roles[] = 'ROLE_USER';
+        return $roles;
     }
 
     public function eraseCredentials()
@@ -264,4 +281,66 @@ class User implements UserInterface, \Serializable
         $this->plainPassword = $password;
     }
 
+
+    /**
+     * Set roles
+     *
+     * @param string $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->first_name = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->last_name = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
 }
