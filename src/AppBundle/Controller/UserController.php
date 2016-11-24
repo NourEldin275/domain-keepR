@@ -2,6 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\ChangePasswordType;
+use AppBundle\Form\Model\ChangePassword;
+use AppBundle\Form\Model\UserProfile;
+use AppBundle\Form\UserProfileType;
 use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -9,6 +13,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Role\Role;
 
@@ -105,8 +112,69 @@ class UserController extends Controller
             }
             return $this->render('user/edit-user.html.twig', array('form' => $form->createView(), 'user' => $user, 'role' => $user_role));
         }
+
+        // The selected user to be edited is the super user
         $this->addFlash('warning', 'Super user edit form is yet to be built');
         return $this->redirectToRoute('list_users');
+    }
+
+
+    /**
+     * @Route("/user-account/", name="user_account")
+     * @Security("has_role('ROLE_DEV')")
+     * @param Request $request
+     * @return Response
+     */
+    public function viewAccountAction(Request $request){
+
+        // Check that the current user is the same as the one requested in the URL
+        $user = $this->getUser();
+
+        $changePassword = new ChangePassword();
+        $passwordForm = $this->createForm(ChangePasswordType::class, $changePassword);
+
+        $user_profile = new UserProfile();
+        $user_profile->setEmail($user->getEmail());
+        $user_profile->setFirstName($user->getFirstName());
+        $user_profile->setLastName($user->getLastName());
+        $profileForm = $this->createForm(UserProfileType::class, $user_profile);
+
+
+        // Handle passwordForm submission
+        $passwordForm->handleRequest($request);
+        if ( $passwordForm->isSubmitted() && $passwordForm->isValid() ){
+
+            $password = $this->get('security.password_encoder')
+                ->encodePassword($user, $changePassword->getNewPassword());
+            $user->setPassword($password);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('notice', 'Password changed successfully');
+        }
+
+        $profileForm->handleRequest($request);
+        if ( $profileForm->isSubmitted() && $profileForm->isValid() ){
+            $first_name = $profileForm->get('first_name')->getData();
+            $last_name = $profileForm->get('last_name')->getData();
+            $email = $profileForm->get('email')->getData();
+
+            $user->setFirstName($first_name);
+            $user->setLastName($last_name);
+            $user->setEmail($email);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('notice', 'Your profile has been updated successfully');
+        }
+
+        return $this->render('user/user-account.html.twig', array(
+            'user' => $user,
+            'profileForm' => $profileForm->createView(),
+            'passwordForm' => $passwordForm->createView(),
+        ));
     }
 
 

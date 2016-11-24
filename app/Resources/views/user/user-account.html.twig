@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Account{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ app.user.username }} Account</h1>
+            {% set settings_error = '' %}
+            {% set profile_error = '' %}
+            {% if not passwordForm.vars.valid or not profileForm.vars.valid %}
+                <div class="alert alert-danger">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+
+                    {% if not passwordForm.vars.valid %}
+                        There are errors in settings
+                        {% set settings_error = 'glyphicon glyphicon-remove-sign' %}
+                    {% elseif not profileForm.vars.valid %}
+                        There are errors in profile
+                        {% set profile_error = 'glyphicon glyphicon-remove-sign' %}
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
+                </li>
+                <li role="presentation">
+                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                        <span class="{{ profile_error }}" aria-hidden="true"></span>
+                        Profile
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+                </li>
+                <li role="presentation">
+                    <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+                        <span class="{{ settings_error }}" aria-hidden="true"></span>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="row">
+                        <div class="col-md-6">...</div>
+                        <div class="col-md-6">...</div>
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_start(profileForm) }}
+
+                            <div class="form-group">
+                                {{ form_errors(profileForm.first_name) }}
+                                {{ form_label(profileForm.first_name, 'First Name') }}
+                                {{ form_widget(profileForm.first_name, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_errors(profileForm.last_name) }}
+                                {{ form_label(profileForm.last_name, 'Last Name') }}
+                                {{ form_widget(profileForm.last_name, {'attr': {'class': 'form-control' }} ) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_errors(profileForm.email) }}
+                                {{ form_label(profileForm.email, 'Email') }}
+                                {{ form_widget(profileForm.email, {'attr': {'class': 'form-control'}} ) }}
+                            </div>
+
+                            <div>
+                                {{ form_widget(profileForm.save, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'} ) }}
+                            </div>
+
+                            {{ form_end(profileForm) }}
+                        </div>
+
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="messages">
+                    <div class="row">
+                        <div class="col-md-6">...</div>
+                        <div class="col-md-6"></div>
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="settings">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <h3>Change Password</h3>
+
+                            {{ form_start(passwordForm) }}
+
+                            <div class="form-group">
+                                {{ form_errors(passwordForm.oldPassword) }}
+                                {{ form_widget(passwordForm.oldPassword, {'attr': {'class': 'form-control', 'placeholder': 'Current Password'} } ) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_errors(passwordForm.newPassword.first) }}
+                                {{ form_widget(passwordForm.newPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'New Password'} } ) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_errors(passwordForm.newPassword.second) }}
+                                {{ form_widget(passwordForm.newPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Retype New Password'} } ) }}
+                            </div>
+
+                            <div>
+                                {{ form_widget(passwordForm.save, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save' } ) }}
+                            </div>
+
+                            {{ form_end(passwordForm) }}
+                        </div>
+
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+
+{% endblock %}
