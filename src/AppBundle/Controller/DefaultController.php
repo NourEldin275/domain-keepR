@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\ORM\Query;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Domain;
@@ -94,6 +97,47 @@ class DefaultController extends Controller
             'domains' => $domains,
             'clients' => $clients,
             ));
+    }
+
+
+    /**
+     * @param Request $request
+     * @Route("/ajax/search")
+     * @Method("GET")
+     * @return JsonResponse
+     */
+    public function searchAction(Request $request){
+
+        $search_term = $request->query->get('term');
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $domains = $em->getRepository('AppBundle:Domain')->createQueryBuilder('domain')
+            ->select('domain')
+            ->where('domain.domain LIKE :search')
+            ->setParameter('search', '%'.$search_term.'%')
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        $clients = $em->getRepository('AppBundle:Client')->createQueryBuilder('client')
+            ->select('client')
+            ->where('client.name LIKE :search')
+            ->setParameter('search', '%'.$search_term.'%')
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+
+        $response = new JsonResponse();
+        $response->setData( array(
+
+            'data' => array(
+                'domains' => $domains,
+                'clients' => $clients,
+
+            ),
+        ));
+
+        return $response;
     }
 
 }
