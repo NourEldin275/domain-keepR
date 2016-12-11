@@ -96,13 +96,13 @@
                     <div role="tabpanel" class="tab-pane" id="client-cred">
                         <h3>Client Credentials</h3>
                         {% if credentials is not empty %}
-                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                            <div class="panel-group" id="client-accordion" role="tablist" aria-multiselectable="false">
                                 {% for cred in credentials %}
                                     {% if cred.scope == 'Client' %}
                                         <div class="panel panel-primary">
                                             <div class="panel-heading" role="tab" id="heading-{{ cred.id }}">
                                                 <h4 class="panel-title">
-                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#cred-{{ cred.id }}" aria-expanded="false" aria-controls="domain-{{ cred.id }}">
+                                                    <a role="button" data-toggle="collapse" data-parent="#client-accordion" href="#cred-{{ cred.id }}" aria-expanded="false" aria-controls="domain-{{ cred.id }}">
                                                         User: <strong>{{ cred.username }}</strong>
                                                         <span class="horizontal-separator">|</span>
                                                         <strong>{{ cred.environment }}</strong>
@@ -167,13 +167,13 @@
                     <div role="tabpanel" class="tab-pane" id="other-cred">
                         <h3>Support & Dummy Credentials</h3>
                         {% if credentials is not empty %}
-                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                            <div class="panel-group" id="other-accordion" role="tablist" aria-multiselectable="false">
                                 {% for cred in credentials %}
                                     {% if cred.scope != 'Client' and cred.scope != 'Developer' %}
                                         <div class="panel panel-primary">
                                             <div class="panel-heading" role="tab" id="heading-{{ cred.id }}">
                                                 <h4 class="panel-title">
-                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#cred-{{ cred.id }}" aria-expanded="false" aria-controls="domain-{{ cred.id }}">
+                                                    <a role="button" data-toggle="collapse" data-parent="#other-accordion" href="#cred-{{ cred.id }}" aria-expanded="false" aria-controls="domain-{{ cred.id }}">
                                                         User: <strong>{{ cred.username }}</strong>
                                                         <span class="horizontal-separator">|</span>
                                                         <strong>{{ cred.scope }} Account</strong>
