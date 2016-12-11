@@ -3,5 +3,261 @@
 {% block title %}View Websites{% endblock %}
 
 {% block body %}
-    
+
+    <div class="row">
+        <div class="col-md-7">
+
+            <h1>Website: {{ website.websiteName }}</h1>
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#dev-cred" aria-controls="dev-cred" role="tab" data-toggle="tab">Developer Credentials</a></li>
+                    <li role="presentation" class=""><a href="#client-cred" aria-controls="client-cred" role="tab" data-toggle="tab">Client Credentials</a></li>
+                    <li role="presentation" class=""><a href="#other-cred" aria-controls="other-cred" role="tab" data-toggle="tab">Other Credentials</a></li>
+                    <li role="presentation"><a href="#Issues" aria-controls="Issues" role="tab" data-toggle="tab">Issues</a></li>
+                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="dev-cred">
+
+                        <h3>Developers Credentials</h3>
+                        {% if credentials is not empty %}
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                                {% for cred in credentials %}
+                                    {% if cred.scope == 'Developer' %}
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading" role="tab" id="heading-{{ cred.id }}">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#cred-{{ cred.id }}" aria-expanded="false" aria-controls="domain-{{ cred.id }}">
+                                                        User: <strong>{{ cred.username }}</strong>
+                                                        <span class="horizontal-separator">|</span>
+                                                        <strong>{{ cred.environment }}</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="cred-{{ cred.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ cred.id }}">
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Environment</th>
+                                                                <th>Login URL</th>
+                                                                <th>Username</th>
+                                                                <th>Email</th>
+                                                                <th>Password</th>
+                                                                <th>FTP Address</th>
+                                                                <th>FTP Username</th>
+                                                                <th>FTP Password</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>{{ cred.environment }}</td>
+                                                                <td><a href="{{ cred.loginUrl }}" target="_blank">Click here</a></td>
+                                                                <td>{{ cred.username }}</td>
+                                                                <td>{{ cred.email }}</td>
+                                                                <td>{{ cred.password }}</td>
+                                                                <td>{{ cred.ftpIp }}</td>
+                                                                <td>{{ cred.ftpUsername }}</td>
+                                                                <td>{{ cred.ftpPassword }}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="panel-footer">
+                                                    <a href="#" class="btn btn-warning">
+                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                                    </a>
+
+                                                    <a href="#" class="btn btn-danger">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info" role="alert">
+                                No credentials for this website
+                            </div>
+                            <a href="{{ url('add_new_website_credential') }}" class="btn btn-primary" role="button">Add credentials now</a>
+                        {% endif %}
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="client-cred">
+                        <h3>Client Credentials</h3>
+                        {% if credentials is not empty %}
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                                {% for cred in credentials %}
+                                    {% if cred.scope == 'Client' %}
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading" role="tab" id="heading-{{ cred.id }}">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#cred-{{ cred.id }}" aria-expanded="false" aria-controls="domain-{{ cred.id }}">
+                                                        User: <strong>{{ cred.username }}</strong>
+                                                        <span class="horizontal-separator">|</span>
+                                                        <strong>{{ cred.environment }}</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="cred-{{ cred.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ cred.id }}">
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Environment</th>
+                                                                <th>Login URL</th>
+                                                                <th>Username</th>
+                                                                <th>Email</th>
+                                                                <th>Password</th>
+                                                                <th>FTP Address</th>
+                                                                <th>FTP Username</th>
+                                                                <th>FTP Password</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>{{ cred.environment }}</td>
+                                                                <td><a href="{{ cred.loginUrl }}" target="_blank">Click here</a></td>
+                                                                <td>{{ cred.username }}</td>
+                                                                <td>{{ cred.email }}</td>
+                                                                <td>{{ cred.password }}</td>
+                                                                <td>{{ cred.ftpIp }}</td>
+                                                                <td>{{ cred.ftpUsername }}</td>
+                                                                <td>{{ cred.ftpPassword }}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="panel-footer">
+                                                    <a href="#" class="btn btn-warning">
+                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                                    </a>
+
+                                                    <a href="#" class="btn btn-danger">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info" role="alert">
+                                No credentials for this website
+                            </div>
+                            <a href="{{ url('add_new_website_credential') }}" class="btn btn-primary" role="button">Add credentials now</a>
+                        {% endif %}
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="other-cred">
+                        <h3>Support & Dummy Credentials</h3>
+                        {% if credentials is not empty %}
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                                {% for cred in credentials %}
+                                    {% if cred.scope != 'Client' and cred.scope != 'Developer' %}
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading" role="tab" id="heading-{{ cred.id }}">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#cred-{{ cred.id }}" aria-expanded="false" aria-controls="domain-{{ cred.id }}">
+                                                        User: <strong>{{ cred.username }}</strong>
+                                                        <span class="horizontal-separator">|</span>
+                                                        <strong>{{ cred.scope }} Account</strong>
+                                                        <span class="horizontal-separator">|</span>
+                                                        <strong>{{ cred.environment }}</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="cred-{{ cred.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ cred.id }}">
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Environment</th>
+                                                                <th>Login URL</th>
+                                                                <th>Username</th>
+                                                                <th>Email</th>
+                                                                <th>Password</th>
+                                                                <th>FTP Address</th>
+                                                                <th>FTP Username</th>
+                                                                <th>FTP Password</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>{{ cred.environment }}</td>
+                                                                <td><a href="{{ cred.loginUrl }}" target="_blank">Click here</a></td>
+                                                                <td>{{ cred.username }}</td>
+                                                                <td>{{ cred.email }}</td>
+                                                                <td>{{ cred.password }}</td>
+                                                                <td>{{ cred.ftpIp }}</td>
+                                                                <td>{{ cred.ftpUsername }}</td>
+                                                                <td>{{ cred.ftpPassword }}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="panel-footer">
+                                                    <a href="#" class="btn btn-warning">
+                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                                    </a>
+
+                                                    <a href="#" class="btn btn-danger">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info" role="alert">
+                                No credentials for this website
+                            </div>
+                            <a href="{{ url('add_new_website_credential') }}" class="btn btn-primary" role="button">Add credentials now</a>
+                        {% endif %}
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="Issues">
+                        <h2>Issues</h2>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <h1>Website Details</h1>
+            <ul class="list-group">
+                <li class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ website.websiteName }}</li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{ website.status }}</li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{ website.technology }}</li>
+            </ul>
+            <a href="" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Website</a>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
 {% endblock %}

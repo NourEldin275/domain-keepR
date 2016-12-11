@@ -77,12 +77,16 @@ class WebsiteController extends Controller
     public function viewAction($id){
 
         $website = $this->getDoctrine()->getRepository('AppBundle:Website')->find($id);
+        $credentials = $website->getCredentials();
 
         if ( !$website ){
             throw $this->createNotFoundException("Website doesn't exist");
         }
 
-        return $this->render('website/view-website.html.twig', array('website' => $website));
+        return $this->render('website/view-website.html.twig', array(
+            'website' => $website,
+            'credentials' => $credentials,
+            ));
 
     }
 }
