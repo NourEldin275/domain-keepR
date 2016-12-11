@@ -1,18 +1,26 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Nour Eldin
+ * Date: 12/10/2016
+ * Time: 1:21 PM
+ */
 
 namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
- * Class Client
+ * Class ClientContact
  * @package AppBundle\Entity
  * @ORM\Entity
- * @ORM\Table(name="clients")
+ * @ORM\Table(name="client_contacts")
  */
-class Client
+class ClientContact
 {
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -21,26 +29,23 @@ class Client
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Domain", mappedBy="client")
-     */
-    private $domains;
-
-    /**
      * @var
-     * @ORM\OneToMany(targetEntity="ClientContact", mappedBy="client")
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
-    private $contacts;
+    private $first_name;
 
     /**
      * @var
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
-    private $name;
+    private $last_name;
 
     /**
      * @var
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
+     * @Assert\Email()
      * @Assert\NotBlank()
      */
     private $email;
@@ -48,6 +53,7 @@ class Client
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $phone;
 
@@ -57,10 +63,15 @@ class Client
      */
     private $notification;
 
-    public function __construct()
-    {
-        $this->domains = new ArrayCollection();
-    }
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="contacts")
+     * @ORM\JoinColumn(name="client", referencedColumnName="id", onDelete="CASCADE")
+     * @Assert\Type(type="AppBundle\Entity\Client")
+     * @Assert\Valid()
+     */
+    private $client;
+
 
     /**
      * Get id
@@ -73,27 +84,51 @@ class Client
     }
 
     /**
-     * Set name
+     * Set firstName
      *
-     * @param string $name
+     * @param string $firstName
      *
-     * @return Client
+     * @return ClientContact
      */
-    public function setName($name)
+    public function setFirstName($firstName)
     {
-        $this->name = $name;
-
+        $this->first_name = $firstName;
+    
         return $this;
     }
 
     /**
-     * Get name
+     * Get firstName
      *
      * @return string
      */
-    public function getName()
+    public function getFirstName()
     {
-        return $this->name;
+        return $this->first_name;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return ClientContact
+     */
+    public function setLastName($lastName)
+    {
+        $this->last_name = $lastName;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
     }
 
     /**
@@ -101,12 +136,12 @@ class Client
      *
      * @param string $email
      *
-     * @return Client
+     * @return ClientContact
      */
     public function setEmail($email)
     {
         $this->email = $email;
-
+    
         return $this;
     }
 
@@ -125,12 +160,12 @@ class Client
      *
      * @param string $phone
      *
-     * @return Client
+     * @return ClientContact
      */
     public function setPhone($phone)
     {
         $this->phone = $phone;
-
+    
         return $this;
     }
 
@@ -149,12 +184,12 @@ class Client
      *
      * @param array $notification
      *
-     * @return Client
+     * @return ClientContact
      */
     public function setNotification($notification)
     {
         $this->notification = $notification;
-
+    
         return $this;
     }
 
@@ -169,70 +204,26 @@ class Client
     }
 
     /**
-     * Add domain
+     * Set client
      *
-     * @param \AppBundle\Entity\Domain $domain
+     * @param \AppBundle\Entity\Client $client
      *
-     * @return Client
+     * @return ClientContact
      */
-    public function addDomain(\AppBundle\Entity\Domain $domain)
+    public function setClient(\AppBundle\Entity\Client $client = null)
     {
-        $this->domains[] = $domain;
-
-        return $this;
-    }
-
-    /**
-     * Remove domain
-     *
-     * @param \AppBundle\Entity\Domain $domain
-     */
-    public function removeDomain(\AppBundle\Entity\Domain $domain)
-    {
-        $this->domains->removeElement($domain);
-    }
-
-    /**
-     * Get domains
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDomains()
-    {
-        return $this->domains;
-    }
-
-    /**
-     * Add contact
-     *
-     * @param \AppBundle\Entity\ClientContact $contact
-     *
-     * @return Client
-     */
-    public function addContact(\AppBundle\Entity\ClientContact $contact)
-    {
-        $this->contacts[] = $contact;
+        $this->client = $client;
     
         return $this;
     }
 
     /**
-     * Remove contact
+     * Get client
      *
-     * @param \AppBundle\Entity\ClientContact $contact
+     * @return \AppBundle\Entity\Client
      */
-    public function removeContact(\AppBundle\Entity\ClientContact $contact)
+    public function getClient()
     {
-        $this->contacts->removeElement($contact);
-    }
-
-    /**
-     * Get contacts
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getContacts()
-    {
-        return $this->contacts;
+        return $this->client;
     }
 }

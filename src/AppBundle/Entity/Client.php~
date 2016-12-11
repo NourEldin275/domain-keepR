@@ -21,9 +21,15 @@ class Client
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Domain", mappedBy="client_id")
+     * @ORM\OneToMany(targetEntity="Domain", mappedBy="client")
      */
     private $domains;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="ClientContact", mappedBy="client")
+     */
+    private $contacts;
 
     /**
      * @var

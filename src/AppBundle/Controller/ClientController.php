@@ -71,8 +71,9 @@ class ClientController extends Controller
     {
         $client = $this->getDoctrine()->getRepository('AppBundle:Client')->find($id);
         $domains = $this->getDoctrine()->getRepository('AppBundle:Domain')->findBy(array('client' => $id));
+        $contacts = $this->getDoctrine()->getRepository('AppBundle:ClientContact')->findBy(array('client' => $id));
 
-        return $this->render('client/view-client.html.twig', array('client' => $client, 'domains' => $domains));
+        return $this->render('client/view-client.html.twig', array('client' => $client, 'domains' => $domains, 'contacts' => $contacts));
     }
 
     /**

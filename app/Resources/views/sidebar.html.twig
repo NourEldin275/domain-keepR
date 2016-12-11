@@ -9,7 +9,7 @@
         {% set websites_page = '' %}
         {% set hosting_page = '' %}
 
-        {% if current_path == path('list_clients') or current_path == path('add_new_client') %}
+        {% if current_path == path('list_clients') or current_path == path('add_new_client') or current_path == path('add_new_client_contact')%}
             {% set clients_page = 'active' %}
 
         {%elseif current_path == path('add_new_domain') or current_path == path('list_domains') %}
@@ -27,6 +27,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ url('list_clients') }}">View All Clients</a></li>
                     <li><a href="{{ url('add_new_client') }}">Add Client</a></li>
+                    <li><a href="{{ url('add_new_client_contact') }}">Add Client Contact</a></li>
                 </ul>
             </li>
 
