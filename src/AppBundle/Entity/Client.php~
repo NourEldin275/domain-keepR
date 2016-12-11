@@ -33,6 +33,12 @@ class Client
 
     /**
      * @var
+     * @ORM\OneToMany(targetEntity="Website", mappedBy="client")
+     */
+    private $websites;
+
+    /**
+     * @var
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
@@ -200,5 +206,39 @@ class Client
     public function getDomains()
     {
         return $this->domains;
+    }
+
+    /**
+     * Add contact
+     *
+     * @param \AppBundle\Entity\ClientContact $contact
+     *
+     * @return Client
+     */
+    public function addContact(\AppBundle\Entity\ClientContact $contact)
+    {
+        $this->contacts[] = $contact;
+    
+        return $this;
+    }
+
+    /**
+     * Remove contact
+     *
+     * @param \AppBundle\Entity\ClientContact $contact
+     */
+    public function removeContact(\AppBundle\Entity\ClientContact $contact)
+    {
+        $this->contacts->removeElement($contact);
+    }
+
+    /**
+     * Get contacts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
     }
 }

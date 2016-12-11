@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Websites{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-4"><h1><span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span> All Websites</h1></div>
+        <div class="col-xs-2"><a class="btn btn-default" href="{{ url('add_new_website') }}" role="button">Add new</a></div>
+        <div class="col-xs-6"></div>
+    </div>
+
+    {% if websites is not empty %}
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Website Name</th>
+                <th>URL</th>
+                <th>Technology</th>
+                <th>Status</th>
+                <th>Client</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for website in websites %}
+
+                {% set domain_row_class = "" %} {# Initializing domain_row_class #}
+
+                <tr class="{{ domain_row_class }}">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ website.websiteName }}</td>
+                    <td>
+                        <a href="{{ website.url }}">{{ website.url }}</a>
+                    </td>
+                    <td>{{ website.technology }}</td>
+                    <td>{{ website.status }}</td>
+                    <td>{{ website.client.name }}</td>
+                    <td><a href="{{ url("view_website", {'id': website.id}) }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> More</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+    {% else %}
+        <h4>No records found.</h4>
+    {% endif %}
+
+
+{% endblock %}

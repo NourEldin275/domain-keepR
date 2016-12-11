@@ -33,6 +33,12 @@ class Client
 
     /**
      * @var
+     * @ORM\OneToMany(targetEntity="Website", mappedBy="client")
+     */
+    private $websites;
+
+    /**
+     * @var
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
@@ -234,5 +240,39 @@ class Client
     public function getContacts()
     {
         return $this->contacts;
+    }
+
+    /**
+     * Add website
+     *
+     * @param \AppBundle\Entity\Website $website
+     *
+     * @return Client
+     */
+    public function addWebsite(\AppBundle\Entity\Website $website)
+    {
+        $this->websites[] = $website;
+    
+        return $this;
+    }
+
+    /**
+     * Remove website
+     *
+     * @param \AppBundle\Entity\Website $website
+     */
+    public function removeWebsite(\AppBundle\Entity\Website $website)
+    {
+        $this->websites->removeElement($website);
+    }
+
+    /**
+     * Get websites
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWebsites()
+    {
+        return $this->websites;
     }
 }
