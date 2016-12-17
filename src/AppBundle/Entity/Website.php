@@ -62,6 +62,13 @@ class Website
      */
     private $url;
 
+    /**
+     * @var
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     * @Assert\Url(message="Please enter a valid URL for the website")
+     */
+    private $development_url;
+
 
     /**
      * @var
@@ -248,5 +255,29 @@ class Website
     public function getWebsiteName()
     {
         return $this->website_name;
+    }
+
+    /**
+     * Set developmentUrl
+     *
+     * @param string $developmentUrl
+     *
+     * @return Website
+     */
+    public function setDevelopmentUrl($developmentUrl)
+    {
+        $this->development_url = $developmentUrl;
+    
+        return $this;
+    }
+
+    /**
+     * Get developmentUrl
+     *
+     * @return string
+     */
+    public function getDevelopmentUrl()
+    {
+        return $this->development_url;
     }
 }

@@ -89,4 +89,66 @@ class WebsiteController extends Controller
             ));
 
     }
+
+
+    /**
+     * @param Website $website
+     * @Route("/delete-website/{website}/", name="delete_website")
+     * @Security("has_role('ROLE_DEV')")
+     * @return Response
+     */
+    public function deleteAction(Website $website){
+
+        if ( !$website ){
+            throw $this->createNotFoundException('Website does not exist');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($website);
+        $em->flush();
+
+        $this->addFlash('notice', 'Website deleted successfully');
+
+        return $this->redirectToRoute('list_websites');
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @Route("/edit-website/{id}/", name="edit_website", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_DEV')")
+     * @return Response
+     */
+    public function editAction(Request $request, $id){
+
+        $website = $this->getDoctrine()->getRepository('AppBundle:Website')->find($id);
+
+        if ( !$website ){
+            throw $this->createNotFoundException('Website does not exist');
+        }
+
+        $form = $this->createForm(WebsiteType::class, $website, array(
+            'technology_choices' => $this->technology_choices,
+            'status_choices' => $this->status_choices,
+        ));
+
+        $form->handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() ){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($website);
+            $em->flush();
+
+            $this->addFlash('notice', 'Website editied successfully');
+
+            return $this->redirectToRoute('view_website', array(
+                'id' => $website->getId(),
+            ));
+        }
+
+        return $this->render('website/edit-website.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+    }
 }

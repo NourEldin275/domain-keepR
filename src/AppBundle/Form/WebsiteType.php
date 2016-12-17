@@ -20,6 +20,9 @@ class WebsiteType extends AbstractType
 
         $builder
             ->add('url', UrlType::class)
+            ->add('developmentUrl', UrlType::class, array(
+                'required' => false,
+            ))
             ->add('websiteName', TextType::class, array('label' => 'Website Name'))
             ->add('client', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Client',
