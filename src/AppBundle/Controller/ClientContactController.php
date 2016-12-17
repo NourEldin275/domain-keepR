@@ -73,7 +73,7 @@ class ClientContactController extends Controller
      * @param ClientContact $contact
      * @return Response
      * @Security("has_role('ROLE_DEV')")
-     * @Route("/clients/delete-contact/{contact}", name="delete_client_contact")
+     * @Route("/clients/delete-contact/{contact}/", name="delete_client_contact")
      */
     public function deleteAction(ClientContact $contact){
 

@@ -11,11 +11,12 @@
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#domains" aria-controls="domains" role="tab" data-toggle="tab">Domains</a></li>
-                    <li role="presentation" class=""><a href="#websites" aria-controls="websites" role="tab" data-toggle="tab">Websites</a></li>
+                    <li role="presentation" class="active"><a href="#domains" aria-controls="domains" role="tab" data-toggle="tab">Domains <span class="badge">{{ domains|length }}</span></a></li>
+                    <li role="presentation" class=""><a href="#websites" aria-controls="websites" role="tab" data-toggle="tab">Websites <span class="badge">{{ websites|length }}</span></a></li>
                     <li role="presentation" class=""><a href="#hosting" aria-controls="hosting" role="tab" data-toggle="tab">Hosting</a></li>
                     <li role="presentation"><a href="#Contacts" aria-controls="Contacts" role="tab" data-toggle="tab">Contacts</a></li>
                     <li role="presentation"><a href="#Issues" aria-controls="Issues" role="tab" data-toggle="tab">Issues</a></li>
+                    <li role="presentation"><a href="#Notes" aria-controls="Notes" role="tab" data-toggle="tab">Notes</a></li>
                     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
                 </ul>
 
@@ -23,7 +24,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="domains">
 
-                        <h2>Client Domains</h2>
+                        <h3>Client Domains</h3>
                         {% if domains is not empty %}
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
                                 {% for domain in domains %}
@@ -72,16 +73,95 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="websites">
-                        <h2>Websites</h2>
+                        <h3>Websites</h3>
+
+                        <div class="panel-group" id="client-websites" role="tablist" aria-multiselectable="false">
+
+                            {% if websites is not empty %}
+                                {% for website in websites %}
+
+                                    {% set website_status_class = "panel-primary" %}
+                                    {% set website_status_icon = "glyphicon-info-sign" %}
+
+                                    {% if website.status == "Live" %}
+                                        {% set website_status_class = "panel-success" %}
+                                        {% set website_status_icon = "glyphicon-ok-sign" %}
+                                    {% elseif website.status == "Under Development" %}
+                                        {% set website_status_class = "panel-info" %}
+                                        {% set website_status_icon = "glyphicon-tasks" %}
+                                    {% elseif website.status == "Under Maintenance" %}
+                                        {% set website_status_class = "panel-warning" %}
+                                        {% set website_status_icon = "glyphicon-wrench" %}
+                                    {% endif %}
+
+                                    <div class="panel {{ website_status_class }}">
+                                        <div class="panel-heading" role="tab" id="heading-{{ website.id }}">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#client-websites" href="#website-{{ website.id }}" aria-expanded="false" aria-controls="domain-{{ website.id }}">
+                                                    <strong>{{ website.websiteName }}</strong>
+                                                    <span class="horizontal-separator">|</span>
+                                                    <strong>{{ website.status }}</strong>
+                                                    <span class="glyphicon {{ website_status_icon }}" aria-hidden="true"></span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="website-{{ website.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ website.id }}">
+                                            <div class="panel-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>URL</th>
+                                                            <th>Development URL</th>
+                                                            <th>Technology</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td><a href="{{ website.url }}" target="_blank">Click here</a></td>
+                                                            <td>
+                                                                {% if website.developmentUrl is not empty %}
+                                                                    <a href="{{ website.developmentUrl }}" target="_blank">Click here</a>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>{{ website.technology }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="panel-footer">
+                                                <a href="{{ url('view_website', {'id': website.id}) }}" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Website
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info" role="alert">
+                                    No websites for this client.
+                                </div>
+                                <a href="{{ url('add_new_website') }}" class="btn btn-primary" role="button">Add Website</a>
+                            {% endif %}
+
+
+                        </div>
+
+
+
+
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="hosting">
-                        <h2>Hosting</h2>
+                        <h3>Hosting</h3>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Contacts">
 
-                        <h2>Contacts</h2>
+                        <h3>Contacts</h3>
 
                         <div class="row">
                             {% if contacts is not empty %}
@@ -132,7 +212,7 @@
                                 {% endfor %}
 
                             {% else %}
-                                <div class="alert alert-info" role="info">
+                                <div class="alert alert-info" role="alert">
                                     No Contacts for this client.
                                 </div>
                                 <a href="{{ url('add_new_client_contact') }}" class="btn btn-primary" role="button">Add Contact</a>
@@ -144,8 +224,13 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Issues">
-                        <h2>Issues</h2>
+                        <h3>Issues</h3>
                     </div>
+
+                    <div role="tabpanel" class="tab-pane" id="Notes">
+                        <h3>Notes</h3>
+                    </div>
+
                     <div role="tabpanel" class="tab-pane" id="settings">...</div>
                 </div>
 
