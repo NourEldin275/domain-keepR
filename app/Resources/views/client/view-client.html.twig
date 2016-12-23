@@ -50,7 +50,7 @@
                                                         </thead>
                                                         <tbody>
                                                         <tr>
-                                                            <td>{{ domain.registrar }}</td>
+                                                            <td>{{ domain.registrar.name }}</td>
                                                             <td>{{ domain.renewalDate|date("Y/M/d") }}</td>
                                                             <td>{{ domain.hostingpackage }}</td>
                                                             <td><a href="{{ path('view_domain', {'id': domain.id}) }}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Domain</a></td>
