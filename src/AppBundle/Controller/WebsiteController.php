@@ -63,7 +63,7 @@ class WebsiteController extends Controller
 
         $websites = $this->getDoctrine()->getRepository('AppBundle:Website')->findAll();
 
-        return $this->render('websites.html.twig', array('websites' => $websites));
+        return $this->render('website/websites.html.twig', array('websites' => $websites));
 
     }
 

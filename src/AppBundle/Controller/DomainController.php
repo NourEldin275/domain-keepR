@@ -87,7 +87,7 @@ class DomainController extends Controller
 
         // Creating an array to store each domain status
 
-        return $this->render('domains.html.twig', array('domains' => $domains));
+        return $this->render('domain/domains.html.twig', array('domains' => $domains));
     }
 
     /**

@@ -57,7 +57,7 @@ class ClientController extends Controller
         if ( !$clients ){
             // display an empty list
         }
-        return $this->render('clients.html.twig', array('clients' => $clients));
+        return $this->render('client/clients.html.twig', array('clients' => $clients));
     }
 
 
