@@ -13,7 +13,7 @@
                             <h3 class="panel-title">Domain Details</h3>
                         </div>
                         <div class="panel-body">
-                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Registrar: {{ domain.registrar }}
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Registrar: {{ domain.registrar.name }}
                             <br>
                             <br>
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Renewal Date: {{ domain.renewalDate|date("Y/M/d") }}

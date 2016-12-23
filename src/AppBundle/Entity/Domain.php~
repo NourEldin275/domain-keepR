@@ -33,8 +33,10 @@ class Domain
 
     /**
      * @var
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity="Registrar", inversedBy="domains")
+     * @ORM\JoinColumn(name="registrar", referencedColumnName="id")
+     * @Assert\Type(type="AppBundle\Entity\Registrar")
+     * @Assert\Valid()
      */
     private $registrar;
 
@@ -144,30 +146,6 @@ class Domain
     }
 
     /**
-     * Set registrar
-     *
-     * @param string $registrar
-     *
-     * @return Domain
-     */
-    public function setRegistrar($registrar)
-    {
-        $this->registrar = $registrar;
-
-        return $this;
-    }
-
-    /**
-     * Get registrar
-     *
-     * @return string
-     */
-    public function getRegistrar()
-    {
-        return $this->registrar;
-    }
-
-    /**
      * Set renewalDate
      *
      * @param \DateTime $renewalDate
@@ -176,7 +154,7 @@ class Domain
      */
     public function setRenewalDate($renewalDate)
     {
-        $this->renewal_date = $renewalDate;
+        $this->renewal_date = clone $renewalDate;
 
         return $this;
     }
@@ -383,5 +361,29 @@ class Domain
     public function getNotificationStatus()
     {
         return $this->notification_status;
+    }
+
+    /**
+     * Set autoRenew
+     *
+     * @param boolean $autoRenew
+     *
+     * @return Domain
+     */
+    public function setAutoRenew($autoRenew)
+    {
+        $this->auto_renew = $autoRenew;
+
+        return $this;
+    }
+
+    /**
+     * Get autoRenew
+     *
+     * @return boolean
+     */
+    public function getAutoRenew()
+    {
+        return $this->auto_renew;
     }
 }

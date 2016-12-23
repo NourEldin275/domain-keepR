@@ -33,8 +33,10 @@ class Domain
 
     /**
      * @var
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity="Registrar", inversedBy="domains")
+     * @ORM\JoinColumn(name="registrar", referencedColumnName="id")
+     * @Assert\Type(type="AppBundle\Entity\Registrar")
+     * @Assert\Valid()
      */
     private $registrar;
 
@@ -141,30 +143,6 @@ class Domain
     public function getDomain()
     {
         return $this->domain;
-    }
-
-    /**
-     * Set registrar
-     *
-     * @param string $registrar
-     *
-     * @return Domain
-     */
-    public function setRegistrar($registrar)
-    {
-        $this->registrar = $registrar;
-
-        return $this;
-    }
-
-    /**
-     * Get registrar
-     *
-     * @return string
-     */
-    public function getRegistrar()
-    {
-        return $this->registrar;
     }
 
     /**
@@ -407,5 +385,29 @@ class Domain
     public function getAutoRenew()
     {
         return $this->auto_renew;
+    }
+
+    /**
+     * Set registrar
+     *
+     * @param \AppBundle\Entity\Registrar $registrar
+     *
+     * @return Domain
+     */
+    public function setRegistrar(\AppBundle\Entity\Registrar $registrar = null)
+    {
+        $this->registrar = $registrar;
+    
+        return $this;
+    }
+
+    /**
+     * Get registrar
+     *
+     * @return \AppBundle\Entity\Registrar
+     */
+    public function getRegistrar()
+    {
+        return $this->registrar;
     }
 }

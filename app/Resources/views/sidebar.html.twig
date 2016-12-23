@@ -1,4 +1,4 @@
-<div id="sidebar" class="col-xs-2">
+<div id="sidebar" class="col-md-2 col-lg-1">
     {% block sidebar %}
 
         {# Check the current page to highlight it in the sidebar#}
@@ -27,6 +27,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ url('list_clients') }}">View All Clients</a></li>
                     <li><a href="{{ url('add_new_client') }}">Add Client</a></li>
+                    <li role="separator" class="divider"></li>
                     <li><a href="{{ url('add_new_client_contact') }}">Add Client Contact</a></li>
                 </ul>
             </li>
@@ -36,6 +37,9 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ url('list_domains') }}">View All Domains</a></li>
                     <li><a href="{{ url('add_new_domain') }}">Add Domain</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{ url('list_all_registrars') }}">View All Registrars</a></li>
+                    <li><a href="{{ url('add_new_registrar') }}">Add Registrar</a></li>
                 </ul>
             </li>
 
@@ -44,6 +48,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ url('list_websites') }}">View All Websites</a></li>
                     <li><a href="{{ url('add_new_website') }}">Add Website</a></li>
+                    <li role="separator" class="divider"></li>
                     <li><a href="{{ url('add_new_website_credential') }}">Add Website Credential</a></li>
                 </ul>
             </li>
@@ -53,6 +58,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="">View All Hosting</a></li>
                     <li><a href="">Add Hosting</a></li>
+                    <li role="separator" class="divider"></li>
                 </ul>
             </li>
 

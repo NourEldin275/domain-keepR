@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View All Registrars{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-4"><h1><span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span> All Registrars</h1></div>
+        <div class="col-xs-2"><a class="btn btn-default" href="{{ url('add_new_registrar') }}" role="button">Add new</a></div>
+        <div class="col-xs-6"></div>
+    </div>
+
+    {% if registrars is not empty %}
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Registrar</th>
+                <th>URL</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for registrar in registrars %}
+
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ registrar.name }}</td>
+                    <td>
+                        <a href="{{ registrar.url }}" target="_blank">
+                            Click Here
+                        </a>
+                    </td>
+                    <td>{{ registrar.username }}</td>
+                    <td>{{ registrar.email }}</td>
+                    <td>{{ registrar.password }}</td>
+                    <td>
+                        <a href="{{ url('edit_registrar', {'id': registrar.id}) }}" class="btn btn-warning" role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                        <a href="{{ url("delete_registrar", {'registrar': registrar.id}) }}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            No registrars found!
+        </div>
+    {% endif %}
+{% endblock %}

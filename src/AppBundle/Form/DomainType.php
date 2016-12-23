@@ -23,7 +23,11 @@ class DomainType extends AbstractType
         
         $builder
             ->add('domain', TextType::class)
-            ->add('registrar', TextType::class)
+            ->add('registrar', EntityType::class, array(
+                'class' => 'AppBundle\Entity\Registrar',
+                'choice_label' => 'name',
+                'label' => 'Registrar',
+            ))
             ->add('renewal_date', DateType::class, array('widget' => 'single_text'))
             ->add('cp_url', TextType::class)
             ->add('cp_username', TextType::class)
