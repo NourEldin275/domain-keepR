@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Package{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-5">
+            <h1>Edit Package: {{ package.name }}</h1>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.name, 'Package Name') }}
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.space) }}
+                {{ form_errors(form.space) }}
+                {{ form_widget(form.space, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.fees) }}
+                {{ form_errors(form.fees) }}
+                {{ form_widget(form.fees, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="">
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+        <div class="col-md-5"></div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}

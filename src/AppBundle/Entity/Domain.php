@@ -93,16 +93,16 @@ class Domain
 
     /**
      * @var
-     * @ORM\Column(type="date")
+     * @ORM\OneToOne(targetEntity="Hosting", mappedBy="domain")
+     *
      */
-    private $date_added;
+    private $hosting;
 
     /**
      * @var
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="date")
      */
-    private $hosting_package;
+    private $date_added;
 
 
     /**
@@ -316,30 +316,6 @@ class Domain
     }
 
     /**
-     * Set hostingPackage
-     *
-     * @param string $hostingPackage
-     *
-     * @return Domain
-     */
-    public function setHostingPackage($hostingPackage)
-    {
-        $this->hosting_package = $hostingPackage;
-
-        return $this;
-    }
-
-    /**
-     * Get hostingPackage
-     *
-     * @return string
-     */
-    public function getHostingPackage()
-    {
-        return $this->hosting_package;
-    }
-
-    /**
      * Set notificationStatus
      *
      * @param boolean $notificationStatus
@@ -409,5 +385,29 @@ class Domain
     public function getRegistrar()
     {
         return $this->registrar;
+    }
+
+    /**
+     * Set hosting
+     *
+     * @param \AppBundle\Entity\Hosting $hosting
+     *
+     * @return Domain
+     */
+    public function setHosting(\AppBundle\Entity\Hosting $hosting = null)
+    {
+        $this->hosting = $hosting;
+    
+        return $this;
+    }
+
+    /**
+     * Get hosting
+     *
+     * @return \AppBundle\Entity\Hosting
+     */
+    public function getHosting()
+    {
+        return $this->hosting;
     }
 }

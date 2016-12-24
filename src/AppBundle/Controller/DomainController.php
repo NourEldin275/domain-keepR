@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DomainController extends Controller
 {
-    private $hosting_choices = array('Ultimate' => 'ultimate', 'Basic' => 'Basic', 'Custom' => 'Custom');
+    //private $hosting_choices = array('Ultimate' => 'ultimate', 'Basic' => 'Basic', 'Custom' => 'Custom');
 
 
     /**
@@ -36,7 +36,7 @@ class DomainController extends Controller
 
         $form = $this->createForm(DomainType::class, $domain, array(
             //'client_choices' => $client_choices,
-            'hosting_choices' => $this->hosting_choices,
+            //'hosting_choices' => $this->hosting_choices,
         ));
 
         $form->handleRequest($request);
@@ -109,7 +109,7 @@ class DomainController extends Controller
 //        }
 
         $form = $this->createForm(DomainType::class, $domain, array(
-            'hosting_choices' => $this->hosting_choices,
+            //'hosting_choices' => $this->hosting_choices,
             //'client_choices'  => $client_choices,
         ));
 

@@ -27,6 +27,12 @@ class Client
 
     /**
      * @var
+     * @ORM\OneToMany(targetEntity="Hosting", mappedBy="client")
+     */
+    private $hosting;
+
+    /**
+     * @var
      * @ORM\OneToMany(targetEntity="ClientContact", mappedBy="client")
      */
     private $contacts;
@@ -274,5 +280,39 @@ class Client
     public function getWebsites()
     {
         return $this->websites;
+    }
+
+    /**
+     * Add hosting
+     *
+     * @param \AppBundle\Entity\Hosting $hosting
+     *
+     * @return Client
+     */
+    public function addHosting(\AppBundle\Entity\Hosting $hosting)
+    {
+        $this->hosting[] = $hosting;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hosting
+     *
+     * @param \AppBundle\Entity\Hosting $hosting
+     */
+    public function removeHosting(\AppBundle\Entity\Hosting $hosting)
+    {
+        $this->hosting->removeElement($hosting);
+    }
+
+    /**
+     * Get hosting
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHosting()
+    {
+        return $this->hosting;
     }
 }

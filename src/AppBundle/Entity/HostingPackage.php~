@@ -1,0 +1,62 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Nour Eldin
+ * Date: 12/24/2016
+ * Time: 9:10 AM
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * Class HostingPackage
+ * @package AppBundle\Entity
+ * @ORM\Entity
+ * @ORM\Table(name="hosting_packages")
+ * @UniqueEntity (fields={"name"}, message="Package name must be unique!")
+ */
+class HostingPackage
+{
+    /**
+     * @var
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $name;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="float")
+     * @Assert\NotBlank()
+     */
+    private $space;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="float")
+     * @Assert\NotBlank()
+     */
+    private $fees;
+
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Hosting", mappedBy="package")
+     */
+    private $hosting;
+}

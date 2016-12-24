@@ -2,24 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: Nour Eldin
- * Date: 12/23/2016
- * Time: 3:45 PM
+ * Date: 12/24/2016
+ * Time: 8:57 AM
  */
 
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
- * Class Registrar
+ * Class HostingCredential
  * @package AppBundle\Entity
  * @ORM\Entity
- * @ORM\Table(name="registrars")
- * @UniqueEntity(fields={"name", "url"}, message="The registrar is already in the database")
+ * @ORM\Table(name="hosting_credentials")
  */
-class Registrar
+class HostingCredential
 {
     /**
      * @var
@@ -32,28 +31,34 @@ class Registrar
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\Choice(choices={"Developer", "Client"})
      * @Assert\NotBlank()
      */
-    private $name;
+    private $scope;
+
 
     /**
      * @var
      * @ORM\Column(type="string")
-     * @Assert\Url()
+     * @Assert\Url(message="Enter a valid URL")
+     * @Assert\NotBlank()
      */
     private $url;
 
+
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $username;
 
 
     /**
      * @var
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string")
      * @Assert\Email()
+     * @Assert\NotBlank()
      */
     private $email;
 
@@ -61,15 +66,19 @@ class Registrar
     /**
      * @var
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $password;
 
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Domain", mappedBy="registrar")
+     * @ORM\ManyToOne(targetEntity="Hosting", inversedBy="credentials")
+     * @ORM\JoinColumn(name="hosting", referencedColumnName="id", onDelete="CASCADE")
+     * @Assert\Type(type="AppBundle\Entity\Hosting")
+     * @Assert\Valid()
      */
-    private $domains;
+    private $hosting;
 
 
     /**
@@ -83,27 +92,27 @@ class Registrar
     }
 
     /**
-     * Set name
+     * Set scope
      *
-     * @param string $name
+     * @param string $scope
      *
-     * @return Registrar
+     * @return HostingCredential
      */
-    public function setName($name)
+    public function setScope($scope)
     {
-        $this->name = $name;
+        $this->scope = $scope;
     
         return $this;
     }
 
     /**
-     * Get name
+     * Get scope
      *
      * @return string
      */
-    public function getName()
+    public function getScope()
     {
-        return $this->name;
+        return $this->scope;
     }
 
     /**
@@ -111,7 +120,7 @@ class Registrar
      *
      * @param string $url
      *
-     * @return Registrar
+     * @return HostingCredential
      */
     public function setUrl($url)
     {
@@ -135,7 +144,7 @@ class Registrar
      *
      * @param string $username
      *
-     * @return Registrar
+     * @return HostingCredential
      */
     public function setUsername($username)
     {
@@ -159,7 +168,7 @@ class Registrar
      *
      * @param string $email
      *
-     * @return Registrar
+     * @return HostingCredential
      */
     public function setEmail($email)
     {
@@ -183,7 +192,7 @@ class Registrar
      *
      * @param string $password
      *
-     * @return Registrar
+     * @return HostingCredential
      */
     public function setPassword($password)
     {
@@ -201,45 +210,28 @@ class Registrar
     {
         return $this->password;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->domains = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add domain
+     * Set hosting
      *
-     * @param \AppBundle\Entity\Domain $domain
+     * @param \AppBundle\Entity\Hosting $hosting
      *
-     * @return Registrar
+     * @return HostingCredential
      */
-    public function addDomain(\AppBundle\Entity\Domain $domain)
+    public function setHosting(\AppBundle\Entity\Hosting $hosting = null)
     {
-        $this->domains[] = $domain;
+        $this->hosting = $hosting;
     
         return $this;
     }
 
     /**
-     * Remove domain
+     * Get hosting
      *
-     * @param \AppBundle\Entity\Domain $domain
+     * @return \AppBundle\Entity\Hosting
      */
-    public function removeDomain(\AppBundle\Entity\Domain $domain)
+    public function getHosting()
     {
-        $this->domains->removeElement($domain);
-    }
-
-    /**
-     * Get domains
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDomains()
-    {
-        return $this->domains;
+        return $this->hosting;
     }
 }

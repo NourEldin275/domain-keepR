@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Hosting{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-5">
+            <h1>Edit Hosting: {{ hosting.name }}</h1>
+            <div class="alert alert-info" role="alert">
+                You can't change the host domain once it is setup. Try deleting hosting and re-adding it.
+            </div>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.package) }}
+                {{ form_errors(form.package) }}
+                {{ form_widget(form.package, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.renewalDate) }}
+                {{ form_errors(form.renewalDate) }}
+                {{ form_widget(form.renewalDate, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.creationDate) }}
+                {{ form_errors(form.creationDate) }}
+                {{ form_widget(form.creationDate, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="checkbox">
+                {{ form_widget(form.status, {'attr': {'checked': 'true'}}) }}
+                {{ form_label(form.status) }}
+                {{ form_errors(form.status) }}
+            </div>
+
+            <div class="">
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+        <div class="col-md-5"></div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}

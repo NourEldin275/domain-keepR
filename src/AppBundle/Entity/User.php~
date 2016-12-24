@@ -85,6 +85,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
+        $this->setRoles(array('ROLE_USER'));
     }
 
     public function getSalt()
@@ -94,9 +95,7 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        $roles = array($this->roles);
-        $roles[] = 'ROLE_USER';
-        return $roles;
+        return $this->roles;
     }
 
     public function eraseCredentials()

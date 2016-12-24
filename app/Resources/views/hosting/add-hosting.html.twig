@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add New Hosting{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-5">
+            <h1>Add New Hosting</h1>
+            <div class="alert alert-info" role="alert">
+                Make sure that you already added a domain first!
+                <a href="{{ url('add_new_domain') }}"><strong>Click here</strong></a> to add one now
+            </div>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.domain, 'Domain') }}
+                {{ form_errors(form.domain) }}
+                {{ form_widget(form.domain, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            {#<div class="form-group">
+                {{ form_label(form.client) }}
+                {{ form_errors(form.client) }}
+                {{ form_widget(form.client, {'attr': {'class': 'form-control'} }) }}
+            </div>#}
+
+            <div class="form-group">
+                {{ form_label(form.package) }}
+                {{ form_errors(form.package) }}
+                {{ form_widget(form.package, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.renewalDate) }}
+                {{ form_errors(form.renewalDate) }}
+                {{ form_widget(form.renewalDate, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.creationDate) }}
+                {{ form_errors(form.creationDate) }}
+                {{ form_widget(form.creationDate, {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="checkbox">
+                {{ form_widget(form.status, {'attr': {'checked': 'true'}}) }}
+                {{ form_label(form.status) }}
+                {{ form_errors(form.status) }}
+            </div>
+
+            <div class="">
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+        <div class="col-md-5"></div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}

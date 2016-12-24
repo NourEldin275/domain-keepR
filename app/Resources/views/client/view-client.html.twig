@@ -13,7 +13,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#domains" aria-controls="domains" role="tab" data-toggle="tab">Domains <span class="badge">{{ domains|length }}</span></a></li>
                     <li role="presentation" class=""><a href="#websites" aria-controls="websites" role="tab" data-toggle="tab">Websites <span class="badge">{{ websites|length }}</span></a></li>
-                    <li role="presentation" class=""><a href="#hosting" aria-controls="hosting" role="tab" data-toggle="tab">Hosting</a></li>
+                    <li role="presentation" class=""><a href="#hosting" aria-controls="hosting" role="tab" data-toggle="tab">Hosting <span class="badge">{{ client.hosting|length }}</span></a></li>
                     <li role="presentation"><a href="#Contacts" aria-controls="Contacts" role="tab" data-toggle="tab">Contacts</a></li>
                     <li role="presentation"><a href="#Issues" aria-controls="Issues" role="tab" data-toggle="tab">Issues</a></li>
                     <li role="presentation"><a href="#Notes" aria-controls="Notes" role="tab" data-toggle="tab">Notes</a></li>
@@ -52,7 +52,13 @@
                                                         <tr>
                                                             <td>{{ domain.registrar.name }}</td>
                                                             <td>{{ domain.renewalDate|date("Y/M/d") }}</td>
-                                                            <td>{{ domain.hostingpackage }}</td>
+                                                            <td>
+                                                                {% if domain.hosting %}
+                                                                    {{ domain.hosting.package.name }}
+                                                                {% else %}
+                                                                    No hosting assigned yet!
+                                                                {% endif %}
+                                                            </td>
                                                             <td><a href="{{ path('view_domain', {'id': domain.id}) }}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Domain</a></td>
                                                         </tr>
                                                         </tbody>
@@ -157,6 +163,75 @@
 
                     <div role="tabpanel" class="tab-pane" id="hosting">
                         <h3>Hosting</h3>
+                        <div class="panel-group" id="client-hosts" role="tablist" aria-multiselectable="false">
+                            {% if client.hosting is not empty %}
+                                {% for host in client.hosting %}
+
+                                    {% set host_status_class = "panel-primary" %}
+                                    {% set host_status_icon = "glyphicon-ok-sign" %}
+
+                                    {% if host.status %}
+                                        {% set host_status_class = "panel-success" %}
+                                        {% set host_status_icon = "glyphicon-ok-sign" %}
+                                    {% else %}
+                                        {% set host_status_class = "panel-warning" %}
+                                        {% set host_status_icon = "glyphicon-warning-sign" %}
+                                    {% endif %}
+
+                                    <div class="panel {{ host_status_class }}">
+                                        <div class="panel-heading" role="tab" id="heading-{{ host.id }}">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#client-hosts" href="#host-{{ host.id }}" aria-expanded="false" aria-controls="host-{{ host.id }}">
+                                                    <strong>{{ host.name }}</strong>
+                                                    <span class="glyphicon {{ host_status_icon }}" aria-hidden="true"></span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="host-{{ host.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ host.id }}">
+                                            <div class="panel-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Domain</th>
+                                                            <th>Package</th>
+                                                            <th>Space</th>
+                                                            <th>Fees</th>
+                                                            <th>Renewal Date</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td><a href="{{ url('view_domain', {'id': host.domain.id}) }}">{{ host.domain.domain }}</a></td>
+                                                            <td>{{ host.package.name }}</td>
+                                                            <td>{{ host.package.space }} GBs</td>
+                                                            <td>{{ host.package.fees }}</td>
+                                                            <td>{{ host.renewalDate|date('Y-m-d') }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="panel-footer">
+                                                <a href="{{ url('view_hosting', {'hosting': host.id}) }}" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Hosting
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info" role="alert">
+                                    No Hosting accounts for this client.
+                                </div>
+                                <a href="{{ url('add_new_hosting') }}" class="btn btn-primary" role="button">Add Hosting Account</a>
+                            {% endif %}
+
+
+                        </div>
+
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Contacts">

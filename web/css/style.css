@@ -8,6 +8,10 @@
     color: orangered;
 }
 
+.glyphicon-warning-sign{
+    color: #ead404;
+}
+
 .glyphicon-ok-sign, .auto-renew-on{
     color: lawngreen;
 }
@@ -18,6 +22,10 @@
 
 .big-glyphicon{
     font-size: 60px;
+}
+
+.med-glyphicon{
+    font-size: 30px;
 }
 
 #search-results{
