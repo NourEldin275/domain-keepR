@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-8">
 
             <h1>{{ client.name }}</h1>
             <div>
@@ -320,9 +320,6 @@
                 <li class="list-group-item"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{ client.phone }}</li>
             </ul>
             <a href="{{ path('delete_client', {'client': client.id}) }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Client</a>
-        </div>
-        <div class="col-md-2">
-
         </div>
     </div>
 

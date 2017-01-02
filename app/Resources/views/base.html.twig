@@ -83,7 +83,7 @@
     <div class="row">
         {% include('sidebar.html.twig') %}
 
-        <div id="content" class="col-xs-10">
+        <div id="content" class="col-md-10">
             {% block flash_message %}
                 {% for flash_message in app.session.flashBag.get('notice') %}
                     <div class="alert alert-success" role="alert">
