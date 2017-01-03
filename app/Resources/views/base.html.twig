@@ -41,9 +41,11 @@
                         <li class=""><a href="{{ path('dashboard') }}">Dashboard <span class="sr-only">(current)</span></a></li>
                         <li><a href="#">Link</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                Add <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
+                                <li><a href="#" id="addClient" data-toggle="modal" data-target="#add_client_modal">Client</a></li>
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
                                 <li role="separator" class="divider"></li>
@@ -60,7 +62,7 @@
                             </span>
                             <input type="text" class="form-control" placeholder="Search" id="header-search">
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="button" class="btn btn-default">Submit</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -97,6 +99,43 @@
                 {% endfor %}
             {% endblock %}
             {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="add_client_modal" tabindex="-1" role="dialog" aria-labelledby="add_client_modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add_client_modalLabel">Add Client</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="search-results-modal" tabindex="-1" role="dialog" aria-labelledby="search-results-modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="search-results-modalLabel">Search Results</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

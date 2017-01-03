@@ -249,17 +249,17 @@
 
         {#  Changing the icon class depending on the state of the website  #}
 
-        {% set website_stateus_icon = "glyphicon glyphicon-info-sign" %}
+        {% set website_status_icon = "glyphicon glyphicon-info-sign" %}
         {% set website_status_class = "" %}
 
         {% if website.status == 'Live' %}
-            {% set website_stateus_icon = "glyphicon glyphicon-ok-sign" %}
+            {% set website_status_icon = "glyphicon glyphicon-ok-sign" %}
             {% set website_status_class = "list-group-item-success" %}
         {% elseif website.status == 'Under Development' %}
-            {% set website_stateus_icon = "glyphicon glyphicon-tasks" %}
+            {% set website_status_icon = "glyphicon glyphicon-tasks" %}
             {% set website_status_class = "list-group-item-info" %}
         {% elseif website.status == 'Under Maintenance' %}
-            {% set website_stateus_icon = "glyphicon glyphicon-wrench" %}
+            {% set website_status_icon = "glyphicon glyphicon-wrench" %}
             {% set website_status_class = "list-group-item-warning" %}
         {% endif %}
 
@@ -269,7 +269,7 @@
             <ul class="list-group">
                 <li class="list-group-item"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Name: {{ website.websiteName }}</li>
                 <li class="list-group-item {{ website_status_class }}"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Status: {{ website.status }}
-                    <span class="{{ website_stateus_icon }}" aria-hidden="true"></span>
+                    <span class="{{ website_status_icon }}" aria-hidden="true"></span>
                 </li>
                 <li class="list-group-item"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> Live URL:
                     <a href="{{ website.url }}" target="_blank">Click here</a>

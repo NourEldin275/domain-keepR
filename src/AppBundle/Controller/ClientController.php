@@ -125,4 +125,22 @@ class ClientController extends Controller
         $this->addFlash('notice','Selected client was deleted!');
         return $this->redirectToRoute('list_clients');
     }
+
+
+    /**
+     * @Route("/ajax/add-client/")
+     * @Security("has_role('ROLE_DEV')")
+     * @return Response
+     */
+    public function ajaxAdd(){
+
+        $client = new Client();
+
+        $form = $this->createForm(ClientType::class, $client);
+
+        return $this->render('ajax/add-client.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+    }
 }

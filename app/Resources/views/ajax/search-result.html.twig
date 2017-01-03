@@ -1,3 +1,157 @@
-<div id="search-results">
+<div class="container-fluid">
+    <div id="search-results" class="row">
 
+        {% if domains is empty and websites is empty and clients is empty %}
+            <div class="alert alert-info" role="alert">
+                <h4>No Results Found for the following keyword: <strong>{{ search_term }}</strong></h4>
+            </div>
+
+        {% else %} {# At least one of them has results #}
+
+            {% if domains is not empty %} {# Domains #}
+
+                <h3><span class="glyphicon glyphicon-globe med-glyphicon" aria-hidden="true"></span>Domains</h3>
+
+                <div class="list-group">
+                    {% for domain in domains %}
+
+                        <a href="{{ url('view_domain', {'id': domain.id}) }}" class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                                <strong>{{ domain.domain }}</strong>
+                                {% if domain.autoRenew %}
+                                    <span class="glyphicon glyphicon-refresh auto-renew-on" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Active"></span>
+                                {% else %}
+                                    <span class="glyphicon glyphicon-refresh auto-renew-off" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Inactive"></span>
+                                {% endif %}
+                            </h4>
+
+                            <p class="list-group-item-text">
+                                Hosting Package:
+                                {% if domain.hosting %}
+                                    {{ domain.hosting.package.name }}
+                                {% else %}
+                                    No hosting assigned yet!
+                                {% endif %}
+
+                                <span class="horizontal-separator">|</span>
+
+                                Registrar: {{ domain.registrar.name }}
+
+                                <span class="horizontal-separator">|</span>
+
+                                Renewal Date: {{ domain.renewalDate|date("Y/M/d") }}
+
+                            </p>
+                        </a>
+
+                        <a href="{{ url('view_client', {'id': domain.client.id}) }}" class="list-group-item">
+                            View Client: <strong>{{ domain.client.name }}</strong>
+                        </a>
+
+                        <br>
+                    {% endfor %}
+                </div>
+
+            {% endif %} {# Domains End #}
+
+            {% if clients is not empty %} {# Clients #}
+
+                <h3><span class="glyphicon glyphicon-user med-glyphicon" aria-hidden="true"></span>Clients</h3>
+
+                <div class="list-group">
+                    {% for client in clients %}
+
+                        <a href="{{ url('view_client', {'id': client.id}) }}" class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <strong>{{ client.name }}</strong>
+                            </h4>
+
+                            <p class="list-group-item-text">
+                                <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                                Domains:
+                                {{ client.domains|length }}
+
+                                <span class="horizontal-separator">|</span>
+
+                                <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                                Websites: {{ client.websites|length }}
+
+                                <span class="horizontal-separator">|</span>
+
+                                <span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>
+                                Hosting: {{ client.hosting|length }}
+
+                            </p>
+                        </a>
+
+                        <br>
+                    {% endfor %}
+                </div>
+
+            {% endif %} {# Clients End #}
+
+
+            {% if websites is not empty %} {# Websites #}
+
+                <h3><span class="glyphicon glyphicon-globe med-glyphicon" aria-hidden="true"></span>Websites</h3>
+
+                {#  Changing the icon class depending on the state of the website  #}
+
+                {% set website_status_icon = "glyphicon glyphicon-info-sign" %}
+                {% set website_status_class = "" %}
+
+                <div class="list-group">
+                    {% for website in websites %}
+
+                        {% if website.status == 'Live' %}
+                            {% set website_status_icon = "glyphicon glyphicon-ok-sign" %}
+                            {% set website_status_class = "list-group-item-success" %}
+                        {% elseif website.status == 'Under Development' %}
+                            {% set website_status_icon = "glyphicon glyphicon-tasks" %}
+                            {% set website_status_class = "list-group-item-info" %}
+                        {% elseif website.status == 'Under Maintenance' %}
+                            {% set website_status_icon = "glyphicon glyphicon-wrench" %}
+                            {% set website_status_class = "list-group-item-warning" %}
+                        {% endif %}
+
+                        <a href="{{ url('view_website', {'id': website.id}) }}" class="list-group-item {{ website_status_class }}">
+                            <h4 class="list-group-item-heading">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <strong>{{ website.websiteName }}</strong>
+                            </h4>
+
+                            <p class="list-group-item-text">
+                                <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
+                                Status:
+                                {{ website.status }}
+                                <span class="{{ website_status_icon }}" aria-hidden="true"></span>
+
+                                <span class="horizontal-separator">|</span>
+
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                Technology: {{ website.technology }}
+
+                                <span class="horizontal-separator">|</span>
+
+                                <span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>
+                                Hosting:
+
+                            </p>
+                        </a>
+
+                        <a href="{{ url('view_client', {'id': website.client.id}) }}" class="list-group-item">
+                            View Client: <strong>{{ website.client.name }}</strong>
+                        </a>
+
+                        <br>
+                    {% endfor %}
+                </div>
+
+            {% endif %} {# Websites End #}
+
+        {% endif %}
+
+    </div>
 </div>

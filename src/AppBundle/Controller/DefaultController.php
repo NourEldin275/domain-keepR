@@ -117,14 +117,21 @@ class DefaultController extends Controller
             ->where('domain.domain LIKE :search')
             ->setParameter('search', '%'.$search_term.'%')
             ->getQuery()
-            ->getResult(Query::HYDRATE_ARRAY);
+            ->getResult();
 
         $clients = $em->getRepository('AppBundle:Client')->createQueryBuilder('client')
             ->select('client')
             ->where('client.name LIKE :search')
             ->setParameter('search', '%'.$search_term.'%')
             ->getQuery()
-            ->getResult(Query::HYDRATE_ARRAY);
+            ->getResult();
+
+        $websites = $em->getRepository('AppBundle:Website')->createQueryBuilder('website')
+            ->select('website')
+            ->where('website.website_name like :search')
+            ->setParameter('search', '%'.$search_term.'%')
+            ->getQuery()
+            ->getResult();
 
 
         $response = new JsonResponse();
@@ -137,7 +144,13 @@ class DefaultController extends Controller
             ),
         ));
 
-        return $response;
+        //return $response;
+        return $this->render('ajax/search-result.html.twig', array(
+            'clients' => $clients,
+            'websites' => $websites,
+            'domains' => $domains,
+            'search_term' => $search_term,
+        ));
     }
 
 }

@@ -1,52 +1,64 @@
-// $(document).ready(function () {
-//
-//     // attach keyup event
-//
-//     var timer;
-//     var typingInterval = 4500;
-//
-//     $("#header-search").change(function (event) {
-//
-//         var search = $(this).val();
-//
-//         if ( search.length < 3 ){
-//             return false;
-//         }
-//
-//         clearTimeout(timer);
-//         timer = setTimeout(searchApp(search), typingInterval);
-//
-//     });
-//
-// });
-//
-// function searchApp(search){
-//
-//     var url = 'http://localhost:8000/ajax/search';
-//     $.get(
-//         url,
-//         {
-//             'term': search
-//         },
-//         function (data) {
-//             var result = '<div id="search-results">';
-//
-//             var domains = data.data.domains;
-//             var clients = data.data.clients;
-//
-//             for ( var i = 0; i < domains.length; i++ ){
-//                 result += domains[i].domain + '<br>';
-//             }
-//
-//             for ( var i = 0; i < clients.length; i++ ){
-//                 result += clients[i].name + '<br>';
-//             }
-//
-//             result += '</div>';
-//
-//             $("#header-search").after(result);
-//
-//         }
-//     );
-//
-// }
+jQuery(document).ready(function () {
+
+    // Fire Ajax call when Add client button is clicked
+    jQuery("#addClient").click(quickAddClient);
+
+    /*
+     *  Header search feature
+     */
+    var headerSearchField = '#header-search';
+
+    jQuery(headerSearchField).keyup(headerSearch);
+
+
+
+});
+
+
+function headerSearch(event) {
+
+    var modalElement = '#search-results-modal';
+    var modalBody = '#search-results-modal .modal-body';
+
+    // If the event was keyup and fields value length was more than 4 or the event was click and field value was more than 4
+    if ( event.type == 'keyup' && jQuery(this).val().length > 4 )
+    {
+
+        jQuery.ajax({
+            type: 'GET',
+            url: 'http://localhost:8000/ajax/search',
+            dataType: 'text',
+            data: {
+                term: jQuery(this).val()
+            },
+            success: function (response) {
+                jQuery(modalBody).html(response);
+                jQuery(modalElement).modal('show');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                var response = '<div class="alert alert-warning" role="alert">Something went wrong!</div>';
+
+                jQuery(modalBody).html(response);
+                jQuery(modalElement).modal('show');
+
+                setTimeout(function () {
+                   jQuery(modalElement).modal('hide');
+                }, 7000);
+            }
+        });
+
+    }
+
+}
+
+
+function quickAddClient(event) {
+    jQuery.ajax({
+        type: 'GET',
+        url: 'http://localhost:8000/ajax/add-client/',
+        success: function (response) {
+            jQuery("#add_client_modal .modal-body").html(response);
+        }
+    });
+}
