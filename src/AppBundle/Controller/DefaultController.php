@@ -102,7 +102,7 @@ class DefaultController extends Controller
 
     /**
      * @param Request $request
-     * @Route("/ajax/search")
+     * @Route("/ajax/search", name="header_ajax_search", options={"expose"=true})
      * @Method("GET")
      * @return JsonResponse
      */

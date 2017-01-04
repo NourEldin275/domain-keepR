@@ -26,7 +26,7 @@ function headerSearch(event) {
 
         jQuery.ajax({
             type: 'GET',
-            url: 'http://localhost:8000/ajax/search',
+            url: Routing.generate('header_ajax_search'),
             dataType: 'text',
             data: {
                 term: jQuery(this).val()
