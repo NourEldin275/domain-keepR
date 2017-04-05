@@ -82,6 +82,12 @@ class User implements UserInterface, \Serializable
      */
     private $last_name;
 
+    /**
+     * @var
+     * @ORM\Column(name="password_token", type="string", nullable=true)
+     */
+    private $password_token;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -341,5 +347,29 @@ class User implements UserInterface, \Serializable
     public function getLastName()
     {
         return $this->last_name;
+    }
+
+    /**
+     * Set passwordToken
+     *
+     * @param string $passwordToken
+     *
+     * @return User
+     */
+    public function setPasswordToken($passwordToken)
+    {
+        $this->password_token = $passwordToken;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordToken
+     *
+     * @return string
+     */
+    public function getPasswordToken()
+    {
+        return $this->password_token;
     }
 }

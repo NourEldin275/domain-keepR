@@ -82,6 +82,12 @@ class User implements UserInterface, \Serializable
      */
     private $last_name;
 
+    /**
+     * @var
+     * @ORM\Column(name="password_token", type="string")
+     */
+    private $password_token;
+
     public function __construct()
     {
         $this->isActive = true;
