@@ -22,7 +22,7 @@ class TokenManager implements TokenInterface
 
     public function verifyToken($token, $token_reference)
     {
-        
+
         return hash_equals($token_reference, $token);
     }
 
