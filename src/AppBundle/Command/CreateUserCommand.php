@@ -61,12 +61,6 @@ class CreateUserCommand extends ContainerAwareCommand
             $input->getArgument('password')
         ));
 
-        $output->writeln([
-            'Creating a user with the following parameters:-',
-            '===========',
-            'username: ' . $user->getUsername(),
-            'email: ' .$user->getEmail(),
-        ]);
 
 
 
