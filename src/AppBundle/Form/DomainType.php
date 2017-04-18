@@ -29,9 +29,6 @@ class DomainType extends AbstractType
                 'label' => 'Registrar',
             ))
             ->add('renewal_date', DateType::class, array('widget' => 'single_text'))
-            ->add('cp_url', TextType::class)
-            ->add('cp_username', TextType::class)
-            ->add('cp_password', TextType::class)
            // ->add('hosting_package', ChoiceType::class, array('choices' => $hosting_choices, 'label' => 'Hosting Package'))
             ->add('client', EntityType::class, array ('class' => 'AppBundle\Entity\Client', 'choice_label' => 'name'))//ChoiceType::class, array('choices' => $client_choices, 'label' => 'Choose a client', 'mapped' => false))
             ->add('notification_status', CheckboxType::class, array('label' => 'Enable Notifications', 'required' => false))

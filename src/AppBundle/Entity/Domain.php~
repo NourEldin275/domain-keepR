@@ -49,28 +49,6 @@ class Domain
 
     /**
      * @var
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Url()
-     */
-    private $cp_url;
-
-    /**
-     * @var
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
-    private $cp_username;
-
-    /**
-     * @var
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
-    private $cp_password;
-
-    /**
-     * @var
      * @ORM\Column(type="boolean")
      * 
      */
@@ -93,7 +71,7 @@ class Domain
 
     /**
      * @var
-     * @ORM\OneToOne(targetEntity="Hosting", inversedBy="domain")
+     * @ORM\OneToOne(targetEntity="Hosting", mappedBy="domain")
      *
      */
     private $hosting;
@@ -167,78 +145,6 @@ class Domain
     public function getRenewalDate()
     {
         return $this->renewal_date;
-    }
-
-    /**
-     * Set cpUrl
-     *
-     * @param string $cpUrl
-     *
-     * @return Domain
-     */
-    public function setCpUrl($cpUrl)
-    {
-        $this->cp_url = $cpUrl;
-
-        return $this;
-    }
-
-    /**
-     * Get cpUrl
-     *
-     * @return string
-     */
-    public function getCpUrl()
-    {
-        return $this->cp_url;
-    }
-
-    /**
-     * Set cpUsername
-     *
-     * @param string $cpUsername
-     *
-     * @return Domain
-     */
-    public function setCpUsername($cpUsername)
-    {
-        $this->cp_username = $cpUsername;
-
-        return $this;
-    }
-
-    /**
-     * Get cpUsername
-     *
-     * @return string
-     */
-    public function getCpUsername()
-    {
-        return $this->cp_username;
-    }
-
-    /**
-     * Set cpPassword
-     *
-     * @param string $cpPassword
-     *
-     * @return Domain
-     */
-    public function setCpPassword($cpPassword)
-    {
-        $this->cp_password = $cpPassword;
-
-        return $this;
-    }
-
-    /**
-     * Get cpPassword
-     *
-     * @return string
-     */
-    public function getCpPassword()
-    {
-        return $this->cp_password;
     }
 
     /**

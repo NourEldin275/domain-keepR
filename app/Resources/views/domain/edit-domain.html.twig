@@ -5,66 +5,7 @@
         <div class="row">
             <div class="col-xs-5">
                 <h1>Edit domain: {{ domain.domain }}</h1>
-                {{ form_start(form) }}
-
-                <div class="form-group">
-                    {{ form_label(form.domain) }}
-                    {{ form_errors(form.domain) }}
-                    {{ form_widget(form.domain, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.registrar) }}
-                    {{ form_errors(form.registrar) }}
-                    {{ form_widget(form.registrar, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.renewal_date) }}
-                    {{ form_errors(form.renewal_date) }}
-                    {{ form_widget(form.renewal_date, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.cp_url) }}
-                    {{ form_errors(form.cp_url) }}
-                    {{ form_widget(form.cp_url, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.cp_username) }}
-                    {{ form_errors(form.cp_username) }}
-                    {{ form_widget(form.cp_username, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.cp_password) }}
-                    {{ form_errors(form.cp_password) }}
-                    {{ form_widget(form.cp_password, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.client) }}
-                    {{ form_errors(form.client) }}
-                    {{ form_widget(form.client, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="checkbox">
-                    {{ form_widget(form.notification_status) }}
-                    {{ form_label(form.notification_status) }}
-                    {{ form_errors(form.notification_status) }}
-                </div>
-
-                <div class="checkbox">
-                    {{ form_widget(form.auto_renew) }}
-                    {{ form_label(form.auto_renew) }}
-                    {{ form_errors(form.auto_renew) }}
-                </div>
-
-                <div>
-                    {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}, 'label': 'Save domain'}) }}
-                </div>
-                {{ form_end(form) }}
+                {% include 'domain/domain-form.html.twig' with {'form': form} %}
             </div>
             <div class="col-xs-7"></div>
         </div>
