@@ -258,8 +258,9 @@
                                                 </ul>
                                             </div>
                                             <div class="panel-footer">
+
                                                 <div class="row">
-                                                    <div class="col-xs-5 pull-left">
+                                                    <div class="col-xs-5 pull-left small text-left">
                                                         <a href="{{ url('delete_client_contact', {'contact': contact.id}) }}" class="text-danger">
                                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                                             Delete Contact
@@ -270,15 +271,13 @@
                                                         <span class="horizontal-separator">|</span>
                                                     </div>
 
-                                                    <div class="col-xs-5 pull-right">
+                                                    <div class="col-xs-5 pull-right small text-right">
                                                         <a href="{{ url('edit_client_contact', {'id': contact.id}) }}">
                                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                                             Edit Contact
                                                         </a>
                                                     </div>
                                                 </div>
-
-
 
                                             </div>
                                         </div>
