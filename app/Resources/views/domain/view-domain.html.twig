@@ -13,73 +13,82 @@
                             <h3 class="panel-title">Domain Details</h3>
                         </div>
                         <div class="panel-body">
-                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Registrar: {{ domain.registrar.name }}
-                            <br>
-                            <br>
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Renewal Date: {{ domain.renewalDate|date("Y/M/d") }}
-                            <br>
-                            <br>
-                            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 
+                                    Registrar: <a href="{{ url('edit_registrar', {'id': domain.registrar.id}) }}">{{ domain.registrar.name }}</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                    Renewal Date: {{ domain.renewalDate|date("Y/M/d") }}
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
 
-                            {% if domain.hosting %}
-                                Hosting Package: {{ domain.hosting.package.name }}
-                            {% else %}
-                                No hosting assigned yet!
-                            {% endif %}
+                                    {% if domain.hosting %}
+                                        Hosting Package: {{ domain.hosting.package.name }}
+                                    {% else %}
+                                        No hosting assigned yet!
+                                    {% endif %}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Registrar Credentials </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                                    <a href="{{ domain.registrar.url }}">Login URL</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    Username: {{ domain.registrar.username }}
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                                    Password: {{ domain.registrar.password }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Notifications & Renewal </h3>
                         </div>
                         <div class="panel-body">
-                            {% if domain.notificationStatus  %}
-                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Notification Enabled
-                            {% else %}
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Notification Disabled
-                            {% endif %}
-                            <br>
-                            <br>
-                            {% if domain.autoRenew %}
-                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Auto Renew Enabled
-                            {% else %}
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Auto Renew Disabled
-                            {% endif %}
-                            <br>
-                            <br>
+
+                            <ul class="list-unstyled">
+                                <li>
+                                    {% if domain.notificationStatus  %}
+                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Notification Enabled
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Notification Disabled
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if domain.autoRenew %}
+                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Auto Renew Enabled
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Auto Renew Disabled
+                                    {% endif %}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Website Credentials</h3>
-                        </div>
-                        <div class="panel-body">
-                            {% if domain.notificationStatus  %}
-                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Notification Enabled
-                            {% else %}
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Notification Disabled
-                            {% endif %}
-                            <br>
-                            <br>
-                            {% if domain.autoRenew %}
-                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style=""></span> Auto Renew Enabled
-                            {% else %}
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style=""></span> Auto Renew Disabled
-                            {% endif %}
-                            <br>
-                            <br>
-                        </div>
-                    </div>
-                </div>
             </div>
+
             <div class="center-block">
                 {#<a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Renew Domain</a>#}
                 {% if not domain.autoRenew %}
@@ -96,25 +105,41 @@
             </div>
         </div>
         <div class="col-md-4">
-            <h1>Client Details</h1>
+            <h1>Client Details <a href="{{ url('view_client', {'id': domain.client.id}) }}" class="btn btn-primary">View Client</a></h1>
             <ul class="list-group">
-                <li class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ client.name }}</li>
+                <li class="list-group-item">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    {{ client.name }}
+                </li>
                 <li class="list-group-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{ client.email }}</li>
                 <li class="list-group-item"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{ client.phone }}</li>
             </ul>
             <hr>
-            <h1>Hosting Account</h1>
-            <ul class="list-group">
-                <li class="list-group-item"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>
-                    <a href="#">Login URL</a>
-                </li>
-                <li class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    Username
-                </li>
-                <li class="list-group-item"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                    Password
-                </li>
-            </ul>
+            {% if domain.hosting is not null %}
+                <h1>
+                    Hosting Account
+                    <a href="{{ url('view_hosting', {'hosting': domain.hosting.id}) }}" class="btn btn-primary">
+                        View Host
+                    </a>
+                </h1>
+                <ul class="list-group">
+                    <li class="list-group-item"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        Hosting Renewal: {{ domain.hosting.renewalDate|date("Y/M/d") }}
+                    </li>
+                    <li class="list-group-item"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>
+                        {{ domain.hosting.package.space }} GB
+                    </li>
+                    <li class="list-group-item"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        Password
+                    </li>
+                </ul>
+            {% else %}
+                <h1>
+                    No Hosting Assigned
+                    <a href="{{ url('add_new_hosting') }}" class="btn btn-primary">Add Hosting Now</a>
+                </h1>
+            {% endif %}
+
         </div>
         <div class="col-md-1">
             <!-- Modal -->
