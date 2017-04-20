@@ -9,43 +9,7 @@
         <div class="col-md-5">
             <h1>Edit Registrar: {{ registrar.name }}</h1>
 
-            {{ form_start(form) }}
-
-            <div class="form-group">
-                {{ form_label(form.name, 'Registrar Name') }}
-                {{ form_errors(form.name) }}
-                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.url) }}
-                {{ form_errors(form.url) }}
-                {{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.username) }}
-                {{ form_errors(form.username) }}
-                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.email) }}
-                {{ form_errors(form.email) }}
-                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.password) }}
-                {{ form_errors(form.password) }}
-                {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
-            </div>
-
-            <div>
-                {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
-            </div>
-
-            {{ form_end(form) }}
+            {% include 'registrar/registrar-form.html.twig' with {'form': form} %}
 
         </div>
 

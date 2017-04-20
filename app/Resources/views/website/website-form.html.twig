@@ -1,0 +1,43 @@
+{{ form_start(form) }}
+
+<div class="form-group">
+    {{ form_label(form.websiteName) }}
+    {{ form_errors(form.websiteName) }}
+    {{ form_widget(form.websiteName, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.url) }}
+    {{ form_errors(form.url) }}
+    {{ form_widget(form.url, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.developmentUrl) }}
+    {{ form_errors(form.developmentUrl) }}
+    {{ form_widget(form.developmentUrl, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.technology) }}
+    {{ form_errors(form.technology) }}
+    {{ form_widget(form.technology, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.status) }}
+    {{ form_errors(form.status) }}
+    {{ form_widget(form.status, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.client) }}
+    {{ form_errors(form.client) }}
+    {{ form_widget(form.client, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="">
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+</div>
+
+{{ form_end(form) }}

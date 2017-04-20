@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+
+<div class="form-group">
+    {{ form_label(form.domain, 'Domain') }}
+    {{ form_errors(form.domain) }}
+    {{ form_widget(form.domain, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.package) }}
+    {{ form_errors(form.package) }}
+    {{ form_widget(form.package, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.renewalDate) }}
+    {{ form_errors(form.renewalDate) }}
+    {{ form_widget(form.renewalDate, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.creationDate) }}
+    {{ form_errors(form.creationDate) }}
+    {{ form_widget(form.creationDate, {'attr': {'class': 'form-control'} }) }}
+</div>
+
+<div class="checkbox">
+    {{ form_widget(form.status, {'attr': {'checked': 'true'}}) }}
+    {{ form_label(form.status) }}
+    {{ form_errors(form.status) }}
+</div>
+
+<div class="">
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+</div>
+
+{{ form_end(form) }}
