@@ -4,8 +4,13 @@
     {% block body %}
 
         <div class="row">
-            <div class="col-xs-3"><h1> <span class="glyphicon glyphicon-user big-glyphicon"></span> All Clients</h1></div>
-            <div class="col-xs-2"><a class="btn btn-default" href="{{ path('add_new_client') }}" role="button">Add new</a></div>
+            <div class="col-xs-5">
+                <h1>
+                    <span class="glyphicon glyphicon-user big-glyphicon"></span> All Clients
+                    <a class="btn btn-info" href="{{ path('add_new_client') }}" role="button">Add new</a>
+                </h1>
+            </div>
+
             <div class="col-xs-7"></div>
         </div>
 
@@ -17,8 +22,7 @@
                 <th>Client Name</th>
                 <th>Email</th>
                 <th>Phone </th>
-                <th>Domains</th>
-                <th>Notification</th>
+                <th>Services</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,9 +32,61 @@
                     <td>{{ client.name }}</td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
-                    <td><a href="{{ path('view_client', {'id': client.id}) }}" role="button" class="btn btn-info"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  View <span class="badge">{{ client.domains.count }}</span></a></td>
-                    <td></td>
-                    <td><a href="{{ url('edit_client', {'id': client.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a></td>
+                    <td>
+                        <ul class="list-inline">
+
+                            {% if client.domains.count > 0 %}
+                                <li>
+                                    <span class="glyphicon glyphicon-globe med-glyphicon"
+                                          aria-hidden="true"
+                                          data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Domains {{ client.domains.count }}">
+
+                                    </span>
+                                </li>
+                            {% endif %}
+
+                            {% if client.hosting.count > 0 %}
+                                <li>
+                                    <span class="glyphicon glyphicon-tasks med-glyphicon"
+                                          aria-hidden="true"
+                                          data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Hosts {{ client.hosting.count }}">
+
+                                    </span>
+                                </li>
+                            {% endif %}
+
+                            {% if client.websites.count > 0 %}
+                                <li>
+                                    <span class="glyphicon glyphicon-cloud med-glyphicon"
+                                          aria-hidden="true"
+                                          data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Websites {{ client.websites.count }}">
+
+                                    </span>
+                                </li>
+                            {% endif %}
+
+                            {% if client.domains.count < 1 and client.websites.count < 1 and client.hosting.count < 1 %}
+                                <li>N/a</li>
+                            {% endif %}
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="{{ path('view_client', {'id': client.id}) }}" role="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  View
+                            </span>
+                        </a>
+                        <a href="{{ url('edit_client', {'id': client.id}) }}" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true">
+
+                        </span> Edit
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </table>
