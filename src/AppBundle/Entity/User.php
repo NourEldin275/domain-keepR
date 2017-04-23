@@ -88,6 +88,12 @@ class User implements UserInterface, \Serializable
      */
     private $password_token;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="created_by")
+     */
+    private $issues_created;
+
     public function __construct()
     {
         $this->isActive = true;

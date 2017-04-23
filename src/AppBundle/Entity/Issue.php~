@@ -1,0 +1,93 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: noureldin
+ * Date: 4/23/17
+ * Time: 11:38 AM
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\Orm\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+/**
+ * Class Issue
+ * @package AppBundle\Entity
+ * @ORM\Entity
+ * @ORM\Table(name="issues")
+ *
+ */
+class Issue
+{
+    /**
+     * @var
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+
+    /**
+     * Holds reference to the ticket identifier in the service's support system.
+     * @var
+     * @ORM\Column(type="string", nullable=TRUE)
+     */
+    private $ticket_reference;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Choice(choices={"Open", "On Hold", "Solved", "Closed"})
+     */
+    private $status;
+
+
+    /**
+     * Date created on service's support system.
+     * @var
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     */
+    private $date_created;
+
+
+    /**
+     * User who created the issue on domain keeper.
+     * @var
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="issues_created")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     */
+    private $created_by;
+
+
+    /**
+     * Issue creation date on domain keeper.
+     * @var
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     */
+    private $issue_creation_date;
+
+
+    /**
+     * Date the issue is modified at on domain keeper.
+     * @var
+     * @ORM\Column(type="datetime")
+     */
+    private $modified_at;
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime() {
+        // update the modified time
+        //$this->setModified(new \DateTime());
+    }
+
+}
