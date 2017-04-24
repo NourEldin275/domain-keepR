@@ -96,8 +96,8 @@ class Issue
 
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate
+     * ORM\PrePersist
+     * ORM\PreUpdate
      */
     public function updateModifiedDatetime() {
         // update the modified time
