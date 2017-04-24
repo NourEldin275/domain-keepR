@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package AppBundle\Entity
  * @ORM\Entity
  * @ORM\Table(name="issues")
- * @Doctrine\ORM\Mapping\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  */
 class Issue
 {
@@ -95,14 +95,14 @@ class Issue
     }
 
 
-    /*
-     * @ORM\PrePersist
+    /**
+     * @ORM\PrePersist()
      * @ORM\PreUpdate
-
+     */
     public function updateModifiedDatetime() {
         // update the modified time
         $this->setModifiedAt(new \DateTime());
-    }*/
+    }
 
     /**
      * Get id
