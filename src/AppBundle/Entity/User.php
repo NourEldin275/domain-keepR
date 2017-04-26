@@ -378,4 +378,38 @@ class User implements UserInterface, \Serializable
     {
         return $this->password_token;
     }
+
+    /**
+     * Add issuesCreated
+     *
+     * @param \AppBundle\Entity\Issue $issuesCreated
+     *
+     * @return User
+     */
+    public function addIssuesCreated(\AppBundle\Entity\Issue $issuesCreated)
+    {
+        $this->issues_created[] = $issuesCreated;
+
+        return $this;
+    }
+
+    /**
+     * Remove issuesCreated
+     *
+     * @param \AppBundle\Entity\Issue $issuesCreated
+     */
+    public function removeIssuesCreated(\AppBundle\Entity\Issue $issuesCreated)
+    {
+        $this->issues_created->removeElement($issuesCreated);
+    }
+
+    /**
+     * Get issuesCreated
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIssuesCreated()
+    {
+        return $this->issues_created;
+    }
 }

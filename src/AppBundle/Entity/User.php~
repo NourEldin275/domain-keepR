@@ -84,9 +84,15 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var
-     * @ORM\Column(name="password_token", type="string")
+     * @ORM\Column(name="password_token", type="string", nullable=true)
      */
     private $password_token;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="created_by")
+     */
+    private $issues_created;
 
     public function __construct()
     {
@@ -347,5 +353,29 @@ class User implements UserInterface, \Serializable
     public function getLastName()
     {
         return $this->last_name;
+    }
+
+    /**
+     * Set passwordToken
+     *
+     * @param string $passwordToken
+     *
+     * @return User
+     */
+    public function setPasswordToken($passwordToken)
+    {
+        $this->password_token = $passwordToken;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordToken
+     *
+     * @return string
+     */
+    public function getPasswordToken()
+    {
+        return $this->password_token;
     }
 }

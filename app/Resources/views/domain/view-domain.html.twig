@@ -87,6 +87,39 @@
                     </div>
                 </div>
 
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Issues <span class="badge">{{ domain.issues.count }}</span></h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                    Solved:
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                    In Progress:
+                                </li>
+                                <li>
+                                    <a href="{{ url('add_domain_issue', {'domain': domain.id}) }}"
+                                       class="btn btn-primary btn-xs">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        Add New</a>
+
+                                    <a href="#"
+                                       class="btn btn-info btn-xs">
+                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                        View All</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="center-block">

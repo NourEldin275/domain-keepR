@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Issue For Domain: {{ domain.domain }}{% endblock %}
+
+{% block body %}
+    <div class="col-md-7">
+        <h1>Add Issue for Domain: {{ domain.domain }}</h1>
+        {% include 'issue/forms/domain-issue-form.html.twig' with {'form': form} %}
+    </div>
+    <div class="col-md-5"></div>
+{% endblock %}

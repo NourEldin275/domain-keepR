@@ -90,6 +90,12 @@ class Domain
     private $auto_renew;
 
     /**
+     * @var
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="domains")
+     */
+    private $issues;
+
+    /**
      * Get id
      *
      * @return integer

@@ -161,7 +161,7 @@ class DomainController extends Controller
         // processing form submission
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ( $form->isSubmitted() && $form->isValid()) {
 
             // data is an array with "period" key
             $data = $form->getData();

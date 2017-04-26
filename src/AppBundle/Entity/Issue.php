@@ -83,6 +83,13 @@ class Issue
 
 
     /**
+     * @var
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="issues")
+     * @ORM\JoinTable(name="domain_issues")
+     */
+    private $domains;
+
+    /**
      * Issue constructor.
      */
     public function __construct()
@@ -256,5 +263,39 @@ class Issue
     public function getCreatedBy()
     {
         return $this->created_by;
+    }
+
+    /**
+     * Add domain
+     *
+     * @param \AppBundle\Entity\Domain $domain
+     *
+     * @return Issue
+     */
+    public function addDomain(\AppBundle\Entity\Domain $domain)
+    {
+        $this->domains[] = $domain;
+
+        return $this;
+    }
+
+    /**
+     * Remove domain
+     *
+     * @param \AppBundle\Entity\Domain $domain
+     */
+    public function removeDomain(\AppBundle\Entity\Domain $domain)
+    {
+        $this->domains->removeElement($domain);
+    }
+
+    /**
+     * Get domains
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDomains()
+    {
+        return $this->domains;
     }
 }

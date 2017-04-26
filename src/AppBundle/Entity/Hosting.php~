@@ -37,7 +37,6 @@ class Hosting
     /**
      * @var
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank()
      */
     private $status;
 
@@ -75,7 +74,7 @@ class Hosting
 
     /**
      * @var
-     * @ORM\OneToOne(targetEntity="Domain", mappedBy="hosting")
+     * @ORM\OneToOne(targetEntity="Domain", inversedBy="hosting")
      */
     private $domain;
 
@@ -119,7 +118,7 @@ class Hosting
      *
      * @return Hosting
      */
-    public function setStatus($status)
+    public function setStatus($status = false)
     {
         $this->status = $status;
     
@@ -145,7 +144,7 @@ class Hosting
      */
     public function setRenewalDate($renewalDate)
     {
-        $this->renewal_date = $renewalDate;
+        $this->renewal_date = clone $renewalDate;
     
         return $this;
     }
@@ -193,7 +192,7 @@ class Hosting
      */
     public function setCreationDate($creationDate)
     {
-        $this->creation_date = $creationDate;
+        $this->creation_date = clone $creationDate;
     
         return $this;
     }
@@ -242,7 +241,10 @@ class Hosting
     public function setDomain(\AppBundle\Entity\Domain $domain = null)
     {
         $this->domain = $domain;
-    
+
+        $this->setName($domain->getDomain());
+        $this->setClient($domain->getClient());
+
         return $this;
     }
 
@@ -312,5 +314,29 @@ class Hosting
     public function getPackage()
     {
         return $this->package;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Hosting
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

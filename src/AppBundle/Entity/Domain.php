@@ -90,6 +90,12 @@ class Domain
     private $auto_renew;
 
     /**
+     * @var
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="domains")
+     */
+    private $issues;
+
+    /**
      * Get id
      *
      * @return integer
@@ -315,5 +321,46 @@ class Domain
     public function getHosting()
     {
         return $this->hosting;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->issues = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add issue
+     *
+     * @param \AppBundle\Entity\Issue $issue
+     *
+     * @return Domain
+     */
+    public function addIssue(\AppBundle\Entity\Issue $issue)
+    {
+        $this->issues[] = $issue;
+
+        return $this;
+    }
+
+    /**
+     * Remove issue
+     *
+     * @param \AppBundle\Entity\Issue $issue
+     */
+    public function removeIssue(\AppBundle\Entity\Issue $issue)
+    {
+        $this->issues->removeElement($issue);
+    }
+
+    /**
+     * Get issues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIssues()
+    {
+        return $this->issues;
     }
 }
