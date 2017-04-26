@@ -1,0 +1,19 @@
+{
+  "name": "domain-keepR",
+  "homepage": "https://github.com/NourEldin275/domain-keepR",
+  "authors": [
+    "NourEldin <noureldin.ali.m@gmail.com>"
+  ],
+  "description": "A tool to help manage domains, websites, hosting.",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor/",
+    "test",
+    "tests"
+  ]
+}

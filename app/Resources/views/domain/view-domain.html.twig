@@ -94,27 +94,68 @@
                         </div>
                         <div class="panel-body">
 
-                            <ul class="list-unstyled">
-                                <li>
-                                    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-                                    Solved:
-                                </li>
-                                <li>
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                                    In Progress:
-                                </li>
-                                <li>
-                                    <a href="{{ url('add_domain_issue', {'domain': domain.id}) }}"
-                                       class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                        Add New</a>
+                            {% set solved_count, onHold_count, open_count, closed_count = 0,0,0,0 %}
 
-                                    <a href="#"
-                                       class="btn btn-info btn-xs">
-                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                                        View All</a>
-                                </li>
-                            </ul>
+                            {% for issue in domain.issues %}
+                                {% if issue.status == 'Solved' %}
+                                    {% set solved_count = solved_count + 1 %}
+                                {% elseif issue.status == 'On Hold' %}
+                                    {% set onHold_count = onHold_count + 1 %}
+                                {% elseif issue.status == 'Closed'  %}
+                                    {% set closed_count = closed_count + 1 %}
+                                {% elseif issue.status == 'Open' %}
+                                    {% set open_count = open_count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <div class="col-md-8">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                        Solved:
+
+                                        <a href="#" class="btn btn-success btn-xs" data-toggle="tooltip"
+                                           data-placement="top" title="Solved Issues">
+                                            <span class="">{{ solved_count }}</span>
+                                        </a>
+
+
+                                    </li>
+                                    <li>
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                        In Progress:
+                                        <a href="#" class="btn btn-danger btn-xs" data-toggle="tooltip"
+                                           data-placement="top" title="Open Issues">
+                                            <span class="">{{ open_count }}</span>
+                                        </a>
+
+                                        <a href="#" class="btn btn-warning btn-xs" data-toggle="tooltip"
+                                           data-placement="top" title="On Hold Issues">
+                                            <span class="">{{ onHold_count }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        Closed:
+                                        <a href="#" class="btn btn-muted btn-xs" data-toggle="tooltip"
+                                           data-placement="top" title="Closed Issues">
+                                            <span class="">{{ closed_count }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{{ url('add_domain_issue', {'domain': domain.id}) }}"
+                                   class="btn btn-primary btn-xs">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    Add New</a>
+                                <div style="height: 10px;"></div>
+                                <a href="#"
+                                   class="btn btn-info btn-xs">
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                    View All</a>
+                            </div>
+
                         </div>
                     </div>
 

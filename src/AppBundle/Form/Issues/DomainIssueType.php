@@ -22,7 +22,10 @@ class DomainIssueType extends AbstractType
                 'choices' => $status_choices,
                 'label' => 'Issue Status',
             ))
-            ->add('dateCreated', TextType::class)
+            ->add('dateCreated', DateTimeType::class, array(
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+            ))
             ->add('save', SubmitType::class)
             ->getForm();
     }
@@ -31,7 +34,12 @@ class DomainIssueType extends AbstractType
     {
         $resolver->setDefaults( array(
             'data_class' => 'AppBundle\Entity\Issue',
-            'status' => null,
+            'status' => array(
+                'Open' => 'Open',
+                'On Hold' => 'On Hold',
+                'Solved' => 'Solved',
+                'Closed' => 'Closed',
+            ),
         ) );
     }
 
