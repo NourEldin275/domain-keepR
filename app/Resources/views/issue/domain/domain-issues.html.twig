@@ -6,45 +6,49 @@
     <div class="col-md-12">
         <h1>
             <span class="glyphicon glyphicon-globe med-glyphicon" aria-hidden="true"></span>
-            {{ domain.domain }} Issues
+            {{ domain.domain }} <i>{{ app.request.get('filter') }}</i> Issues
         </h1>
     </div>
     <div class="col-md-8">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Ticket Reference</th>
-                    <th>Date Created</th>
-                    <th>Status</th>
-                    <th>Last Updated</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for issue in issues %}
+        {% if issues is not empty %}
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ issue.ticketReference }}</td>
-                        <td>{{ issue.dateCreated|date }}</td>
-                        <td>{{ issue.status }}</td>
-                        <td>{{ issue.modifiedAt|date }}</td>
-                        <td>
-                            <a href="{{ url('add_issue_log', {'issue': issue.id}) }}" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                                View Log
-                                <span class="badge">{{ issue.logs|length }}</span>
-                            </a>
-                            <a href="#" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                Delete Issue
-                            </a>
-                        </td>
+                        <th>#</th>
+                        <th>Ticket Reference</th>
+                        <th>Date Created</th>
+                        <th>Status</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    {% for issue in issues %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ issue.ticketReference }}</td>
+                            <td>{{ issue.dateCreated|date }}</td>
+                            <td>{{ issue.status }}</td>
+                            <td>{{ issue.modifiedAt|date }}</td>
+                            <td>
+                                <a href="{{ url('add_issue_log', {'issue': issue.id}) }}" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                                    View Log
+                                    <span class="badge">{{ issue.logs|length }}</span>
+                                </a>
+                                <a href="#" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    Delete Issue
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info" role="alert">No Issues found</div>
+        {% endif %}
     </div>
     <div class="col-md-4">
         <div class="panel panel-primary">

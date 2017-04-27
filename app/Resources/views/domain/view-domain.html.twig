@@ -114,7 +114,7 @@
                                         <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                                         Solved:
 
-                                        <a href="#" class="btn btn-success btn-xs" data-toggle="tooltip"
+                                        <a href="{{ url('view_all_domain_issues', {'domain': domain.id, 'filter': 'solved'}) }}" class="btn btn-success btn-xs" data-toggle="tooltip"
                                            data-placement="top" title="Solved Issues">
                                             <span class="">{{ solved_count }}</span>
                                         </a>
@@ -124,12 +124,12 @@
                                     <li>
                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                                         In Progress:
-                                        <a href="#" class="btn btn-danger btn-xs" data-toggle="tooltip"
+                                        <a href="{{ url('view_all_domain_issues', {'domain': domain.id, 'filter': 'open'}) }}" class="btn btn-danger btn-xs" data-toggle="tooltip"
                                            data-placement="top" title="Open Issues">
                                             <span class="">{{ open_count }}</span>
                                         </a>
 
-                                        <a href="#" class="btn btn-warning btn-xs" data-toggle="tooltip"
+                                        <a href="{{ url('view_all_domain_issues', {'domain': domain.id, 'filter': 'on hold'}) }}" class="btn btn-warning btn-xs" data-toggle="tooltip"
                                            data-placement="top" title="On Hold Issues">
                                             <span class="">{{ onHold_count }}</span>
                                         </a>
@@ -137,7 +137,7 @@
                                     <li>
                                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                                         Closed:
-                                        <a href="#" class="btn btn-muted btn-xs" data-toggle="tooltip"
+                                        <a href="{{ url('view_all_domain_issues', {'domain': domain.id, 'filter': 'closed'}) }}" class="btn btn-muted btn-xs" data-toggle="tooltip"
                                            data-placement="top" title="Closed Issues">
                                             <span class="">{{ closed_count }}</span>
                                         </a>

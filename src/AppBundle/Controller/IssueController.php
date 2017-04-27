@@ -64,17 +64,64 @@ class IssueController extends Controller
 
 
     /**
-     * @Route("/issues/view-domain/{domain}/", name="view_all_domain_issues")
+     * @Route("/issues/view-domain/{domain}/status={filter}", name="view_all_domain_issues")
      * @param Domain $domain
+     * @param $filter
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewDomainIssuesAction(Domain $domain){
+    public function viewDomainIssuesAction(Domain $domain, $filter="all"){
 
         if (!$domain){
             throw $this->createNotFoundException('Could not load domain issues. Domain not found.');
         }
 
         $issues = $domain->getIssues();
+        $em = $this->getDoctrine()->getManager();
+        if ( $filter == 'open'){
+
+            $parameters = array(
+                'status' => 'open',
+                'domain_id' => $domain->getId(),
+            );
+
+            $query = $em->createQuery(
+                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
+                 ORDER BY i.modified_at')->setParameters($parameters);
+            $issues = $query->getResult();
+        }
+        elseif ( $filter == 'closed' ){
+            $parameters = array(
+                'status' => 'closed',
+                'domain_id' => $domain->getId(),
+            );
+
+            $query = $em->createQuery(
+                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
+                 ORDER BY i.modified_at')->setParameters($parameters);
+            $issues = $query->getResult();
+        }
+        elseif ( $filter == 'on hold' ){
+            $parameters = array(
+                'status' => 'on hold',
+                'domain_id' => $domain->getId(),
+            );
+
+            $query = $em->createQuery(
+                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
+                 ORDER BY i.modified_at')->setParameters($parameters);
+            $issues = $query->getResult();
+        }
+        elseif ( $filter == 'solved' ){
+            $parameters = array(
+                'status' => 'solved',
+                'domain_id' => $domain->getId(),
+            );
+
+            $query = $em->createQuery(
+                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
+                 ORDER BY i.modified_at')->setParameters($parameters);
+            $issues = $query->getResult();
+        }
 
         return $this->render('issue/domain/domain-issues.html.twig', array(
             'domain' => $domain,
