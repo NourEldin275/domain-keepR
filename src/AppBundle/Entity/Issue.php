@@ -8,7 +8,7 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Orm\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -35,7 +35,7 @@ class Issue
      * @var
      * @ORM\Column(type="string", nullable=TRUE)
      */
-    private $ticket_reference;
+    private $ticket_reference = "N/a";
 
 
     /**
@@ -81,13 +81,19 @@ class Issue
      */
     private $modified_at;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\IssueLog", mappedBy="issue")
+     */
+    private $logs;
+
 
     /**
      * @var
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Domain", inversedBy="issues")
-     * @ORM\JoinTable(name="domain_issues")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Domain", inversedBy="issues")
+     * @ORM\JoinColumn(name="domain", onDelete="CASCADE")
      */
-    private $domains;
+    private $domain;
 
     /**
      * Issue constructor.
@@ -103,8 +109,8 @@ class Issue
 
 
     /**
-     * ORM\PrePersist
-     * ORM\PreUpdate
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function updateModifiedDatetime() {
         // update the modified time
@@ -266,36 +272,61 @@ class Issue
     }
 
     /**
-     * Add domain
+     * Add log
      *
-     * @param \AppBundle\Entity\Domain $domain
+     * @param \AppBundle\Entity\IssueLog $log
      *
      * @return Issue
      */
-    public function addDomain(\AppBundle\Entity\Domain $domain)
+    public function addLog(\AppBundle\Entity\IssueLog $log)
     {
-        $this->domains[] = $domain;
+        $this->logs[] = $log;
 
         return $this;
     }
 
     /**
-     * Remove domain
+     * Remove log
      *
-     * @param \AppBundle\Entity\Domain $domain
+     * @param \AppBundle\Entity\IssueLog $log
      */
-    public function removeDomain(\AppBundle\Entity\Domain $domain)
+    public function removeLog(\AppBundle\Entity\IssueLog $log)
     {
-        $this->domains->removeElement($domain);
+        $this->logs->removeElement($log);
     }
 
     /**
-     * Get domains
+     * Get logs
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDomains()
+    public function getLogs()
     {
-        return $this->domains;
+        return $this->logs;
+    }
+
+
+    /**
+     * Set domain
+     *
+     * @param \AppBundle\Entity\Domain $domain
+     *
+     * @return Issue
+     */
+    public function setDomain(\AppBundle\Entity\Domain $domain = null)
+    {
+        $this->domain = $domain;
+
+        return $this;
+    }
+
+    /**
+     * Get domain
+     *
+     * @return \AppBundle\Entity\Domain
+     */
+    public function getDomain()
+    {
+        return $this->domain;
     }
 }

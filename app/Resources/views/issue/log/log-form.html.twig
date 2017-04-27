@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        {{ form_errors(form.logMessage) }}
+        {{ form_widget(form.logMessage, {'attr': {'class': 'form-control', 'placeholder': 'Add your message here.' }}) }}
+    </div>
+
+    <div>
+        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}}) }}
+    </div>
+{{ form_end(form) }}

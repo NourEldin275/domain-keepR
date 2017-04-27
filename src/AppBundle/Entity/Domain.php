@@ -91,7 +91,7 @@ class Domain
 
     /**
      * @var
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="domains")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="domain")
      */
     private $issues;
 

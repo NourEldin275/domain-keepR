@@ -32,7 +32,7 @@ class IssueController extends Controller
         );
 
         $issue = new Issue();
-        $issue->addDomain($domain);
+        $issue->setDomain($domain);
 
         $form = $this->createForm(DomainIssueType::class, $issue, array(
             'status' => $issue_status_choices,
@@ -40,6 +40,9 @@ class IssueController extends Controller
 
         $form->handleRequest($request);
         if ( $form->isSubmitted() && $form->isValid() ){
+
+            $usr = $this->get('security.token_storage')->getToken()->getUser();
+            $issue->setCreatedBy($usr);
 
             $em = $this->getDoctrine()->getManager();
 
@@ -49,11 +52,33 @@ class IssueController extends Controller
 
             $this->addFlash('notice', 'A new issue has been added for the domain: '.$domain->getDomain());
 
+            //Redirect to issue log
+            return $this->redirectToRoute('add_issue_log', array('issue' => $issue->getId()));
         }
 
         return $this->render('issue/add-domain-issue.html.twig', array(
             'form' => $form->createView(),
             'domain' => $domain,
+        ));
+    }
+
+
+    /**
+     * @Route("/issues/view-domain/{domain}/", name="view_all_service_issues")
+     * @param Domain $domain
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function viewServiceIssuesAction(Domain $domain){
+
+        if (!$domain){
+            throw $this->createNotFoundException('Could not load domain issues. Domain not found.');
+        }
+
+        $issues = $domain->getIssues();
+
+        return $this->render('issue/domain/domain-issues.html.twig', array(
+            'domain' => $domain,
+            'issues' => $issues,
         ));
     }
 }

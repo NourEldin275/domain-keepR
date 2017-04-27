@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Log{% endblock %}
+
+{% block body %}
+    <div class="col-md-7">
+        <h1>
+            Logs
+            <span class="glyphicon glyphicon-comment med-glyphicon" aria-hidden="true"></span>
+        </h1>
+
+        {% if issue.logs is empty %}
+            <div class="alert alert-info" role="alert">No logs yet for this issue</div>
+        {% else %}
+            {% for log in issue.logs %}
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" role="tab" id="log-{{ log.id }}-heading">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#log-{{ log.id }}" aria-expanded="true" aria-controls="log-{{ log.id }}">
+                                    <strong>Log #{{ loop.index }}</strong> - {{ log.logDate|date }}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="log-{{ log.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="log-{{ log.id }}-heading">
+                            <div class="panel-body">
+                                {{ log.logMessage}}
+                            </div>
+
+                            <div class="panel-footer">
+                                <a href="{{ url('delete_issue_log', {'log': log.id}) }}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% include 'issue/log/log-form.html.twig' with {'form': form} %}
+    </div>
+    <div class="col-md-4">
+        <h1>
+            {% if issue.domain is not null %}
+                {{ issue.domain.domain }} Domain
+            {% endif %}
+        </h1>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Issue Summary</strong>
+            </div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li>
+                        <h4>
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        Ticket Reference: {{ issue.ticketReference }}
+                        </h4>
+                    </li>
+                    <li>
+                        <h4>
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                        Ticket Date: {{ issue.dateCreated|date }}
+                        </h4>
+                    </li>
+                    <li>
+                        <h4>
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        Created By: {{ issue.createdBy.username }}
+                        </h4>
+                    </li>
+                    <li>
+                        <h4>
+                        {% set status_icon = 'glyphicon glyphicon-exclamation-sign' %}
+                        {% if issue.status == 'On Hold' %}
+                            {% set status_icon = 'glyphicon glyphicon-exclamation-sign' %}
+                        {% elseif issue.status == 'Solved' %}
+                            {% set status_icon = 'glyphicon glyphicon-ok-sign' %}
+                        {% elseif issue.status == 'Open' %}
+                            {% set status_icon = 'glyphicon glyphicon-warning-sign' %}
+                        {% elseif issue.status == 'Closed' %}
+                            {% set status_icon = 'glyphicon glyphicon-ban-circle' %}
+                        {% endif %}
+                        <span class="{{ status_icon }}" aria-hidden="true"></span>
+                        Status: {{ issue.status }}
+                        </h4>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">Last updated: {{ issue.modifiedAt|date }}</div>
+        </div>
+        {% if issue.domain is not null %}
+            <a href="{{ url('view_domain', {'id': issue.domain.id}) }}" class="btn btn-primary">View Domain</a>
+        {% endif %}
+        <a href="#" class="btn btn-warning">Edit Issue</a>
+        <a href="#" class="btn btn-danger">Delete Issue</a>
+    </div>
+{% endblock %}
