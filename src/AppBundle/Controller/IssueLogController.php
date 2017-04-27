@@ -40,6 +40,7 @@ class IssueLogController extends Controller
             $em->flush();
 
             $this->addFlash('notice', 'Log is saved successfully.');
+            return $this->redirectToRoute('add_issue_log', array('issue' => $issue->getId()));
 
         }
 
@@ -51,7 +52,7 @@ class IssueLogController extends Controller
 
 
     /**
-     * @Route("/issue/deleted-log-{log}/", name="delete_issue_log")
+     * @Route("/issue/delete-log-{log}/", name="delete_issue_log")
      * @param IssueLog $log
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

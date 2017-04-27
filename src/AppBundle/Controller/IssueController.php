@@ -64,11 +64,11 @@ class IssueController extends Controller
 
 
     /**
-     * @Route("/issues/view-domain/{domain}/", name="view_all_service_issues")
+     * @Route("/issues/view-domain/{domain}/", name="view_all_domain_issues")
      * @param Domain $domain
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewServiceIssuesAction(Domain $domain){
+    public function viewDomainIssuesAction(Domain $domain){
 
         if (!$domain){
             throw $this->createNotFoundException('Could not load domain issues. Domain not found.');
