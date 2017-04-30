@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hosting Issues{% endblock %}
+
+{% block body %}
+    <div class="col-md-12">
+        <h1>
+            <span class="glyphicon glyphicon-globe med-glyphicon" aria-hidden="true"></span>
+            {{ hosting.domain.domain }} Hosting <i>{{ app.request.get('filter') }}</i> Issues
+        </h1>
+    </div>
+    <div class="col-md-8">
+        {% if issues is not empty %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ticket Reference</th>
+                    <th>Date Created</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for issue in issues %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ issue.ticketReference }}</td>
+                        <td>{{ issue.dateCreated|date }}</td>
+                        <td>{{ issue.status }}</td>
+                        <td>{{ issue.modifiedAt|date }}</td>
+                        <td>
+                            <a href="{{ url('add_issue_log', {'issue': issue.id}) }}" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                                View Log
+                                <span class="badge">{{ issue.logs|length }}</span>
+                            </a>
+                            <a href="{{ url('delete_issue', {'issue': issue.id}) }}" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                Delete Issue
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info" role="alert">No Issues found</div>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Hosting Summary</div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li>
+                        <h4>
+                            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                            {{ hosting.domain.domain }}
+                        </h4>
+                    </li>
+                    <li>
+                        <h4>
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            {{ hosting.renewalDate|date('Y/m/d') }}
+                        </h4>
+                    </li>
+                    <li>
+                        <h4>
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            {{ hosting.client.name }}
+                        </h4>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <a href="{{ url('add_hosting_issue', {'hosting': hosting.id}) }}" class="btn btn-info">Add New Issue</a>
+                <a href="{{ url('view_hosting', {'hosting': hosting.id}) }}" class="btn btn-info">View Hosting</a>
+                <a href="{{ url('view_client', {'id': hosting.client.id}) }}" class="btn btn-info">View Client</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

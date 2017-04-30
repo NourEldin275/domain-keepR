@@ -83,7 +83,84 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Issues">
-                        <h3>Issues</h3>
+                        <h3>
+                            Issues <span class="badge">{{ hosting.issues.count }}</span>
+                            <a href="{{ url('add_hosting_issue', {'hosting': hosting.id}) }}" class="btn btn-primary">
+                                Add Issue
+                            </a>
+                        </h3>
+
+                        {% if hosting.issues is empty %}
+                            <div class="alert alert-info" role="alert">No issues for this hosting account.</div>
+                        {% else %}
+
+                            {% set solved_count, onHold_count, open_count, closed_count = 0,0,0,0 %}
+
+                            {% for issue in hosting.issues %}
+                                {% if issue.status == 'Solved' %}
+                                    {% set solved_count = solved_count + 1 %}
+                                {% elseif issue.status == 'On Hold' %}
+                                    {% set onHold_count = onHold_count + 1 %}
+                                {% elseif issue.status == 'Closed'  %}
+                                    {% set closed_count = closed_count + 1 %}
+                                {% elseif issue.status == 'Open' %}
+                                    {% set open_count = open_count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                    Hosting Issues
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-8">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                                Solved:
+
+                                                <a href="{{ url('view_all_hosting_issues', {'hosting': hosting.id, 'filter': 'solved'}) }}" class="btn btn-success btn-xs" data-toggle="tooltip"
+                                                   data-placement="top" title="Solved Issues">
+                                                    <span class="">{{ solved_count }}</span>
+                                                </a>
+
+
+                                            </li>
+                                            <li>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                                In Progress:
+                                                <a href="{{ url('view_all_hosting_issues', {'hosting': hosting.id, 'filter': 'open'}) }}" class="btn btn-danger btn-xs" data-toggle="tooltip"
+                                                   data-placement="top" title="Open Issues">
+                                                    <span class="">{{ open_count }}</span>
+                                                </a>
+
+                                                <a href="{{ url('view_all_hosting_issues', {'hosting': hosting.id, 'filter': 'on hold'}) }}" class="btn btn-warning btn-xs" data-toggle="tooltip"
+                                                   data-placement="top" title="On Hold Issues">
+                                                    <span class="">{{ onHold_count }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                Closed:
+                                                <a href="{{ url('view_all_hosting_issues', {'hosting': hosting.id, 'filter': 'closed'}) }}" class="btn btn-muted btn-xs" data-toggle="tooltip"
+                                                   data-placement="top" title="Closed Issues">
+                                                    <span class="">{{ closed_count }}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <a href="{{ url('view_all_hosting_issues', {'hosting': hosting.id}) }}"
+                                           class="btn btn-info">
+                                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                            View All</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Notes">

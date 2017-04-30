@@ -29,7 +29,7 @@ class DomainType extends AbstractType
                 'label' => 'Registrar',
             ))
             ->add('renewal_date', DateType::class, array('widget' => 'single_text'))
-           // ->add('hosting_package', ChoiceType::class, array('choices' => $hosting_choices, 'label' => 'Hosting Package'))
+           // ->add('hosting_package', ChoiceType::class, array('choices' => $hosting_choices, 'label' => 'hosting Package'))
             ->add('client', EntityType::class, array ('class' => 'AppBundle\Entity\Client', 'choice_label' => 'name'))//ChoiceType::class, array('choices' => $client_choices, 'label' => 'Choose a client', 'mapped' => false))
             ->add('notification_status', CheckboxType::class, array('label' => 'Enable Notifications', 'required' => false))
             ->add('auto_renew', CheckboxType::class, array('label' => 'Enable Auto Renew', 'required' => false))

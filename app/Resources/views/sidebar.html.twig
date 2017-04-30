@@ -8,6 +8,7 @@
         {% set users_page = '' %}
         {% set websites_page = '' %}
         {% set hosting_page = '' %}
+        {% set issues_page = '' %}
 
         {% if current_path == path('list_clients') or current_path == path('add_new_client') or current_path == path('add_new_client_contact')%}
             {% set clients_page = 'active' %}
@@ -23,6 +24,9 @@
 
         {% elseif current_path == path ('list_websites') or current_path == path('add_new_website') or current_path == path('add_new_website_credential') %}
             {% set websites_page = 'active' %}
+
+        {% elseif current_path == path('list_all_issues') %}
+            {% set issues_page = 'active' %}
         {% endif %}
 
         <ul class="nav nav-pills nav-stacked">
@@ -69,6 +73,11 @@
                     <li><a href="{{ url('list_all_hosting_packages') }}">View All Packages</a></li>
                     <li><a href="{{ url('add_new_hosting_package') }}">Add Hosting Package</a></li>
                 </ul>
+            </li>
+
+            <li class="dropdown {{ issues_page }}">
+                <a href="{{ url('list_all_issues') }}" class="" data-toggle="" role="button" aria-haspopup="true" aria-expanded="false">Issues</a>
+
             </li>
 
             <li class="dropdown {{ users_page }}">

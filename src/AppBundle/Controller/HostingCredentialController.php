@@ -16,7 +16,7 @@ class HostingCredentialController extends Controller
 
     /**
      * @var array
-     * Declaring Hosting Credential Scope; who is it for eg. Developers, Client...etc
+     * Declaring hosting Credential Scope; who is it for eg. Developers, Client...etc
      */
     private $scope = array(
         'Developer' => 'Developer',
@@ -67,7 +67,7 @@ class HostingCredentialController extends Controller
     public function editAction(Request $request, HostingCredential $credential)
     {
         if ( !$credential ){
-            throw $this->createNotFoundException('Hosting Credential Not Found!');
+            throw $this->createNotFoundException('hosting Credential Not Found!');
         }
 
         $form = $this->createForm(HostingCredentialType::class, $credential, array(
@@ -113,7 +113,7 @@ class HostingCredentialController extends Controller
         $em->remove($credential);
         $em->flush();
 
-        $this->addFlash('notice', 'Hosting credential deleted successfully!');
+        $this->addFlash('notice', 'hosting credential deleted successfully!');
 
         return $this->redirectToRoute('view_hosting', array(
             'hosting' => $hosting->getId(),

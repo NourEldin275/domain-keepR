@@ -95,6 +95,14 @@ class Issue
      */
     private $domain;
 
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Hosting", inversedBy="issues")
+     * @ORM\JoinColumn(name="hosting", onDelete="CASCADE")
+     */
+    private $hosting;
+
     /**
      * Issue constructor.
      */
@@ -272,40 +280,6 @@ class Issue
     }
 
     /**
-     * Add domain
-     *
-     * @param \AppBundle\Entity\Domain $domain
-     *
-     * @return Issue
-     */
-    public function addDomain(\AppBundle\Entity\Domain $domain)
-    {
-        $this->domains[] = $domain;
-
-        return $this;
-    }
-
-    /**
-     * Remove domain
-     *
-     * @param \AppBundle\Entity\Domain $domain
-     */
-    public function removeDomain(\AppBundle\Entity\Domain $domain)
-    {
-        $this->domains->removeElement($domain);
-    }
-
-    /**
-     * Get domains
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDomains()
-    {
-        return $this->domains;
-    }
-
-    /**
      * Add log
      *
      * @param \AppBundle\Entity\IssueLog $log
@@ -339,17 +313,28 @@ class Issue
         return $this->logs;
     }
 
+
     /**
-     * Set domains
+     * Set domain
      *
-     * @param \AppBundle\Entity\Domain $domains
+     * @param \AppBundle\Entity\Domain $domain
      *
      * @return Issue
      */
-    public function setDomains(\AppBundle\Entity\Domain $domains = null)
+    public function setDomain(\AppBundle\Entity\Domain $domain = null)
     {
-        $this->domains = $domains;
+        $this->domain = $domain;
 
         return $this;
+    }
+
+    /**
+     * Get domain
+     *
+     * @return \AppBundle\Entity\Domain
+     */
+    public function getDomain()
+    {
+        return $this->domain;
     }
 }

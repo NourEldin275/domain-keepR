@@ -3,6 +3,30 @@
 {% block title %}Add Log{% endblock %}
 
 {% block body %}
+
+
+    {% set service_type = "" %}
+    {% set service_name = "" %}
+    {% set service_client = "" %}
+    {% set service_id = "" %}
+    {% set service_url = "" %}
+    {% set service_edit_url = "" %}
+
+    {% if issue.domain is not null %}
+        {% set service_type = "Domain" %}
+        {% set service_name = issue.domain.domain %}
+        {% set service_id = issue.domain.id %}
+        {% set service_client = issue.domain.client %}
+        {% set service_url = url('view_domain', {'id': service_id}) %}
+        {% set service_edit_url = url('edit_domain_issue', {'issue': issue.id}) %}
+    {% elseif issue.hosting is not null %}
+        {% set service_type = "Hosting" %}
+        {% set service_name = issue.hosting.domain.domain %}
+        {% set service_id = issue.hosting.id %}
+        {% set service_client = issue.hosting.client %}
+        {% set service_url = url('view_hosting', {'hosting':service_id}) %}
+    {% endif %}
+
     <div class="col-md-7">
         <h1>
             Logs
@@ -46,7 +70,7 @@
         </h1>
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <strong>Issue Summary</strong>
+                <h3 class="panel-title">Issue Summary</h3>
             </div>
             <div class="panel-body">
                 <ul class="list-unstyled">
@@ -88,10 +112,29 @@
             </div>
             <div class="panel-footer">Last updated: {{ issue.modifiedAt|date }}</div>
         </div>
-        {% if issue.domain is not null %}
-            <a href="{{ url('view_domain', {'id': issue.domain.id}) }}" class="btn btn-primary">View Domain</a>
-        {% endif %}
-        <a href="#" class="btn btn-warning">Edit Issue</a>
-        <a href="#" class="btn btn-danger">Delete Issue</a>
+
+        <a href="{{ service_edit_url }}" class="btn btn-warning">Edit Issue</a>
+        <a href="{{ url('delete_issue', {'issue': issue.id}) }}" class="btn btn-danger">Delete Issue</a>
+
+        <div style="height: 20px;"></div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Service Summary</h3>
+            </div>
+
+
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li>Type: {{ service_type }}</li>
+                    <li>Name: {{ service_name }}</li>
+                    <li>Client: {{ service_client.name }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <a href="{{ service_url }}" class="btn btn-info">View Service</a>
+        <a href="{{ url('view_client', {'id': service_client.id}) }}" class="btn btn-info">View Client</a>
+
     </div>
 {% endblock %}

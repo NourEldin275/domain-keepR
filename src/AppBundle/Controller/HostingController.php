@@ -30,7 +30,7 @@ class HostingController extends Controller
             $em->persist($hosting);
             $em->flush();
 
-            $this->addFlash('notice', 'Hosting added successfully!');
+            $this->addFlash('notice', 'hosting added successfully!');
 
             return $this->redirectToRoute('list_all_hosting');
         }
@@ -66,7 +66,7 @@ class HostingController extends Controller
     public function viewAction(Hosting $hosting){
 
         if ( !$hosting ){
-            throw $this->createNotFoundException("Hosting Not found!");
+            throw $this->createNotFoundException("hosting Not found!");
         }
 
         return $this->render('hosting/view-hosting.html.twig', array(
@@ -85,14 +85,14 @@ class HostingController extends Controller
     public function deleteAction(Hosting $hosting){
 
         if ( !$hosting ){
-            throw $this->createNotFoundException("Hosting Not found!");
+            throw $this->createNotFoundException("hosting Not found!");
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($hosting);
         $em->flush();
 
-        $this->addFlash('notice', 'Hosting deleted successfully!');
+        $this->addFlash('notice', 'hosting deleted successfully!');
 
         return $this->redirectToRoute('list_all_hosting');
 
@@ -119,7 +119,7 @@ class HostingController extends Controller
             $em->persist($hosting);
             $em->flush();
 
-            $this->addFlash('notice', 'Hosting saved successfully!');
+            $this->addFlash('notice', 'hosting saved successfully!');
 
             return $this->redirectToRoute('view_hosting', array(
                 'hosting' => $hosting->getId(),

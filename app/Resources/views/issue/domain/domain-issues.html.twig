@@ -37,7 +37,7 @@
                                     View Log
                                     <span class="badge">{{ issue.logs|length }}</span>
                                 </a>
-                                <a href="#" class="btn btn-danger">
+                                <a href="{{ url('delete_issue', {'issue': issue.id}) }}" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     Delete Issue
                                 </a>

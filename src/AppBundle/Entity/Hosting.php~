@@ -93,6 +93,14 @@ class Hosting
      * @Assert\Valid()
      */
     private $package;
+
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="hosting")
+     */
+    private $issues;
+
     /**
      * Constructor
      */

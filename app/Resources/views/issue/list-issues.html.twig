@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List All Issues{% endblock %}
+
+{% block body %}
+    <h1>Issues</h1>
+    <div class="row">
+        <div class="col-md-10">
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#domain_issues" aria-controls="domain_issues" role="tab" data-toggle="tab">
+                            Domain Issues <span class="badge">{{ domain_issues|length }}</span>
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#hosting_issues" aria-controls="hosting_issues" role="tab" data-toggle="tab">
+                            Hosting Issues <span class="badge">{{ hosting_issues|length }}</span>
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#website_issues" aria-controls="website_issues" role="tab" data-toggle="tab">
+                            Website Issues
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="domain_issues">
+                        <table class="table-bordered table hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ticket Reference</th>
+                                <th>Status</th>
+                                <th>Domain</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for issue in domain_issues %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ issue.ticketReference }}</td>
+                                    <td>{{ issue.status }}</td>
+                                    <td>{{ issue.domain.domain }}</td>
+                                    <td>{{ issue.modifiedAt|date }}</td>
+                                    <td>
+                                        <a href="{{ url('add_issue_log', {'issue': issue.id}) }}" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                            View Issue Log <span class="badge">{{ issue.logs.count }}</span>
+                                        </a>
+                                        <a href="{{ url('view_domain', {'id': issue.domain.id}) }}" class="btn btn-info">
+                                            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                                            Domain
+                                        </a>
+
+                                        <a href="{{ url('view_client', {'id': issue.domain.client.id}) }}" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            Client
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="hosting_issues">
+                        <table class="table-bordered table hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ticket Reference</th>
+                                <th>Status</th>
+                                <th>Hosting For</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for issue in hosting_issues %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ issue.ticketReference }}</td>
+                                    <td>{{ issue.status }}</td>
+                                    <td>{{ issue.hosting.domain.domain }}</td>
+                                    <td>{{ issue.modifiedAt|date }}</td>
+                                    <td>
+                                        <a href="{{ url('add_issue_log', {'issue': issue.id}) }}" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                            View Issue Log <span class="badge">{{ issue.logs.count }}</span>
+                                        </a>
+                                        <a href="{{ url('view_hosting', {'hosting': issue.hosting.id}) }}" class="btn btn-info">
+                                            <span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>
+                                            Hosting
+                                        </a>
+
+                                        <a href="{{ url('view_client', {'id': issue.hosting.client.id}) }}" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            Client
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="website_issues">...</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

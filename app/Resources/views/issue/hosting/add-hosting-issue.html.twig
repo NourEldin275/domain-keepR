@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Add Issue For Hosting: {{ hosting.domain.domain }}{% endblock %}
+
+{% block body %}
+    <div class="col-md-7">
+        <h1>Add Issue for Hosting: {{ hosting.domain.domain }}</h1>
+        {% include ':issue/forms:issue-form.html.twig' with {'form': form} %}
+    </div>
+    <div class="col-md-5"></div>
+{% endblock %}

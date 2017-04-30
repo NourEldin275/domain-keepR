@@ -95,6 +95,14 @@ class Issue
      */
     private $domain;
 
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Hosting", inversedBy="issues")
+     * @ORM\JoinColumn(name="hosting", onDelete="CASCADE")
+     */
+    private $hosting;
+
     /**
      * Issue constructor.
      */
@@ -328,5 +336,29 @@ class Issue
     public function getDomain()
     {
         return $this->domain;
+    }
+
+    /**
+     * Set hosting
+     *
+     * @param \AppBundle\Entity\Hosting $hosting
+     *
+     * @return Issue
+     */
+    public function setHosting(\AppBundle\Entity\Hosting $hosting = null)
+    {
+        $this->hosting = $hosting;
+
+        return $this;
+    }
+
+    /**
+     * Get hosting
+     *
+     * @return \AppBundle\Entity\Hosting
+     */
+    public function getHosting()
+    {
+        return $this->hosting;
     }
 }
