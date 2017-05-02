@@ -75,7 +75,7 @@ class HostingCredential
      * @var
      * @ORM\ManyToOne(targetEntity="Hosting", inversedBy="credentials")
      * @ORM\JoinColumn(name="hosting", referencedColumnName="id", onDelete="CASCADE")
-     * @Assert\Type(type="AppBundle\Entity\Hosting")
+     * @Assert\Type(type="AppBundle\Entity\hosting")
      * @Assert\Valid()
      */
     private $hosting;

@@ -22,7 +22,7 @@
                     </li>
                     <li role="presentation">
                         <a href="#website_issues" aria-controls="website_issues" role="tab" data-toggle="tab">
-                            Website Issues
+                            Website Issues <span class="badge">{{ website_issues|length }}</span>
                         </a>
                     </li>
                 </ul>
@@ -116,7 +116,48 @@
                         </table>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" id="website_issues">...</div>
+                    <div role="tabpanel" class="tab-pane" id="website_issues">
+                        <table class="table-bordered table hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ticket Reference</th>
+                                <th>Status</th>
+                                <th>Website Name</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for issue in website_issues %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ issue.ticketReference }}</td>
+                                    <td>{{ issue.status }}</td>
+                                    <td>{{ issue.website.websiteName }}</td>
+                                    <td>{{ issue.modifiedAt|date }}</td>
+                                    <td>
+                                        <a href="{{ url('add_issue_log', {'issue': issue.id}) }}" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                            View Issue Log <span class="badge">{{ issue.logs.count }}</span>
+                                        </a>
+                                        <a href="{{ url('view_website', {'id': issue.website.id}) }}" class="btn btn-info">
+                                            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                                            Hosting
+                                        </a>
+
+                                        <a href="{{ url('view_client', {'id': issue.website.client.id}) }}" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            Client
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
 
             </div>

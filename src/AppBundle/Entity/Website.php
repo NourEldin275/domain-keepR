@@ -86,6 +86,12 @@ class Website
     private $credentials;
 
     /**
+     * @var
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="website")
+     */
+    private $issues;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -279,5 +285,39 @@ class Website
     public function getDevelopmentUrl()
     {
         return $this->development_url;
+    }
+
+    /**
+     * Add issue
+     *
+     * @param \AppBundle\Entity\Issue $issue
+     *
+     * @return Website
+     */
+    public function addIssue(\AppBundle\Entity\Issue $issue)
+    {
+        $this->issues[] = $issue;
+
+        return $this;
+    }
+
+    /**
+     * Remove issue
+     *
+     * @param \AppBundle\Entity\Issue $issue
+     */
+    public function removeIssue(\AppBundle\Entity\Issue $issue)
+    {
+        $this->issues->removeElement($issue);
+    }
+
+    /**
+     * Get issues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIssues()
+    {
+        return $this->issues;
     }
 }

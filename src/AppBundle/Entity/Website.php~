@@ -86,6 +86,12 @@ class Website
     private $credentials;
 
     /**
+     * @var
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Issue", mappedBy="website")
+     */
+    private $issues;
+
+    /**
      * Constructor
      */
     public function __construct()

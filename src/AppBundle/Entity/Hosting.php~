@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Class Hosting
+ * Class hosting
  * @package AppBundle\Entity
  * @ORM\Entity
  * @ORM\Table(name="hosting")
@@ -346,5 +346,39 @@ class Hosting
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add issue
+     *
+     * @param \AppBundle\Entity\Issue $issue
+     *
+     * @return Hosting
+     */
+    public function addIssue(\AppBundle\Entity\Issue $issue)
+    {
+        $this->issues[] = $issue;
+
+        return $this;
+    }
+
+    /**
+     * Remove issue
+     *
+     * @param \AppBundle\Entity\Issue $issue
+     */
+    public function removeIssue(\AppBundle\Entity\Issue $issue)
+    {
+        $this->issues->removeElement($issue);
+    }
+
+    /**
+     * Get issues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIssues()
+    {
+        return $this->issues;
     }
 }

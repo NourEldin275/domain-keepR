@@ -24,6 +24,12 @@
         {% set service_id = issue.hosting.id %}
         {% set service_client = issue.hosting.client %}
         {% set service_url = url('view_hosting', {'hosting':service_id}) %}
+    {% elseif issue.website is not null %}
+        {% set service_type = "Website" %}
+        {% set service_name = issue.website.websiteName %}
+        {% set service_id = issue.website.id %}
+        {% set service_client = issue.website.client %}
+        {% set service_url = url('view_website', {'id':service_id}) %}
     {% endif %}
 
     <div class="col-md-7">

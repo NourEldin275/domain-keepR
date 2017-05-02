@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Domain;
 use AppBundle\Entity\Hosting;
 use AppBundle\Entity\Issue;
+use AppBundle\Entity\Website;
 use AppBundle\Form\Issues\IssueType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -89,6 +90,10 @@ class IssueController extends Controller
             $service_type = "Hosting";
             $service_name = $issue->getHosting()->getDomain()->getDomain();
         }
+        elseif ( $issue->getWebsite() != NULL ){
+            $service_type = "Website";
+            $service_name = $issue->getWebsite()->getWebsiteName();
+        }
 
         $form = $this->createForm(IssueType::class, $issue);
         $form->handleRequest($request);
@@ -103,6 +108,9 @@ class IssueController extends Controller
             }
             elseif ( $issue->getDomain() != NULL ){
                 $em->persist($issue->getDomain());
+            }
+            elseif ( $issue->getWebsite() != NULL ){
+                $em->persist($issue->getWebsite());
             }
 
             $em->flush();
@@ -164,6 +172,50 @@ class IssueController extends Controller
 
 
     /**
+     * @param Request $request
+     * @param Website $website
+     * @Route("/add-website-issue/website_id={website}/", name="add_website_issue")
+     * @return Response
+     */
+    public function newWebsiteIssue(Request $request, Website $website){
+
+        if (!$website){
+            throw $this->createNotFoundException('Could not add an issue to website. Website not found');
+        }
+
+        $issue = new Issue();
+        $issue->setWebsite($website);
+
+        $form = $this->createForm(IssueType::class, $issue);
+        $form->handleRequest($request);
+
+        if( $form->isSubmitted() && $form->isValid() ){
+
+            $em = $this->getDoctrine()->getManager();
+
+            $usr = $this->get('security.token_storage')->getToken()->getUser();
+            $issue->setCreatedBy($usr);
+
+            $em->persist($issue);
+            $em->persist($website);
+            $em->flush();
+
+            $this->addFlash('notice', 'Website Issue Added successfully.');
+
+            return $this->redirectToRoute('view_website', array(
+                'id' => $website->getId(),
+            ));
+        }
+
+        return $this->render('issue/website/add-website-issue.html.twig', array(
+            'form' => $form->createView(),
+            'website' => $website,
+        ));
+
+    }
+
+
+    /**
      * @Route("/issues/view-domain/{domain}/status={filter}", name="view_all_domain_issues")
      * @param Domain $domain
      * @param $filter
@@ -177,51 +229,38 @@ class IssueController extends Controller
 
         $issues = $domain->getIssues();
         $em = $this->getDoctrine()->getManager();
-        if ( $filter == 'open'){
+
+        if ( $filter != "all"){
 
             $parameters = array(
-                'status' => 'open',
                 'domain_id' => $domain->getId(),
             );
+
+            if ( $filter == 'open'){
+
+                $parameters['status'] = 'open';
+
+            }
+            elseif ( $filter == 'closed' ){
+                $parameters['status'] = 'closed';
+
+            }
+            elseif ( $filter == 'on hold' ){
+                $parameters['status'] = 'on hold';
+
+            }
+            elseif ( $filter == 'solved' ){
+                $parameters['status'] = 'solved';
+
+
+            }
 
             $query = $em->createQuery(
                 'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
                  ORDER BY i.modified_at')->setParameters($parameters);
             $issues = $query->getResult();
         }
-        elseif ( $filter == 'closed' ){
-            $parameters = array(
-                'status' => 'closed',
-                'domain_id' => $domain->getId(),
-            );
 
-            $query = $em->createQuery(
-                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
-                 ORDER BY i.modified_at')->setParameters($parameters);
-            $issues = $query->getResult();
-        }
-        elseif ( $filter == 'on hold' ){
-            $parameters = array(
-                'status' => 'on hold',
-                'domain_id' => $domain->getId(),
-            );
-
-            $query = $em->createQuery(
-                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
-                 ORDER BY i.modified_at')->setParameters($parameters);
-            $issues = $query->getResult();
-        }
-        elseif ( $filter == 'solved' ){
-            $parameters = array(
-                'status' => 'solved',
-                'domain_id' => $domain->getId(),
-            );
-
-            $query = $em->createQuery(
-                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.domain = :domain_id
-                 ORDER BY i.modified_at')->setParameters($parameters);
-            $issues = $query->getResult();
-        }
 
         return $this->render('issue/domain/domain-issues.html.twig', array(
             'domain' => $domain,
@@ -244,54 +283,96 @@ class IssueController extends Controller
 
         $issues = $hosting->getIssues();
         $em = $this->getDoctrine()->getManager();
-        if ( $filter == 'open'){
+
+        if ( $filter != 'all' ){
 
             $parameters = array(
-                'status' => 'open',
                 'hosting_id' => $hosting->getId(),
             );
+
+            if ( $filter == 'open'){
+
+                $parameters['status'] = 'open';
+
+            }
+            elseif ( $filter == 'closed' ){
+                $parameters['status'] = 'closed';
+
+            }
+            elseif ( $filter == 'on hold' ){
+                $parameters['status'] = 'on hold';
+
+            }
+            elseif ( $filter == 'solved' ){
+                $parameters['status'] = 'solved';
+
+            }
 
             $query = $em->createQuery(
                 'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.hosting = :hosting_id
                  ORDER BY i.modified_at')->setParameters($parameters);
             $issues = $query->getResult();
         }
-        elseif ( $filter == 'closed' ){
-            $parameters = array(
-                'status' => 'closed',
-                'hosting_id' => $hosting->getId(),
-            );
 
-            $query = $em->createQuery(
-                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.hosting = :hosting_id
-                 ORDER BY i.modified_at')->setParameters($parameters);
-            $issues = $query->getResult();
-        }
-        elseif ( $filter == 'on hold' ){
-            $parameters = array(
-                'status' => 'on hold',
-                'hosting_id' => $hosting->getId(),
-            );
 
-            $query = $em->createQuery(
-                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.hosting = :hosting_id
-                 ORDER BY i.modified_at')->setParameters($parameters);
-            $issues = $query->getResult();
-        }
-        elseif ( $filter == 'solved' ){
-            $parameters = array(
-                'status' => 'solved',
-                'hosting_id' => $hosting->getId(),
-            );
-
-            $query = $em->createQuery(
-                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.hosting = :hosting_id
-                 ORDER BY i.modified_at')->setParameters($parameters);
-            $issues = $query->getResult();
-        }
 
         return $this->render('issue/hosting/hosting-issues.html.twig', array(
             'hosting' => $hosting,
+            'issues' => $issues,
+        ));
+    }
+
+
+    /**
+     * @Route("/issues/view-website/{website}/status={filter}", name="view_all_website_issues")
+     * @param Website $website
+     * @param string $filter
+     * @return Response
+     * @internal param Hosting $hosting
+     */
+    public function viewWebsiteIssuesAction(Website $website, $filter="all"){
+
+        if (!$website){
+            throw $this->createNotFoundException('Could not load domain issues. Domain not found.');
+        }
+
+        $issues = $website->getIssues();
+        $em = $this->getDoctrine()->getManager();
+
+        if ( $filter != 'all' ){
+
+            $parameters = array(
+                'website_id' => $website->getId(),
+            );
+
+            if ( $filter == 'open'){
+
+                $parameters['status'] = 'open';
+
+            }
+            elseif ( $filter == 'closed' ){
+                $parameters['status'] = 'closed';
+
+            }
+            elseif ( $filter == 'on hold' ){
+                $parameters['status'] = 'on hold';
+
+            }
+            elseif ( $filter == 'solved' ){
+                $parameters['status'] = 'solved';
+
+            }
+
+            $query = $em->createQuery(
+                'SELECT i FROM AppBundle:Issue i WHERE i.status = :status AND i.website = :website_id
+                 ORDER BY i.modified_at')->setParameters($parameters);
+            $issues = $query->getResult();
+        }
+
+
+
+        return $this->render('issue/website/website-issues.html.twig', array(
+            'website' => $website,
             'issues' => $issues,
         ));
     }
@@ -336,14 +417,21 @@ class IssueController extends Controller
             'SELECT i from AppBundle:issue i WHERE i.hosting IS NOT NULL'
         );
 
+        $website_issues_query = $em->createQuery(
+            'SELECT i from AppBundle:issue i WHERE i.website IS NOT NULL'
+        );
+
         $domain_issues = $domain_issues_query->getResult();
 
         $hosting_issues = $hosting_issues_query->getResult();
+
+        $website_issues = $website_issues_query->getResult();
 
         return $this->render('issue/list-issues.html.twig', array(
             'issues' => $issues,
             'domain_issues' => $domain_issues,
             'hosting_issues' => $hosting_issues,
+            'website_issues' => $website_issues,
         ));
     }
 }
