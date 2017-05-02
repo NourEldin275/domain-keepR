@@ -410,15 +410,15 @@ class IssueController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $domain_issues_query = $em->createQuery(
-            'SELECT i from AppBundle:issue i WHERE i.domain IS NOT NULL'
+            'SELECT i from AppBundle:issue i INNER JOIN AppBundle:domain d WITH i.domain = d.id'
         );
 
         $hosting_issues_query = $em->createQuery(
-            'SELECT i from AppBundle:issue i WHERE i.hosting IS NOT NULL'
+            'SELECT i from AppBundle:issue i INNER JOIN AppBundle:hosting h WITH i.hosting = h.id'
         );
 
         $website_issues_query = $em->createQuery(
-            'SELECT i from AppBundle:issue i WHERE i.website IS NOT NULL'
+            'SELECT i from AppBundle:issue i INNER JOIN AppBundle:website w WITH i.website = w.id'
         );
 
         $domain_issues = $domain_issues_query->getResult();
