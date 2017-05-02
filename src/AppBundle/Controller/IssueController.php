@@ -68,13 +68,26 @@ class IssueController extends Controller
     /**
      * @param Issue $issue
      * @param Request $request
-     * @Route("/edit-domain-issue/{issue}/", name="edit_domain_issue")
+     * @Route("/edit-issue/{issue}/", name="edit_issue")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editDomainIssueAction(Issue $issue, Request $request){
+    public function editIssueAction(Issue $issue, Request $request){
 
         if (!$issue){
             throw $this->createNotFoundException('Could not edit issue. Issue not found.');
+        }
+
+        $service_name = "";
+        $service_type = "";
+
+        if ( $issue->getDomain() != NULL ){
+            $service_name = $issue->getDomain()->getDomain();
+            $service_type = "Domain";
+        }
+
+        elseif ( $issue->getHosting() != NULL ){
+            $service_type = "Hosting";
+            $service_name = $issue->getHosting()->getDomain()->getDomain();
         }
 
         $form = $this->createForm(IssueType::class, $issue);
@@ -85,16 +98,24 @@ class IssueController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($issue);
-            $em->persist($issue->getDomain());
+            if ( $issue->getHosting() != NULL ){
+                $em->persist($issue->getHosting());
+            }
+            elseif ( $issue->getDomain() != NULL ){
+                $em->persist($issue->getDomain());
+            }
+
             $em->flush();
 
             $this->addFlash('notice', 'Issue is updated successfully.');
             return $this->redirectToRoute('add_issue_log', array('issue' => $issue->getId()));
         }
 
-        return $this->render('issue/domain/edit-domain-issue.html.twig', array(
+        return $this->render('issue/edit-issue.html.twig', array(
             'form' => $form->createView(),
             'issue' => $issue,
+            'service_type' => $service_type,
+            'service_name' => $service_name,
         ));
     }
 

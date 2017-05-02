@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}Edit Domain Issue{% endblock %}
+{% block title %}Edit {{ service_type }} Issue{% endblock %}
 
 
 {% block body %}
     <div class="row">
         <div class="col-md-8">
-            <h1>Edit Issue For Domain: {{ issue.domain.domain }}</h1>
+            <h1>Edit Issue For {{ service_type }}: {{ service_name }}</h1>
             {% include ':issue/forms:issue-form.html.twig' with {'form': form} %}
         </div>
         <div class="col-md-4">
