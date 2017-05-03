@@ -4,9 +4,18 @@
     {% block body %}
 
         <div class="row">
-            <div class="col-xs-3"><h1> <span class="glyphicon glyphicon-user big-glyphicon"></span> Users</h1></div>
-            <div class="col-xs-2"><a class="btn btn-default" href="{{ path('user_registration') }}" role="button">Add new</a></div>
-            <div class="col-xs-7"></div>
+            <div class="col-md-3">
+                <h1>
+                    <span class="glyphicon glyphicon-user big-glyphicon"></span>
+                    Users
+                    <a class="btn btn-success" href="{{ path('user_registration') }}" role="button">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        Add new
+                    </a>
+                </h1>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-7"></div>
 
             <div class="col-md-11">
                 {% if users is not empty %}

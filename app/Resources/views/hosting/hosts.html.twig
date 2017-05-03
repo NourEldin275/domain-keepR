@@ -4,69 +4,97 @@
     {% block body %}
 
         <div class="row">
-            <div class="col-xs-4"><h1><span class="glyphicon glyphicon-hdd big-glyphicon" aria-hidden="true"></span> All Hosts</h1></div>
-            <div class="col-xs-2"><a class="btn btn-default" href="{{ url('add_new_hosting') }}" role="button">Add new</a></div>
-            <div class="col-xs-6"></div>
+            <div class="col-md-4">
+                <h1>
+                    <span class="glyphicon glyphicon-hdd big-glyphicon" aria-hidden="true"></span>
+                    All Hosts
+                    <a class="btn btn-success" href="{{ url('add_new_hosting') }}" role="button">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        Add new
+                    </a>
+                </h1>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-6"></div>
         </div>
 
-        {% if hosts is not empty %}
-            <table class="table table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Domain</th>
-                    <th>Renewal Date</th>
-                    <th>Client</th>
-                    <th>Hosting Package</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for host in hosts %}
+        <div class="row">
+            <div class="col-md-10">
+                {% if hosts is not empty %}
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Domain</th>
+                            <th>Renewal Date</th>
+                            <th>Client</th>
+                            <th>Hosting Package</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for host in hosts %}
 
-                    {% set host_row_class = "" %} {# Initializing host_row_class #}
+                            {% set host_row_class = "" %} {# Initializing host_row_class #}
 
-                    {% if "now"|date("Y-m-d") > host.renewalDate|date("Y-m-d") %} {# Expired host#}
-                        {% set host_row_class = "danger" %}
-                    {% elseif "now"|date_modify("+100 day")|date("Y-m-d") >= host.renewalDate|date("Y-m-d") %} {#host about to expire#}
-                        {% set host_row_class= "warning" %}
-                    {% endif %}
-
-                    <tr class="{{ host_row_class }}">
-                        <td>{{ loop.index }}</td>
-                        <td>
-                            <a href="{{ url('view_domain', {'id': host.domain.id}) }}">{{ host.domain.domain }}</a>
-                        </td>
-                        <td>
-                            {{ host.renewalDate|date("Y/M/d") }}
-                        </td>
-                        <td>
-                            <a href="{{ url('view_client', {'id': host.client.id}) }}">{{ host.client.name }}</a>
-                        </td>
-                        <td>
-                            {{ host.package.name }}
-                        </td>
-
-                        <td>
-                            {% if host.status == true %}
-                                Active
-                            {% else %}
-                                Inactive
+                            {% if "now"|date("Y-m-d") > host.renewalDate|date("Y-m-d") %} {# Expired host#}
+                                {% set host_row_class = "danger" %}
+                            {% elseif "now"|date_modify("+100 day")|date("Y-m-d") >= host.renewalDate|date("Y-m-d") %} {#host about to expire#}
+                                {% set host_row_class= "warning" %}
                             {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ url('view_hosting', {'hosting': host.id}) }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
 
-            </table>
+                            <tr class="{{ host_row_class }}">
+                                <td>{{ loop.index }}</td>
+                                <td>
+                                    <a href="{{ url('view_domain', {'id': host.domain.id}) }}">{{ host.domain.domain }}</a>
+                                </td>
+                                <td>
+                                    {{ host.renewalDate|date("Y/M/d") }}
+                                </td>
+                                <td>
+                                    <a href="{{ url('view_client', {'id': host.client.id}) }}">{{ host.client.name }}</a>
+                                </td>
+                                <td>
+                                    {{ host.package.name }}
+                                </td>
 
-        {% else %}
-            <div class="alert alert-info" role="alert">
-                No hosts found!
+                                <td>
+                                    {% if host.status == true %}
+                                        Active
+                                    {% else %}
+                                        Inactive
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url('view_hosting', {'hosting': host.id}) }}" class="btn btn-primary" role="button">
+                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                        View
+                                    </a>
+
+                                    <a href="{{ url("add_hosting_issue", {'hosting': host.id}) }}" class="btn btn-warning" role="button">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                        Add Issue
+                                    </a>
+
+                                    <a href="{{ url("view_all_hosting_issues", {'hosting': host.id, 'filter': 'all'}) }}" class="btn btn-info" role="button">
+                                        <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                        View All Issues
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        No hosts found!
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
+            <div class="col-md-2"></div>
+        </div>
+
     {% endblock %}

@@ -4,63 +4,97 @@
     {% block body %}
 
         <div class="row">
-            <div class="col-xs-4"><h1><span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span> All Domains</h1></div>
-            <div class="col-xs-2"><a class="btn btn-default" href="{{ path('add_new_domain') }}" role="button">Add new</a></div>
-            <div class="col-xs-6"></div>
+            <div class="col-md-4">
+                <h1>
+                    <span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span>
+                    All Domains
+                    <a class="btn btn-success" href="{{ url('add_new_domain') }}" role="button">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        Add new
+                    </a>
+                </h1>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-6"></div>
         </div>
 
-        {% if domains is not empty %}
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Domain</th>
-                        <th>Renewal Date</th>
-                        <th>Client</th>
-                        <th>Hosting Package</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for domain in domains %}
-
-                        {% set domain_row_class = "" %} {# Initializing domain_row_class #}
-
-                        {% if "now"|date("Y-m-d") > domain.renewalDate|date("Y-m-d") %} {# Expired Domain#}
-                            {% set domain_row_class = "danger" %}
-                        {% elseif "now"|date_modify("+100 day")|date("Y-m-d") >= domain.renewalDate|date("Y-m-d") %} {#Domain about to expire#}
-                            {% set domain_row_class= "warning" %}
-                        {% endif %}
-
-                        <tr class="{{ domain_row_class }}">
-                            <td>{{ loop.index }}</td>
-                            <td>{{ domain.domain }}</td>
-                            <td>
-                                {{ domain.renewalDate|date("Y/M/d") }}
-                                {% if domain.autoRenew %}
-                                <span class="glyphicon glyphicon-refresh auto-renew-on" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Active"></span>
-                                {% else %}
-                                <span class="glyphicon glyphicon-refresh auto-renew-off" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Inactive"></span>
-                                {% endif %}
-                            </td>
-                            <td>{{ domain.client.name }}</td>
-                            <td>
-                                {% if domain.hosting%}
-                                    {{ domain.hosting.package.name }}
-                                {% else %}
-                                    No hosting setup yet for this domain
-                                {% endif %}
-                            </td>
-                            <td><a href="{{ path("view_domain", {'id': domain.id}) }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Domain</a></td>
+        <div class="row">
+            <div class="col-md-10">
+                {% if domains is not empty %}
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Domain</th>
+                            <th>Renewal Date</th>
+                            <th>Client</th>
+                            <th>Hosting Package</th>
+                            <th>Actions</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
+                        </thead>
+                        <tbody>
+                        {% for domain in domains %}
 
-            </table>
+                            {% set domain_row_class = "" %} {# Initializing domain_row_class #}
 
-        {% else %}
-            <div class="alert alert-info" role="alert">
-                No domains found!
+                            {% if "now"|date("Y-m-d") > domain.renewalDate|date("Y-m-d") %} {# Expired Domain#}
+                                {% set domain_row_class = "danger" %}
+                            {% elseif "now"|date_modify("+100 day")|date("Y-m-d") >= domain.renewalDate|date("Y-m-d") %} {#Domain about to expire#}
+                                {% set domain_row_class= "warning" %}
+                            {% endif %}
+
+                            <tr class="{{ domain_row_class }}">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ domain.domain }}</td>
+                                <td>
+                                    {{ domain.renewalDate|date("Y/M/d") }}
+                                    {% if domain.autoRenew %}
+                                        <span class="glyphicon glyphicon-refresh auto-renew-on" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Active"></span>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-refresh auto-renew-off" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Auto Renew Inactive"></span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url('view_client', {'id': domain.client.id}) }}">
+                                        {{ domain.client.name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if domain.hosting%}
+                                        {{ domain.hosting.package.name }}
+                                    {% else %}
+                                        No hosting setup yet for this domain
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url("view_domain", {'id': domain.id}) }}" class="btn btn-primary" role="button">
+                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                        View Domain
+                                    </a>
+
+                                    <a href="{{ url("add_domain_issue", {'domain': domain.id}) }}" class="btn btn-warning" role="button">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                        Add Issue
+                                    </a>
+
+                                    <a href="{{ url("view_all_domain_issues", {'domain': domain.id, 'filter': 'all'}) }}" class="btn btn-info" role="button">
+                                        <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                        View All Issues
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        No domains found!
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
+            <div class="col-md-2"></div>
+        </div>
+
     {% endblock %}

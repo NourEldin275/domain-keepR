@@ -37,10 +37,10 @@
                         <div class="col-md-6">
                             <div class="well well-sm">
                                 <div class="row">
-                                    <div class="col-xs-4">
+                                    <div class="col-md-4">
                                         <span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span>
                                     </div>
-                                    <div class="col-xs-8">
+                                    <div class="col-md-8">
                                         <h3><strong>{{ domains|length }} Domains</strong></h3>
                                         {#Get how many domains have auto renew#}
                                         {% set autoRenew_count = 0 %}
@@ -57,16 +57,127 @@
                         <div class="col-md-6">
                             <div class="well well-sm">
                                 <div class="row">
-                                    <div class="col-xs-4">
+                                    <div class="col-md-4">
                                         <span class="glyphicon glyphicon-user big-glyphicon"></span>
                                     </div>
-                                    <div class="col-xs-8">
+                                    <div class="col-md-8">
                                         <h3><strong>{{ clients|length }} Clients</strong></h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="well well-sm">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h3><strong>{{ websites|length }} Websites</strong></h3>
+                                        {#Get how many websites are live#}
+                                        {% set live_count = 0 %}
+                                        {% set maintenance_count = 0 %}
+                                        {% set development_count = 0 %}
+                                        {% for website in websites %}
+                                            {% if website.status == "Live" %}
+                                                {% set live_count = live_count + 1 %}
+                                            {% elseif website.status == "Under Development" %}
+                                                {% set development_count = development_count + 1 %}
+                                            {% elseif website.status == "Under Maintenance" %}
+                                                {% set maintenance_count = maintenance_count + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <strong>
+                                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                            {{ live_count }} Live Websites
+                                        </strong>
+                                        <br>
+                                        <strong>
+                                            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                                            {{ development_count }} Under Development
+                                        </strong>
+                                        <br>
+                                        <strong>
+                                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                            {{ maintenance_count }} Under Maintenance
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+
+                            <div class="well well-sm">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span class="glyphicon glyphicon-list big-glyphicon"></span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h3><strong>{{ issues|length }} Issues</strong></h3>
+                                        {% set solved_count = 0 %}
+                                        {% set progress_count = 0 %}
+                                        {% set closed_count = 0 %}
+                                        {% for issue in issues %}
+                                            {% if issue.status == "Solved" %}
+                                                {% set solved_count = solved_count + 1 %}
+                                            {% elseif issue.status == "On Hold" or issue.status == "Open" %}
+                                                {% set progress_count = progress_count + 1 %}
+                                            {% elseif issue.status == "Closed" %}
+                                                {% set closed_count = closed_count + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <strong>
+                                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                            {{ solved_count }} Solved
+                                        </strong>
+                                        <br>
+                                        <strong>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                            {{ progress_count }} In Progress
+                                        </strong>
+                                        <br>
+                                        <strong>
+                                            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                                            {{ closed_count }} Closed
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="well well-sm">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span class="glyphicon glyphicon-hdd big-glyphicon" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h3><strong>{{ hosts|length }} Hosts</strong></h3>
+                                        {#Get how many hosting accounts are active#}
+                                        {% set active_count = 0 %}
+                                        {% for hosting in hosts %}
+                                            {% if hosting.status %}
+                                                {% set active_count = active_count + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <strong><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> {{ active_count }} Active Hosting</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"></div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -43,6 +43,9 @@ class DefaultController extends Controller
 
         $domains = $this->getDoctrine()->getRepository('AppBundle:Domain')->findAll();
         $clients = $this->getDoctrine()->getRepository('AppBundle:Client')->findAll();
+        $hosts = $this->getDoctrine()->getRepository('AppBundle:Hosting')->findAll();
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Website')->findAll();
+        $issues = $this->getDoctrine()->getRepository('AppBundle:Issue')->findAll();
 
         $new_domains = array();
         $expiring_domains = array();
@@ -96,6 +99,9 @@ class DefaultController extends Controller
             'expired_domains' => $expired_domains,
             'domains' => $domains,
             'clients' => $clients,
+            'hosts' => $hosts,
+            'websites' => $websites,
+            'issues' => $issues,
             ));
     }
 

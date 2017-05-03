@@ -5,50 +5,84 @@
 {% block body %}
 
     <div class="row">
-        <div class="col-xs-4"><h1><span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span> All Websites</h1></div>
-        <div class="col-xs-2"><a class="btn btn-default" href="{{ url('add_new_website') }}" role="button">Add new</a></div>
-        <div class="col-xs-6"></div>
+        <div class="col-md-4">
+            <h1>
+                <span class="glyphicon glyphicon-globe big-glyphicon" aria-hidden="true"></span>
+                All Websites
+                <a class="btn btn-success" href="{{ url('add_new_website') }}" role="button">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    Add new
+                </a>
+            </h1>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-6"></div>
     </div>
 
-    {% if websites is not empty %}
-        <table class="table table-hover table-bordered">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Website Name</th>
-                <th>URL</th>
-                <th>Technology</th>
-                <th>Status</th>
-                <th>Client</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for website in websites %}
+    <div class="row">
+        <div class="col-md-10">
+            {% if websites is not empty %}
+                <table class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Website Name</th>
+                        <th>URL</th>
+                        <th>Technology</th>
+                        <th>Status</th>
+                        <th>Client</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for website in websites %}
 
-                {% set domain_row_class = "" %} {# Initializing domain_row_class #}
+                        {% set domain_row_class = "" %} {# Initializing domain_row_class #}
 
-                <tr class="{{ domain_row_class }}">
-                    <td>{{ loop.index }}</td>
-                    <td>{{ website.websiteName }}</td>
-                    <td>
-                        <a href="{{ website.url }}">{{ website.url }}</a>
-                    </td>
-                    <td>{{ website.technology }}</td>
-                    <td>{{ website.status }}</td>
-                    <td>{{ website.client.name }}</td>
-                    <td><a href="{{ url("view_website", {'id': website.id}) }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> More</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
+                        <tr class="{{ domain_row_class }}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ website.websiteName }}</td>
+                            <td>
+                                <a href="{{ website.url }}">{{ website.url }}</a>
+                            </td>
+                            <td>{{ website.technology }}</td>
+                            <td>{{ website.status }}</td>
+                            <td>
+                                <a href="{{ url('view_client', {'id': website.client.id}) }}">
+                                    {{ website.client.name }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ url("view_website", {'id': website.id}) }}" class="btn btn-primary" role="button">
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                    More
+                                </a>
 
-        </table>
+                                <a href="{{ url("add_website_issue", {'website': website.id}) }}" class="btn btn-warning" role="button">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    Add Issue
+                                </a>
 
-    {% else %}
-        <div class="alert alert-info" role="alert">
-            No websites found!
+                                <a href="{{ url("view_all_website_issues", {'website': website.id, 'filter': 'all'}) }}" class="btn btn-info" role="button">
+                                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                    View All Issues
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    No websites found!
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+        <div class="col-md-2"></div>
+    </div>
+
 
 
 {% endblock %}
